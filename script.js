@@ -9,6 +9,7 @@ class WindowsXPDesktop {
         this.resizeHandle = null;
         
         this.init();
+        this.createAlwaysOpenChatWindow();
     }
 
     init() {
@@ -20,6 +21,35 @@ class WindowsXPDesktop {
         
         // Update time every minute
         setInterval(() => this.updateTime(), 60000);
+    }
+
+    createAlwaysOpenChatWindow() {
+        // Create the Chat window that's always open and can't be closed
+        const windowId = `window-chat-always-open`;
+        const chatWindow = this.createWindow('chat', windowId);
+        chatWindow.dataset.windowType = 'chat';
+        chatWindow.dataset.alwaysOpen = 'true'; // Mark as always open
+        
+        // Position it in the background (bottom right)
+        chatWindow.style.left = '50px';
+        chatWindow.style.top = '150px';
+        chatWindow.style.zIndex = '50'; // Lower z-index to keep it in background
+        
+        // Remove the close button
+        const closeBtn = chatWindow.querySelector('.close');
+        if (closeBtn) {
+            closeBtn.style.display = 'none';
+        }
+        
+        // Add to windows array and taskbar
+        this.windows.push(chatWindow);
+        this.addToTaskbar(chatWindow);
+        
+        // Initialize the Chat application
+        setTimeout(() => {
+            const chatApp = new ChatApplication();
+            chatApp.init(chatWindow);
+        }, 100);
     }
 
     setupEventListeners() {
@@ -100,6 +130,11 @@ class WindowsXPDesktop {
         if (existingWindow) {
             // Window already exists, just bring it to front
             this.bringToFront(existingWindow);
+            return;
+        }
+        
+        // Don't create new Chat windows since we have the always-open one
+        if (type === 'chat') {
             return;
         }
         
@@ -492,6 +527,11 @@ Enjoy your nostalgic Windows XP experience!</textarea>
     }
 
     closeWindow(window) {
+        // Prevent closing the always-open Chat window
+        if (window.dataset.alwaysOpen === 'true') {
+            return;
+        }
+        
         window.remove();
         this.removeFromTaskbar(window);
         this.windows = this.windows.filter(w => w.id !== window.id);
