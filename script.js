@@ -402,8 +402,12 @@ Enjoy your nostalgic Windows XP experience!</textarea>
                                  </div>
                                  
                                  <!-- Canvas Container -->
-                                 <div style="flex: 1; display: flex; justify-content: center; align-items: center; background: #f5f5f5; border: 1px solid #ccc; min-height: 0;">
+                                 <div style="flex: 1; display: flex; justify-content: center; align-items: center; background: #f5f5f5; border: 1px solid #ccc; min-height: 0; position: relative;">
                                      <canvas id="paint-canvas" width="500" height="500" style="border: 1px solid #999; cursor: crosshair; background: transparent;"></canvas>
+                                     <!-- Guide Overlay -->
+                                     <div id="paint-guide-overlay" style="position: absolute; top: 0; left: 0; width: 500px; height: 500px; pointer-events: none; z-index: 10; display: none;">
+                                         <img id="paint-guide-image" style="width: 100%; height: 100%; opacity: 0.27; object-fit: contain;" />
+                                     </div>
                                  </div>
                              </div>
                          `
@@ -733,11 +737,14 @@ class PaintApplication {
         this.selectedLayer = null;
         this.layerButtons = [];
         this.sendToBuilderBtn = null;
+        this.guideOverlay = null;
+        this.guideImage = null;
     }
 
     init(canvas) {
         this.canvas = canvas;
         this.setupCanvas();
+        this.setupGuideOverlay();
         this.setupEventListeners();
     }
 
@@ -936,13 +943,29 @@ class PaintApplication {
         // Enforce canvas size before export
         this.enforceCanvasSize();
         
+        // Hide guide overlay before export
+        const wasGuideVisible = this.guideOverlay && this.guideOverlay.style.display !== 'none';
+        if (this.guideOverlay) {
+            this.guideOverlay.style.display = 'none';
+        }
+        
         // Export as PNG with transparent background
         const link = document.createElement('a');
         link.download = 'paint-drawing.png';
         link.href = this.canvas.toDataURL('image/png');
         link.click();
         
+        // Restore guide overlay after export
+        if (wasGuideVisible && this.guideOverlay) {
+            this.guideOverlay.style.display = 'block';
+        }
+        
         this.showToast('Canvas exported as 500×500 PNG', 'success');
+    }
+
+    setupGuideOverlay() {
+        this.guideOverlay = document.getElementById('paint-guide-overlay');
+        this.guideImage = document.getElementById('paint-guide-image');
     }
 
     selectLayer(layer) {
@@ -960,6 +983,26 @@ class PaintApplication {
                 btn.style.borderColor = '#999';
             }
         });
+        
+        // Show/hide guide overlay based on selected layer
+        this.updateGuideOverlay(layer);
+    }
+
+    updateGuideOverlay(layer) {
+        const guideMap = {
+            'Shirt': 'shirt-guide.png',
+            'Accessory': 'accessory-guide.png',
+            'Skin': 'skin-guide.png',
+            'Eyes': 'eyes-guide.png',
+            'Mask': 'mask-guide.png'
+        };
+        
+        if (guideMap[layer] && this.guideOverlay && this.guideImage) {
+            this.guideImage.src = `./Assets/guide/${guideMap[layer]}`;
+            this.guideOverlay.style.display = 'block';
+        } else if (this.guideOverlay) {
+            this.guideOverlay.style.display = 'none';
+        }
     }
 
     sendToBuilder() {
@@ -979,8 +1022,19 @@ class PaintApplication {
             return;
         }
 
+        // Hide guide overlay before export
+        const wasGuideVisible = this.guideOverlay && this.guideOverlay.style.display !== 'none';
+        if (this.guideOverlay) {
+            this.guideOverlay.style.display = 'none';
+        }
+        
         // Export canvas as PNG with transparent background
         const dataURL = this.canvas.toDataURL('image/png');
+        
+        // Restore guide overlay after export
+        if (wasGuideVisible && this.guideOverlay) {
+            this.guideOverlay.style.display = 'block';
+        }
         
         // Send to NFT Builder via desktop
         if (window.desktop) {
