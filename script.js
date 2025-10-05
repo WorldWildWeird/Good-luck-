@@ -1154,7 +1154,7 @@ class NFTBuilderApplication {
             animation: celebrationPulse 2s ease-out forwards;
         `;
         
-        celebration.textContent = 'You are a weirdo 🫵';
+        celebration.textContent = 'you are a weirdo bro 🫵';
         
         // Add the animation CSS if not already present
         if (!document.getElementById('celebration-styles')) {
