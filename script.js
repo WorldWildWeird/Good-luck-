@@ -103,17 +103,41 @@ class WindowsXPDesktop {
     }
 
     createWindow(type, id) {
-        const window = document.createElement('div');
-        window.className = 'window';
-        window.id = id;
-        window.style.left = '100px';
-        window.style.top = '100px';
-        window.style.width = '400px';
-        window.style.height = '300px';
+        const win = document.createElement('div');
+        win.className = 'window';
+        win.id = id;
+        
+        // Set initial size and position based on window type
+        if (type === 'paint') {
+            // Center the Paint window with proper size for canvas and tools
+            const centerX = (globalThis.innerWidth - 600) / 2;
+            const centerY = (globalThis.innerHeight - 600) / 2;
+            win.style.left = Math.max(0, centerX) + 'px';
+            win.style.top = Math.max(0, centerY) + 'px';
+            win.style.width = '600px';
+            win.style.height = '600px';
+        } else if (type === 'nft-builder') {
+            // Center the NFT Builder window with proper size for 500x500 canvas + controls
+            const centerX = (globalThis.innerWidth - 900) / 2;
+            const centerY = (globalThis.innerHeight - 700) / 2;
+            win.style.left = Math.max(0, centerX) + 'px';
+            win.style.top = Math.max(0, centerY) + 'px';
+            win.style.width = '900px';
+            win.style.height = '700px';
+        } else {
+            win.style.left = '100px';
+            win.style.top = '100px';
+            win.style.width = '400px';
+            win.style.height = '300px';
+        }
 
         const windowData = this.getWindowData(type);
         
-        window.innerHTML = `
+        // Determine if this window needs special content handling
+        const needsNoPadding = type === 'paint' || type === 'nft-builder';
+        const contentClass = needsNoPadding ? 'window-content no-padding' : 'window-content';
+        
+        win.innerHTML = `
             <div class="window-header">
                 <div class="window-title">${windowData.title}</div>
                 <div class="window-controls">
@@ -122,50 +146,50 @@ class WindowsXPDesktop {
                     <div class="window-control close" title="Close">×</div>
                 </div>
             </div>
-            <div class="window-content">
+            <div class="${contentClass}">
                 ${windowData.content}
             </div>
         `;
 
         // Add window controls
-        const minimizeBtn = window.querySelector('.minimize');
-        const maximizeBtn = window.querySelector('.maximize');
-        const closeBtn = window.querySelector('.close');
+        const minimizeBtn = win.querySelector('.minimize');
+        const maximizeBtn = win.querySelector('.maximize');
+        const closeBtn = win.querySelector('.close');
 
         minimizeBtn.addEventListener('click', (e) => {
             e.stopPropagation();
-            this.minimizeWindow(window);
+            this.minimizeWindow(win);
         });
 
         maximizeBtn.addEventListener('click', (e) => {
             e.stopPropagation();
-            this.toggleMaximize(window);
+            this.toggleMaximize(win);
         });
 
         closeBtn.addEventListener('click', (e) => {
             e.stopPropagation();
-            this.closeWindow(window);
+            this.closeWindow(win);
         });
 
         // Make window draggable
-        const header = window.querySelector('.window-header');
+        const header = win.querySelector('.window-header');
         header.addEventListener('mousedown', (e) => {
             if (e.target.classList.contains('window-control')) return;
-            this.startDragging(e, window);
+            this.startDragging(e, win);
         });
 
         // Make window clickable to bring to front
-        window.addEventListener('mousedown', (e) => {
+        win.addEventListener('mousedown', (e) => {
             e.stopPropagation();
-            this.bringToFront(window);
+            this.bringToFront(win);
         });
 
-        document.body.appendChild(window);
+        document.body.appendChild(win);
         
                 // Initialize Paint application if this is a Paint window
                 if (type === 'paint') {
                     setTimeout(() => {
-                        const canvas = window.querySelector('#paint-canvas');
+                        const canvas = win.querySelector('#paint-canvas');
                         if (canvas) {
                             const paintApp = new PaintApplication();
                             paintApp.init(canvas);
@@ -176,7 +200,7 @@ class WindowsXPDesktop {
                 // Initialize Chat application if this is a Chat window
                 if (type === 'chat') {
                     setTimeout(() => {
-                        const chatWindow = window;
+                        const chatWindow = win;
                         if (chatWindow) {
                             const chatApp = new ChatApplication();
                             chatApp.init(chatWindow);
@@ -187,7 +211,7 @@ class WindowsXPDesktop {
                 // Initialize NFT Builder application if this is an NFT Builder window
                 if (type === 'nft-builder') {
                     setTimeout(() => {
-                        const nftWindow = window;
+                        const nftWindow = win;
                         if (nftWindow) {
                             const nftApp = new NFTBuilderApplication();
                             nftApp.init(nftWindow);
@@ -195,7 +219,7 @@ class WindowsXPDesktop {
                     }, 100); // Small delay to ensure DOM is ready
                 }
         
-        return window;
+        return win;
     }
 
     getWindowData(type) {
@@ -279,9 +303,9 @@ Enjoy your nostalgic Windows XP experience!</textarea>
                     'paint': {
                         title: 'Untitled - Paint',
                         content: `
-                            <div style="padding: 8px; height: 100%; display: flex; flex-direction: column;">
+                            <div style="padding: 8px; height: calc(100% - 24px); display: flex; flex-direction: column; overflow: hidden;">
                                 <!-- Toolbar -->
-                                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px; padding: 4px; background: #f0f0f0; border: 1px solid #ccc;">
+                                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px; padding: 4px; background: #f0f0f0; border: 1px solid #ccc; flex-shrink: 0;">
                                     <button id="paint-brush-tool" class="paint-tool-btn active" data-tool="brush" style="padding: 4px 8px; border: 1px solid #999; background: #e0e0e0; cursor: pointer;">🖌️ Brush</button>
                                     <button id="paint-eraser-tool" class="paint-tool-btn" data-tool="eraser" style="padding: 4px 8px; border: 1px solid #999; background: #e0e0e0; cursor: pointer;">🧽 Eraser</button>
                                     
@@ -308,7 +332,7 @@ Enjoy your nostalgic Windows XP experience!</textarea>
                                 </div>
                                 
                                 <!-- Canvas Container -->
-                                <div style="flex: 1; display: flex; justify-content: center; align-items: center; background: #f5f5f5; border: 1px solid #ccc;">
+                                <div style="flex: 1; display: flex; justify-content: center; align-items: center; background: #f5f5f5; border: 1px solid #ccc; min-height: 0;">
                                     <canvas id="paint-canvas" width="500" height="500" style="border: 1px solid #999; cursor: crosshair; background: white;"></canvas>
                                 </div>
                             </div>
@@ -335,11 +359,11 @@ Enjoy your nostalgic Windows XP experience!</textarea>
                     'nft-builder': {
                         title: 'NFT Builder',
                         content: `
-                            <div style="padding: 8px; height: 100%; display: flex; flex-direction: column;">
+                            <div style="padding: 8px; height: calc(100% - 24px); display: flex; flex-direction: column; overflow: hidden;">
                                 <!-- Main Content Area -->
-                                <div style="display: flex; flex: 1; gap: 8px; margin-bottom: 8px;">
+                                <div style="display: flex; flex: 1; gap: 12px; margin-bottom: 8px; min-height: 0;">
                                     <!-- Left Side - Canvas -->
-                                    <div style="flex: 0 0 500px; display: flex; flex-direction: column;">
+                                    <div style="flex: 0 0 auto; display: flex; flex-direction: column; min-width: 0;">
                                         <div style="text-align: center; margin-bottom: 4px; font-size: 11px; font-weight: bold;">NFT Preview</div>
                                         <div style="border: 2px solid #999; background: #f0f0f0; padding: 4px; display: flex; justify-content: center; align-items: center;">
                                             <canvas id="nft-canvas" width="500" height="500" style="border: 1px solid #ccc; background: white;"></canvas>
@@ -347,16 +371,16 @@ Enjoy your nostalgic Windows XP experience!</textarea>
                                     </div>
                                     
                                     <!-- Right Side - Category Buttons -->
-                                    <div style="flex: 1; display: flex; flex-direction: column;">
+                                    <div style="flex: 1; display: flex; flex-direction: column; min-width: 200px;">
                                         <div style="text-align: center; margin-bottom: 4px; font-size: 11px; font-weight: bold;">Categories</div>
-                                        <div id="category-buttons" style="display: flex; flex-direction: column; gap: 4px; flex: 1;">
+                                        <div id="category-buttons" style="display: flex; flex-direction: column; gap: 4px; flex: 1; overflow-y: auto; padding-right: 4px;">
                                             <!-- Category buttons will be generated here -->
                                         </div>
                                     </div>
                                 </div>
                                 
                                 <!-- Bottom Controls -->
-                                <div style="display: flex; gap: 8px; justify-content: center; padding: 4px; border-top: 1px solid #ccc;">
+                                <div style="display: flex; gap: 8px; justify-content: center; padding: 8px; border-top: 1px solid #ccc; flex-shrink: 0;">
                                     <button id="nft-randomize-btn" style="padding: 6px 12px; border: 1px solid #999; background: #e0e0e0; cursor: pointer; font-size: 11px;">🎲 Randomize All</button>
                                     <button id="nft-clear-btn" style="padding: 6px 12px; border: 1px solid #999; background: #e0e0e0; cursor: pointer; font-size: 11px;">🗑️ Clear All</button>
                                     <button id="nft-export-btn" style="padding: 6px 12px; border: 1px solid #999; background: #e0e0e0; cursor: pointer; font-size: 11px;">💾 Export PNG</button>

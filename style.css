@@ -275,6 +275,12 @@ body {
     overflow: auto;
 }
 
+/* Special handling for Paint and NFT Builder windows that manage their own layout */
+.window-content.no-padding {
+    padding: 0;
+    overflow: visible;
+}
+
 /* Context Menu */
 .context-menu {
     position: absolute;
