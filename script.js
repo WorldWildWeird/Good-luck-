@@ -1308,6 +1308,8 @@ class NFTBuilderApplication {
     }
 
     selectTrait(category, trait) {
+        // Clear custom art before setting built-in trait
+        this.customArt[category] = null;
         this.selectedTraits[category] = trait;
         this.generateCategoryButtons();
         this.updateProgress();
@@ -1319,6 +1321,8 @@ class NFTBuilderApplication {
 
     randomizeAll() {
         this.layerOrder.forEach(category => {
+            // Clear custom art before assigning randomized trait
+            this.customArt[category] = null;
             const traits = this.availableTraits[category];
             const randomIndex = Math.floor(Math.random() * traits.length);
             this.selectedTraits[category] = traits[randomIndex];
@@ -1567,10 +1571,8 @@ class NFTBuilderApplication {
             return;
         }
 
-        // Store custom art
+        // Store custom art and clear built-in trait
         this.customArt[layer] = dataURL;
-        
-        // Clear any existing trait selection for this layer
         this.selectedTraits[layer] = null;
         
         // Update UI
