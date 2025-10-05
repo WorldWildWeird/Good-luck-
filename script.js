@@ -1331,6 +1331,7 @@ class NFTBuilderApplication {
     clearAll() {
         this.layerOrder.forEach(category => {
             this.selectedTraits[category] = null;
+            this.customArt[category] = null;
         });
         
         this.generateCategoryButtons();
@@ -1339,7 +1340,9 @@ class NFTBuilderApplication {
     }
 
     updateProgress() {
-        const selectedCount = this.layerOrder.filter(category => this.selectedTraits[category] !== null).length;
+        const selectedCount = this.layerOrder.filter(category => 
+            this.selectedTraits[category] !== null || this.customArt[category] !== null
+        ).length;
         const totalCount = this.layerOrder.length;
         const percentage = (selectedCount / totalCount) * 100;
         
@@ -1418,8 +1421,10 @@ class NFTBuilderApplication {
     }
 
     checkForCompleteNFT() {
-        // Check if all 7 categories have traits selected
-        const allSelected = this.layerOrder.every(category => this.selectedTraits[category] !== null);
+        // Check if all 7 categories have either traits or custom art selected
+        const allSelected = this.layerOrder.every(category => 
+            this.selectedTraits[category] !== null || this.customArt[category] !== null
+        );
         
         if (allSelected) {
             this.playCelebrationSound();
