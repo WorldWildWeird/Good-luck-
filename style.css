@@ -278,6 +278,7 @@ body {
 /* Special handling for Paint and NFT Builder windows that manage their own layout */
 .window-content.no-padding {
     padding: 0;
+    height: auto;
     overflow: visible;
 }
 

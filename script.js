@@ -163,13 +163,15 @@ class WindowsXPDesktop {
             win.style.width = '600px';
             win.style.height = '600px';
         } else if (type === 'nft-builder') {
-            // Center the NFT Builder window with proper size for 500x500 canvas + controls
-            const centerX = (globalThis.innerWidth - 900) / 2;
-            const centerY = (globalThis.innerHeight - 700) / 2;
+            // Center the NFT Builder window with optimized size: canvas (500) + padding + categories (220) + gap
+            const windowWidth = 760; // 500 + 8*2 + 220 + 12 + 8*2 = 760px
+            const windowHeight = 600; // Content-driven height
+            const centerX = (globalThis.innerWidth - windowWidth) / 2;
+            const centerY = (globalThis.innerHeight - windowHeight) / 2;
             win.style.left = Math.max(0, centerX) + 'px';
             win.style.top = Math.max(0, centerY) + 'px';
-            win.style.width = '900px';
-            win.style.height = '700px';
+            win.style.width = windowWidth + 'px';
+            win.style.height = windowHeight + 'px';
         } else {
             win.style.left = '100px';
             win.style.top = '100px';
@@ -405,45 +407,42 @@ Enjoy your nostalgic Windows XP experience!</textarea>
                     'nft-builder': {
                         title: 'NFT Builder',
                         content: `
-                            <div style="padding: 8px; height: calc(100% - 24px); display: flex; flex-direction: column; overflow: hidden;">
-                                <!-- Main Content Area -->
-                                <div style="display: flex; flex: 1; gap: 12px; margin-bottom: 8px; min-height: 0;">
-                                    <!-- Left Side - Canvas -->
-                                    <div style="flex: 0 0 auto; display: flex; flex-direction: column; min-width: 0;">
+                            <div class="nft-builder-container" style="padding: 8px; display: flex; gap: 12px;">
+                                <!-- Left Column - Canvas + Controls -->
+                                <div style="flex: 0 0 auto; display: flex; flex-direction: column; gap: 8px;">
+                                    <!-- Canvas -->
+                                    <div style="display: flex; flex-direction: column;">
                                         <div style="text-align: center; margin-bottom: 6px; font-size: 11px; font-weight: bold; color: #333;">NFT Preview</div>
                                         <div style="border: 2px solid #999; border-top: 2px solid #fff; border-left: 2px solid #fff; border-right: 2px solid #666; border-bottom: 2px solid #666; background: #f0f0f0; padding: 8px; display: flex; justify-content: center; align-items: center;">
                                             <canvas id="nft-canvas" width="500" height="500" style="border: 1px solid #ccc; background: white;"></canvas>
                                         </div>
                                     </div>
                                     
-                                    <!-- Right Side - Category Cards + Export Button -->
-                                    <div style="flex: 0 0 150px; display: flex; flex-direction: column; min-width: 0;">
-                                        <div style="text-align: center; margin-bottom: 6px; font-size: 11px; font-weight: bold; color: #333;">Categories</div>
-                                        <div id="category-buttons" style="display: flex; flex-direction: column; gap: 6px; flex: 1; overflow-y: auto; padding-right: 4px; margin-bottom: 8px;">
-                                            <!-- Category buttons will be generated here -->
-                                        </div>
+                                    <!-- Controls under canvas -->
+                                    <div class="nft-controls" style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                                        <button id="nft-clear-btn" style="padding: 6px 12px; border: 1px solid #999; background: #e0e0e0; cursor: pointer; font-size: 11px; flex-shrink: 0;">🗑️ Clear All</button>
+                                        <button id="nft-randomize-btn" style="padding: 6px 12px; border: 1px solid #999; background: #e0e0e0; cursor: pointer; font-size: 11px; flex-shrink: 0;">🎲 Randomize</button>
                                         
-                                        <!-- Export Button -->
-                                        <div style="flex: 0 0 auto;">
-                                            <button id="nft-export-btn" style="width: 100%; padding: 8px 12px; border: 1px solid #999; background: #e0e0e0; cursor: pointer; font-size: 11px; text-align: left;">💾 Export NFT</button>
+                                        <!-- Progress Bar -->
+                                        <div style="display: flex; align-items: center; gap: 8px; flex: 1; min-width: 0;">
+                                            <div style="width: 100%; max-width: 200px; height: 16px; border: 1px solid #999; background: #fff; position: relative;">
+                                                <div id="progress-bar" style="width: 0%; height: 100%; background: linear-gradient(to right, #4CAF50 0%, #8BC34A 100%); transition: width 0.3s ease;"></div>
+                                            </div>
+                                            <span id="progress-text" style="font-size: 11px; color: #333; font-weight: bold; white-space: nowrap;">0/7 traits selected</span>
                                         </div>
                                     </div>
                                 </div>
                                 
-                                <!-- Bottom Toolbar -->
-                                <div style="display: flex; align-items: center; padding: 8px; border-top: 1px solid #ccc; flex-shrink: 0; background: #f0f0f0;">
-                                    <!-- Left: Clear All + Randomize + Progress Bar -->
-                                    <div style="display: flex; align-items: center; gap: 8px; flex: 1;">
-                                        <button id="nft-clear-btn" style="padding: 6px 12px; border: 1px solid #999; background: #e0e0e0; cursor: pointer; font-size: 11px;">🗑️ Clear All</button>
-                                        <button id="nft-randomize-btn" style="padding: 6px 12px; border: 1px solid #999; background: #e0e0e0; cursor: pointer; font-size: 11px;">🎲 Randomize</button>
-                                        
-                                        <!-- Progress Bar inline -->
-                                        <div style="display: flex; align-items: center; gap: 8px; margin-left: 16px;">
-                                            <div style="width: 150px; height: 16px; border: 1px solid #999; background: #fff; position: relative;">
-                                                <div id="progress-bar" style="width: 0%; height: 100%; background: linear-gradient(to right, #4CAF50 0%, #8BC34A 100%); transition: width 0.3s ease;"></div>
-                                            </div>
-                                            <span id="progress-text" style="font-size: 11px; color: #333; font-weight: bold;">0/7 traits selected</span>
-                                        </div>
+                                <!-- Right Column - Categories + Export -->
+                                <div style="flex: 0 0 220px; display: flex; flex-direction: column; gap: 8px;">
+                                    <div style="text-align: center; font-size: 11px; font-weight: bold; color: #333;">Categories</div>
+                                    <div id="category-buttons" style="display: flex; flex-direction: column; gap: 6px; flex: 1; overflow-y: auto; padding-right: 4px;">
+                                        <!-- Category buttons will be generated here -->
+                                    </div>
+                                    
+                                    <!-- Export Button -->
+                                    <div style="flex: 0 0 auto;">
+                                        <button id="nft-export-btn" style="width: 100%; padding: 8px 12px; border: 1px solid #999; background: #e0e0e0; cursor: pointer; font-size: 11px; text-align: left;">💾 Export NFT</button>
                                     </div>
                                 </div>
                                 
