@@ -981,6 +981,9 @@ class NFTBuilderApplication {
         this.selectedTraits[category] = trait;
         this.generateCategoryButtons();
         this.renderCanvas();
+        
+        // Check if all 7 traits are selected and play celebration sound
+        this.checkForCompleteNFT();
     }
 
     randomizeAll() {
@@ -992,6 +995,9 @@ class NFTBuilderApplication {
         
         this.generateCategoryButtons();
         this.renderCanvas();
+        
+        // Check if all 7 traits are selected and play celebration sound
+        this.checkForCompleteNFT();
     }
 
     clearAll() {
@@ -1046,6 +1052,108 @@ class NFTBuilderApplication {
         link.download = 'nft-creation.png';
         link.href = exportCanvas.toDataURL('image/png');
         link.click();
+    }
+
+    checkForCompleteNFT() {
+        // Check if all 7 categories have traits selected
+        const allSelected = this.layerOrder.every(category => this.selectedTraits[category] !== null);
+        
+        if (allSelected) {
+            this.playCelebrationSound();
+        }
+    }
+
+    playCelebrationSound() {
+        // Create a simple celebration sound using Web Audio API
+        try {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            
+            // Create a pleasant chord progression for celebration
+            const frequencies = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
+            
+            frequencies.forEach((freq, index) => {
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.frequency.setValueAtTime(freq, audioContext.currentTime);
+                oscillator.type = 'sine';
+                
+                // Create a pleasant envelope
+                gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+                gainNode.gain.linearRampToValueAtTime(0.1, audioContext.currentTime + 0.1);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 1.5);
+                
+                // Stagger the notes slightly for a chord effect
+                oscillator.start(audioContext.currentTime + (index * 0.1));
+                oscillator.stop(audioContext.currentTime + 1.5);
+            });
+            
+            // Add a visual celebration effect
+            this.showCelebrationEffect();
+            
+        } catch (error) {
+            console.log('Audio not available, showing visual celebration only');
+            this.showCelebrationEffect();
+        }
+    }
+
+    showCelebrationEffect() {
+        // Create a simple visual celebration effect
+        const celebration = document.createElement('div');
+        celebration.style.cssText = `
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 48px;
+            font-weight: bold;
+            color: #FFD700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            z-index: 10000;
+            pointer-events: none;
+            animation: celebrationPulse 2s ease-out forwards;
+        `;
+        
+        celebration.textContent = '🎉 NFT COMPLETE! 🎉';
+        
+        // Add the animation CSS if not already present
+        if (!document.getElementById('celebration-styles')) {
+            const style = document.createElement('style');
+            style.id = 'celebration-styles';
+            style.textContent = `
+                @keyframes celebrationPulse {
+                    0% { 
+                        transform: translate(-50%, -50%) scale(0.5);
+                        opacity: 0;
+                    }
+                    20% { 
+                        transform: translate(-50%, -50%) scale(1.2);
+                        opacity: 1;
+                    }
+                    80% { 
+                        transform: translate(-50%, -50%) scale(1);
+                        opacity: 1;
+                    }
+                    100% { 
+                        transform: translate(-50%, -50%) scale(0.8);
+                        opacity: 0;
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+        
+        document.body.appendChild(celebration);
+        
+        // Remove the celebration element after animation
+        setTimeout(() => {
+            if (celebration.parentNode) {
+                celebration.parentNode.removeChild(celebration);
+            }
+        }, 2000);
     }
 }
 
