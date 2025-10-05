@@ -395,6 +395,7 @@ Enjoy your nostalgic Windows XP experience!</textarea>
                                          <button class="paint-layer-btn" data-layer="Eyes" style="padding: 2px 6px; border: 1px solid #999; background: #e0e0e0; cursor: pointer; font-size: 10px;">Eyes</button>
                                          <button class="paint-layer-btn" data-layer="Mask" style="padding: 2px 6px; border: 1px solid #999; background: #e0e0e0; cursor: pointer; font-size: 10px;">Mask</button>
                                          <button class="paint-layer-btn" data-layer="Xx" style="padding: 2px 6px; border: 1px solid #999; background: #e0e0e0; cursor: pointer; font-size: 10px;">Xx</button>
+                                         <button class="paint-layer-btn" data-layer="Higher" style="padding: 2px 6px; border: 1px solid #999; background: #e0e0e0; cursor: pointer; font-size: 10px; color: #4CAF50; font-weight: bold;">Higher</button>
                                      </div>
                                      <div style="width: 1px; height: 20px; background: #999; margin: 0 4px;"></div>
                                      <button id="paint-send-to-builder-btn" style="padding: 4px 8px; border: 1px solid #999; background: #4CAF50; color: white; cursor: pointer; font-size: 11px; font-weight: bold;">📤 Send to Builder</button>
@@ -972,7 +973,7 @@ class PaintApplication {
         }
 
         // Validate layer name
-        const validLayers = ['Background', 'Shirt', 'Accessory', 'Skin', 'Eyes', 'Mask', 'Xx'];
+        const validLayers = ['Background', 'Shirt', 'Accessory', 'Skin', 'Eyes', 'Mask', 'Xx', 'Higher'];
         if (!validLayers.includes(this.selectedLayer)) {
             this.showToast('Error: Invalid layer selected', 'error');
             return;
@@ -1154,6 +1155,9 @@ class NFTBuilderApplication {
             'Xx': null
         };
         
+        // Higher overlay layer (drawn on top of everything)
+        this.overlayHigher = null;
+        
         // Available traits for each category
         this.availableTraits = {
             'Background': ['3am.png', 'asylum.png', 'beach.png', 'calm.png', 'fire.png', 'genesis.png', 'mempool.png', 'moonlight.png', 'mountain.png', 'nature.png', 'prestigious.png', 'road.png', 'room.png', 'rose.png', 'silk-road.png', 'sky\'s-the-limit.png', 'vandalism.png'],
@@ -1334,6 +1338,9 @@ class NFTBuilderApplication {
             this.customArt[category] = null;
         });
         
+        // Also clear the Higher overlay
+        this.overlayHigher = null;
+        
         this.generateCategoryButtons();
         this.updateProgress();
         this.renderCanvas();
@@ -1371,6 +1378,11 @@ class NFTBuilderApplication {
                 }
             }
         }
+        
+        // Draw Higher overlay on top of everything
+        if (this.overlayHigher) {
+            await this.drawHigherOverlay();
+        }
     }
 
     async drawLayer(category, trait) {
@@ -1400,6 +1412,21 @@ class NFTBuilderApplication {
                 resolve(); // Continue even if one image fails
             };
             img.src = this.customArt[category];
+        });
+    }
+
+    async drawHigherOverlay() {
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+            img.onload = () => {
+                this.ctx.drawImage(img, 0, 0, 500, 500);
+                resolve();
+            };
+            img.onerror = () => {
+                console.warn('Failed to load Higher overlay image');
+                resolve(); // Continue even if one image fails
+            };
+            img.src = this.overlayHigher;
         });
     }
 
@@ -1525,7 +1552,15 @@ class NFTBuilderApplication {
     }
 
     replaceLayerWithUserArt(layer, dataURL) {
-        // Validate layer
+        // Handle Higher overlay separately
+        if (layer === 'Higher') {
+            this.overlayHigher = dataURL;
+            this.renderCanvas();
+            this.showToast('Added Higher overlay', 'success');
+            return;
+        }
+
+        // Validate layer for regular categories
         const validLayers = ['Background', 'Shirt', 'Accessory', 'Skin', 'Eyes', 'Mask', 'Xx'];
         if (!validLayers.includes(layer)) {
             this.showToast('Error: Invalid layer', 'error');
