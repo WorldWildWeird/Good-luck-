@@ -361,29 +361,46 @@ Enjoy your nostalgic Windows XP experience!</textarea>
                         content: `
                             <div style="padding: 8px; height: calc(100% - 24px); display: flex; flex-direction: column; overflow: hidden;">
                                 <!-- Main Content Area -->
-                                <div style="display: flex; flex: 1; gap: 12px; margin-bottom: 8px; min-height: 0;">
+                                <div style="display: flex; flex: 1; gap: 16px; margin-bottom: 8px; min-height: 0;">
                                     <!-- Left Side - Canvas -->
                                     <div style="flex: 0 0 auto; display: flex; flex-direction: column; min-width: 0;">
-                                        <div style="text-align: center; margin-bottom: 4px; font-size: 11px; font-weight: bold;">NFT Preview</div>
-                                        <div style="border: 2px solid #999; background: #f0f0f0; padding: 4px; display: flex; justify-content: center; align-items: center;">
+                                        <div style="text-align: center; margin-bottom: 6px; font-size: 11px; font-weight: bold; color: #333;">NFT Preview</div>
+                                        <div style="border: 2px solid #999; border-top: 2px solid #fff; border-left: 2px solid #fff; border-right: 2px solid #666; border-bottom: 2px solid #666; background: #f0f0f0; padding: 8px; display: flex; justify-content: center; align-items: center;">
                                             <canvas id="nft-canvas" width="500" height="500" style="border: 1px solid #ccc; background: white;"></canvas>
                                         </div>
                                     </div>
                                     
-                                    <!-- Right Side - Category Buttons -->
-                                    <div style="flex: 1; display: flex; flex-direction: column; min-width: 200px;">
-                                        <div style="text-align: center; margin-bottom: 4px; font-size: 11px; font-weight: bold;">Categories</div>
-                                        <div id="category-buttons" style="display: flex; flex-direction: column; gap: 4px; flex: 1; overflow-y: auto; padding-right: 4px;">
+                                    <!-- Right Side - Category Cards -->
+                                    <div style="flex: 0 0 200px; display: flex; flex-direction: column; min-width: 0;">
+                                        <div style="text-align: center; margin-bottom: 6px; font-size: 11px; font-weight: bold; color: #333;">Categories</div>
+                                        <div id="category-buttons" style="display: flex; flex-direction: column; gap: 6px; flex: 1; overflow-y: auto; padding-right: 4px;">
                                             <!-- Category buttons will be generated here -->
                                         </div>
                                     </div>
                                 </div>
                                 
-                                <!-- Bottom Controls -->
-                                <div style="display: flex; gap: 8px; justify-content: center; padding: 8px; border-top: 1px solid #ccc; flex-shrink: 0;">
-                                    <button id="nft-randomize-btn" style="padding: 6px 12px; border: 1px solid #999; background: #e0e0e0; cursor: pointer; font-size: 11px;">🎲 Randomize All</button>
-                                    <button id="nft-clear-btn" style="padding: 6px 12px; border: 1px solid #999; background: #e0e0e0; cursor: pointer; font-size: 11px;">🗑️ Clear All</button>
-                                    <button id="nft-export-btn" style="padding: 6px 12px; border: 1px solid #999; background: #e0e0e0; cursor: pointer; font-size: 11px;">💾 Export PNG</button>
+                                <!-- Bottom Toolbar -->
+                                <div style="display: flex; align-items: center; padding: 8px; border-top: 1px solid #ccc; flex-shrink: 0; background: #f0f0f0;">
+                                    <!-- Left: Clear All + Randomize -->
+                                    <div style="display: flex; gap: 8px; flex: 0 0 auto;">
+                                        <button id="nft-clear-btn" style="padding: 6px 12px; border: 1px solid #999; background: #e0e0e0; cursor: pointer; font-size: 11px;">🗑️ Clear All</button>
+                                        <button id="nft-randomize-btn" style="padding: 6px 12px; border: 1px solid #999; background: #e0e0e0; cursor: pointer; font-size: 11px;">🎲 Randomize</button>
+                                    </div>
+                                    
+                                    <!-- Center: Progress Bar -->
+                                    <div style="flex: 1; display: flex; align-items: center; justify-content: center; margin: 0 16px;">
+                                        <div style="display: flex; align-items: center; gap: 8px;">
+                                            <div style="width: 200px; height: 16px; border: 1px solid #999; background: #fff; position: relative;">
+                                                <div id="progress-bar" style="width: 0%; height: 100%; background: linear-gradient(to right, #4CAF50 0%, #8BC34A 100%); transition: width 0.3s ease;"></div>
+                                            </div>
+                                            <span id="progress-text" style="font-size: 11px; color: #333; font-weight: bold;">0/7 traits selected</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Right: Export -->
+                                    <div style="flex: 0 0 auto;">
+                                        <button id="nft-export-btn" style="padding: 6px 12px; border: 1px solid #999; background: #e0e0e0; cursor: pointer; font-size: 11px;">💾 Export NFT</button>
+                                    </div>
                                 </div>
                                 
                                 <!-- Trait Selector Modal (hidden by default) -->
@@ -868,10 +885,13 @@ class NFTBuilderApplication {
         this.traitModal = nftWindow.querySelector('#trait-selector-modal');
         this.traitGrid = nftWindow.querySelector('#trait-grid');
         this.modalTitle = nftWindow.querySelector('#modal-title');
+        this.progressBar = nftWindow.querySelector('#progress-bar');
+        this.progressText = nftWindow.querySelector('#progress-text');
         
         this.setupCanvas();
         this.setupEventListeners();
         this.generateCategoryButtons();
+        this.updateProgress();
         this.renderCanvas();
     }
 
@@ -980,6 +1000,7 @@ class NFTBuilderApplication {
     selectTrait(category, trait) {
         this.selectedTraits[category] = trait;
         this.generateCategoryButtons();
+        this.updateProgress();
         this.renderCanvas();
         
         // Check if all 7 traits are selected and play celebration sound
@@ -994,6 +1015,7 @@ class NFTBuilderApplication {
         });
         
         this.generateCategoryButtons();
+        this.updateProgress();
         this.renderCanvas();
         
         // Check if all 7 traits are selected and play celebration sound
@@ -1006,7 +1028,22 @@ class NFTBuilderApplication {
         });
         
         this.generateCategoryButtons();
+        this.updateProgress();
         this.renderCanvas();
+    }
+
+    updateProgress() {
+        const selectedCount = this.layerOrder.filter(category => this.selectedTraits[category] !== null).length;
+        const totalCount = this.layerOrder.length;
+        const percentage = (selectedCount / totalCount) * 100;
+        
+        if (this.progressBar) {
+            this.progressBar.style.width = percentage + '%';
+        }
+        
+        if (this.progressText) {
+            this.progressText.textContent = `${selectedCount}/${totalCount} traits selected`;
+        }
     }
 
     async renderCanvas() {
