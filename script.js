@@ -30,9 +30,9 @@ class WindowsXPDesktop {
         chatWindow.dataset.windowType = 'chat';
         chatWindow.dataset.alwaysOpen = 'true'; // Mark as always open
         
-        // Position it in the background (bottom right)
-        chatWindow.style.left = '50px';
-        chatWindow.style.top = '150px';
+        // Position it in the top-right corner
+        chatWindow.style.left = (globalThis.innerWidth - 400) + 'px'; // 400px is default window width
+        chatWindow.style.top = '50px';
         chatWindow.style.zIndex = '50'; // Lower z-index to keep it in background
         
         // Remove the close button
