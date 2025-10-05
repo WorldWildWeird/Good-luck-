@@ -402,11 +402,14 @@ Enjoy your nostalgic Windows XP experience!</textarea>
                                  </div>
                                  
                                  <!-- Canvas Container -->
-                                 <div style="flex: 1; display: flex; justify-content: center; align-items: center; background: #f5f5f5; border: 1px solid #ccc; min-height: 0; position: relative;">
-                                     <canvas id="paint-canvas" width="500" height="500" style="border: 1px solid #999; cursor: crosshair; background: transparent;"></canvas>
-                                     <!-- Guide Overlay -->
-                                     <div id="paint-guide-overlay" style="position: absolute; top: 0; left: 0; width: 500px; height: 500px; pointer-events: none; z-index: 10; display: none;">
-                                         <img id="paint-guide-image" style="width: 100%; height: 100%; opacity: 0.27; object-fit: contain;" />
+                                 <div style="flex: 1; display: flex; justify-content: center; align-items: center; background: #f5f5f5; border: 1px solid #ccc; min-height: 0;">
+                                     <!-- Canvas Wrapper -->
+                                     <div id="paint-canvas-wrapper" style="position: relative; width: 500px; height: 500px;">
+                                         <canvas id="paint-canvas" width="500" height="500" style="border: 1px solid #999; cursor: crosshair; background: transparent; width: 100%; height: 100%;"></canvas>
+                                         <!-- Guide Overlay -->
+                                         <div id="paint-guide-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 10; display: none;">
+                                             <img id="paint-guide-image" style="width: 100%; height: 100%; opacity: 0.27; object-fit: none;" />
+                                         </div>
                                      </div>
                                  </div>
                              </div>
@@ -739,6 +742,7 @@ class PaintApplication {
         this.sendToBuilderBtn = null;
         this.guideOverlay = null;
         this.guideImage = null;
+        this.canvasWrapper = null;
     }
 
     init(canvas) {
@@ -937,6 +941,9 @@ class PaintApplication {
             this.canvas.style.height = '500px';
             this.showToast('Canvas size enforced to 500×500 pixels', 'info');
         }
+        
+        // Recompute guide alignment after canvas resize
+        this.alignGuideOverlay();
     }
 
     exportCanvas() {
@@ -964,8 +971,45 @@ class PaintApplication {
     }
 
     setupGuideOverlay() {
+        this.canvasWrapper = document.getElementById('paint-canvas-wrapper');
         this.guideOverlay = document.getElementById('paint-guide-overlay');
         this.guideImage = document.getElementById('paint-guide-image');
+        
+        // Ensure perfect alignment
+        this.alignGuideOverlay();
+        
+        // Add resize observer to maintain alignment
+        if (this.canvasWrapper) {
+            const resizeObserver = new ResizeObserver(() => {
+                this.alignGuideOverlay();
+            });
+            resizeObserver.observe(this.canvasWrapper);
+        }
+    }
+
+    alignGuideOverlay() {
+        if (!this.canvasWrapper || !this.guideOverlay) return;
+        
+        // Ensure wrapper is exactly 500x500
+        this.canvasWrapper.style.width = '500px';
+        this.canvasWrapper.style.height = '500px';
+        
+        // Ensure guide overlay perfectly covers the canvas
+        this.guideOverlay.style.position = 'absolute';
+        this.guideOverlay.style.top = '0';
+        this.guideOverlay.style.left = '0';
+        this.guideOverlay.style.width = '100%';
+        this.guideOverlay.style.height = '100%';
+        this.guideOverlay.style.pointerEvents = 'none';
+        this.guideOverlay.style.zIndex = '10';
+        
+        // Ensure guide image fills exactly 500x500 pixels
+        if (this.guideImage) {
+            this.guideImage.style.width = '100%';
+            this.guideImage.style.height = '100%';
+            this.guideImage.style.objectFit = 'none'; // No scaling, exact pixel mapping
+            this.guideImage.style.opacity = '0.27';
+        }
     }
 
     selectLayer(layer) {
@@ -1000,6 +1044,8 @@ class PaintApplication {
         if (guideMap[layer] && this.guideOverlay && this.guideImage) {
             this.guideImage.src = `./Assets/guide/${guideMap[layer]}`;
             this.guideOverlay.style.display = 'block';
+            // Recompute alignment when switching guides
+            this.alignGuideOverlay();
         } else if (this.guideOverlay) {
             this.guideOverlay.style.display = 'none';
         }
