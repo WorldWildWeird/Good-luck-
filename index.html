@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Windows XP Desktop</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="desktop" id="desktop">
+        <!-- Desktop Icons -->
+        <div class="desktop-icon icon-my-computer" data-window="my-computer">
+            <img src="./Assets/icon/My Computer.png" alt="My Computer">
+            <span>My Computer</span>
+        </div>
+
+        <div class="desktop-icon icon-recycle-bin" data-window="recycle-bin">
+            <img src="./Assets/icon/Recycle Bin.png" alt="Recycle Bin">
+            <span>Recycle Bin</span>
+        </div>
+
+        <div class="desktop-icon icon-my-documents" data-window="my-documents">
+            <img src="./Assets/icon/My Documents.png" alt="My Documents">
+            <span>My Documents</span>
+        </div>
+
+        <div class="desktop-icon icon-internet-explorer" data-window="internet-explorer">
+            <img src="./Assets/icon/Weirdos Explorer.png" alt="Weirdos Explorer">
+            <span>Weirdos Explorer</span>
+        </div>
+
+        <div class="desktop-icon icon-notepad" data-window="notepad">
+            <img src="./Assets/icon/Notepad.png" alt="Notepad">
+            <span>Notepad</span>
+        </div>
+
+        <div class="desktop-icon icon-paint" data-window="paint">
+            <img src="./Assets/icon/Paint.png" alt="Paint">
+            <span>Paint</span>
+        </div>
+
+        <div class="desktop-icon icon-chat" data-window="chat">
+            <img src="./Assets/icon/Chat.png" alt="Chat">
+            <span>Chat</span>
+        </div>
+
+        <div class="desktop-icon icon-nft-builder" data-window="nft-builder">
+            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cmVjdCB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHJ4PSI0IiBmaWxsPSIjMDA3QUZGIi8+CiAgPHJlY3QgeD0iNCIgeT0iNCIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiByeD0iMiIgZmlsbD0iI0ZGRkZGRiIvPgogIDxyZWN0IHg9IjgiIHk9IjgiIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgcng9IjEiIGZpbGw9IiMwMDdBRkYiLz4KICA8dGV4dCB4PSIxNiIgeT0iMjAiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSI4IiBmb250LXdlaWdodD0iYm9sZCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPk5GVDwvdGV4dD4KPC9zdmc+Cg==" alt="NFT Builder">
+            <span>NFT Builder</span>
+        </div>
+
+        <!-- Context Menu -->
+        <div class="context-menu" id="context-menu">
+            <div class="context-menu-item" data-action="open">Open</div>
+            <div class="context-menu-item" data-action="explore">Explore</div>
+            <div class="context-menu-separator"></div>
+            <div class="context-menu-item" data-action="create-shortcut">Create Shortcut</div>
+            <div class="context-menu-item" data-action="delete">Delete</div>
+            <div class="context-menu-separator"></div>
+            <div class="context-menu-item" data-action="rename">Rename</div>
+            <div class="context-menu-separator"></div>
+            <div class="context-menu-item" data-action="properties">Properties</div>
+        </div>
+    </div>
+
+    <!-- Taskbar -->
+    <div class="taskbar">
+        <div class="start-button" id="start-button">
+            <span>start</span>
+        </div>
+        <div class="taskbar-center" id="taskbar-center">
+            <!-- Taskbar items will be added here dynamically -->
+        </div>
+        <div class="system-tray">
+            <div class="tray-icon" title="Volume"></div>
+            <div class="tray-icon" title="Network"></div>
+            <div class="time" id="time-display">12:34 PM</div>
+        </div>
+    </div>
+
+    <!-- Start Menu -->
+    <div class="start-menu" id="start-menu">
+        <div class="start-menu-header">
+            <span>Windows XP</span>
+        </div>
+        <div class="start-menu-content">
+            <div class="start-menu-item" data-window="internet-explorer">
+                <img src="./Assets/icon/Weirdos Explorer.png" alt="Weirdos Explorer" style="width: 16px; height: 16px;">
+                Weirdos Explorer
+            </div>
+            <div class="start-menu-item" data-window="notepad">
+                <img src="./Assets/icon/Notepad.png" alt="Notepad" style="width: 16px; height: 16px;">
+                Notepad
+            </div>
+            <div class="start-menu-item" data-window="paint">
+                <img src="./Assets/icon/Paint.png" alt="Paint" style="width: 16px; height: 16px;">
+                Paint
+            </div>
+            <div class="start-menu-item" data-window="my-computer">
+                <img src="./Assets/icon/My Computer.png" alt="My Computer" style="width: 16px; height: 16px;">
+                My Computer
+            </div>
+            <div class="start-menu-item" data-window="chat">
+                <img src="./Assets/icon/Chat.png" alt="Chat" style="width: 16px; height: 16px;">
+                Chat
+            </div>
+            <div class="start-menu-item" data-window="nft-builder">
+                <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cmVjdCB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHJ4PSIyIiBmaWxsPSIjMDA3QUZGIi8+CiAgPHJlY3QgeD0iMiIgeT0iMiIgd2lkdGg9IjEyIiBoZWlnaHQ9IjEyIiByeD0iMSIgZmlsbD0iI0ZGRkZGRiIvPgogIDxyZWN0IHg9IjQiIHk9IjQiIHdpZHRoPSI4IiBoZWlnaHQ9IjgiIHJ4PSIwLjUiIGZpbGw9IiMwMDdBRkYiLz4KICA8dGV4dCB4PSI4IiB5PSIxMCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjQiIGZvbnQtd2VpZ2h0PSJib2xkIiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+TkZUPC90ZXh0Pgo8L3N2Zz4K" alt="NFT Builder" style="width: 16px; height: 16px;">
+                NFT Builder
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
