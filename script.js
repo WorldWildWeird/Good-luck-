@@ -259,16 +259,18 @@ class WindowsXPDesktop {
                     }, 100); // Small delay to ensure DOM is ready
                 }
                 
-                // Initialize NFT Builder application if this is an NFT Builder window
-                if (type === 'nft-builder') {
-                    setTimeout(() => {
-                        const nftWindow = win;
-                        if (nftWindow) {
-                            const nftApp = new NFTBuilderApplication();
-                            nftApp.init(nftWindow);
-                        }
-                    }, 100); // Small delay to ensure DOM is ready
-                }
+                 // Initialize NFT Builder application if this is an NFT Builder window
+                 if (type === 'nft-builder') {
+                     setTimeout(() => {
+                         const nftWindow = win;
+                         if (nftWindow) {
+                             const nftApp = new NFTBuilderApplication();
+                             nftApp.init(nftWindow);
+                             // Store reference for Paint integration
+                             this.nftBuilder = nftApp;
+                         }
+                     }, 100); // Small delay to ensure DOM is ready
+                 }
         
         return win;
     }
@@ -351,44 +353,60 @@ Enjoy your nostalgic Windows XP experience!</textarea>
                     </div>
                 `
             },
-                    'paint': {
-                        title: 'Untitled - Paint',
-                        content: `
-                            <div style="padding: 8px; height: calc(100% - 24px); display: flex; flex-direction: column; overflow: hidden;">
-                                <!-- Toolbar -->
-                                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px; padding: 4px; background: #f0f0f0; border: 1px solid #ccc; flex-shrink: 0;">
-                                    <button id="paint-brush-tool" class="paint-tool-btn active" data-tool="brush" style="padding: 4px 8px; border: 1px solid #999; background: #e0e0e0; cursor: pointer;">🖌️ Brush</button>
-                                    <button id="paint-eraser-tool" class="paint-tool-btn" data-tool="eraser" style="padding: 4px 8px; border: 1px solid #999; background: #e0e0e0; cursor: pointer;">🧽 Eraser</button>
-                                    
-                                    <div style="width: 1px; height: 20px; background: #999; margin: 0 4px;"></div>
-                                    
-                                    <label style="display: flex; align-items: center; gap: 4px; font-size: 11px;">
-                                        Color:
-                                        <input type="color" id="paint-color-picker" value="#000000" style="width: 24px; height: 20px; border: 1px solid #999; cursor: pointer;">
-                                    </label>
-                                    
-                                    <label style="display: flex; align-items: center; gap: 4px; font-size: 11px;">
-                                        Size:
-                                        <select id="paint-brush-size" style="padding: 2px; border: 1px solid #999; font-size: 11px;">
-                                            <option value="2">Thin</option>
-                                            <option value="4" selected>Medium</option>
-                                            <option value="8">Thick</option>
-                                        </select>
-                                    </label>
-                                    
-                                    <div style="width: 1px; height: 20px; background: #999; margin: 0 4px;"></div>
-                                    
-                                    <button id="paint-clear-btn" style="padding: 4px 8px; border: 1px solid #999; background: #e0e0e0; cursor: pointer; font-size: 11px;">Clear</button>
-                                    <button id="paint-export-btn" style="padding: 4px 8px; border: 1px solid #999; background: #e0e0e0; cursor: pointer; font-size: 11px;">Export PNG</button>
-                                </div>
-                                
-                                <!-- Canvas Container -->
-                                <div style="flex: 1; display: flex; justify-content: center; align-items: center; background: #f5f5f5; border: 1px solid #ccc; min-height: 0;">
-                                    <canvas id="paint-canvas" width="500" height="500" style="border: 1px solid #999; cursor: crosshair; background: white;"></canvas>
-                                </div>
-                            </div>
-                        `
-                    },
+                     'paint': {
+                         title: 'Untitled - Paint',
+                         content: `
+                             <div style="padding: 8px; height: calc(100% - 24px); display: flex; flex-direction: column; overflow: hidden;">
+                                 <!-- Toolbar -->
+                                 <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px; padding: 4px; background: #f0f0f0; border: 1px solid #ccc; flex-shrink: 0;">
+                                     <button id="paint-brush-tool" class="paint-tool-btn active" data-tool="brush" style="padding: 4px 8px; border: 1px solid #999; background: #e0e0e0; cursor: pointer;">🖌️ Brush</button>
+                                     <button id="paint-eraser-tool" class="paint-tool-btn" data-tool="eraser" style="padding: 4px 8px; border: 1px solid #999; background: #e0e0e0; cursor: pointer;">🧽 Eraser</button>
+                                     
+                                     <div style="width: 1px; height: 20px; background: #999; margin: 0 4px;"></div>
+                                     
+                                     <label style="display: flex; align-items: center; gap: 4px; font-size: 11px;">
+                                         Color:
+                                         <input type="color" id="paint-color-picker" value="#000000" style="width: 24px; height: 20px; border: 1px solid #999; cursor: pointer;">
+                                     </label>
+                                     
+                                     <label style="display: flex; align-items: center; gap: 4px; font-size: 11px;">
+                                         Size:
+                                         <select id="paint-brush-size" style="padding: 2px; border: 1px solid #999; font-size: 11px;">
+                                             <option value="2">Thin</option>
+                                             <option value="4" selected>Medium</option>
+                                             <option value="8">Thick</option>
+                                         </select>
+                                     </label>
+                                     
+                                     <div style="width: 1px; height: 20px; background: #999; margin: 0 4px;"></div>
+                                     
+                                     <button id="paint-clear-btn" style="padding: 4px 8px; border: 1px solid #999; background: #e0e0e0; cursor: pointer; font-size: 11px;">Clear</button>
+                                     <button id="paint-export-btn" style="padding: 4px 8px; border: 1px solid #999; background: #e0e0e0; cursor: pointer; font-size: 11px;">Export PNG</button>
+                                 </div>
+                                 
+                                 <!-- Layer Selection Toolbar -->
+                                 <div style="display: flex; align-items: center; gap: 4px; margin-bottom: 8px; padding: 4px; background: #e8f4fd; border: 1px solid #b3d9ff; flex-shrink: 0;">
+                                     <span style="font-size: 11px; font-weight: bold; color: #333; margin-right: 4px;">Target Layer:</span>
+                                     <div id="paint-layer-buttons" style="display: flex; gap: 2px; flex-wrap: wrap;">
+                                         <button class="paint-layer-btn" data-layer="Background" style="padding: 2px 6px; border: 1px solid #999; background: #e0e0e0; cursor: pointer; font-size: 10px;">Background</button>
+                                         <button class="paint-layer-btn" data-layer="Shirt" style="padding: 2px 6px; border: 1px solid #999; background: #e0e0e0; cursor: pointer; font-size: 10px;">Shirt</button>
+                                         <button class="paint-layer-btn" data-layer="Accessory" style="padding: 2px 6px; border: 1px solid #999; background: #e0e0e0; cursor: pointer; font-size: 10px;">Accessory</button>
+                                         <button class="paint-layer-btn" data-layer="Skin" style="padding: 2px 6px; border: 1px solid #999; background: #e0e0e0; cursor: pointer; font-size: 10px;">Skin</button>
+                                         <button class="paint-layer-btn" data-layer="Eyes" style="padding: 2px 6px; border: 1px solid #999; background: #e0e0e0; cursor: pointer; font-size: 10px;">Eyes</button>
+                                         <button class="paint-layer-btn" data-layer="Mask" style="padding: 2px 6px; border: 1px solid #999; background: #e0e0e0; cursor: pointer; font-size: 10px;">Mask</button>
+                                         <button class="paint-layer-btn" data-layer="Xx" style="padding: 2px 6px; border: 1px solid #999; background: #e0e0e0; cursor: pointer; font-size: 10px;">Xx</button>
+                                     </div>
+                                     <div style="width: 1px; height: 20px; background: #999; margin: 0 4px;"></div>
+                                     <button id="paint-send-to-builder-btn" style="padding: 4px 8px; border: 1px solid #999; background: #4CAF50; color: white; cursor: pointer; font-size: 11px; font-weight: bold;">📤 Send to Builder</button>
+                                 </div>
+                                 
+                                 <!-- Canvas Container -->
+                                 <div style="flex: 1; display: flex; justify-content: center; align-items: center; background: #f5f5f5; border: 1px solid #ccc; min-height: 0;">
+                                     <canvas id="paint-canvas" width="500" height="500" style="border: 1px solid #999; cursor: crosshair; background: transparent;"></canvas>
+                                 </div>
+                             </div>
+                         `
+                     },
                     'chat': {
                         title: 'Chat',
                         content: `
@@ -674,6 +692,29 @@ Enjoy your nostalgic Windows XP experience!</textarea>
         });
         document.getElementById('time-display').textContent = timeString;
     }
+
+    // Method to handle Paint-to-NFT Builder communication
+    sendToNFTBuilder(layer, dataURL) {
+        // Check if NFT Builder window exists
+        const nftBuilderWindow = this.windows.find(w => w.dataset.windowType === 'nft-builder');
+        
+        if (!nftBuilderWindow) {
+            // Auto-open NFT Builder window
+            this.openWindow('nft-builder');
+            // Wait a moment for the window to initialize
+            setTimeout(() => {
+                if (this.nftBuilder) {
+                    this.nftBuilder.replaceLayerWithUserArt(layer, dataURL);
+                }
+            }, 200);
+        } else {
+            // Bring existing window to front and send data
+            this.bringToFront(nftBuilderWindow);
+            if (this.nftBuilder) {
+                this.nftBuilder.replaceLayerWithUserArt(layer, dataURL);
+            }
+        }
+    }
 }
 
 // Paint Application Class
@@ -688,6 +729,9 @@ class PaintApplication {
         this.lastX = 0;
         this.lastY = 0;
         this.devicePixelRatio = window.devicePixelRatio || 1;
+        this.selectedLayer = null;
+        this.layerButtons = [];
+        this.sendToBuilderBtn = null;
     }
 
     init(canvas) {
@@ -697,17 +741,21 @@ class PaintApplication {
     }
 
     setupCanvas() {
-        // Set up HiDPI support
-        const rect = this.canvas.getBoundingClientRect();
-        this.canvas.width = 500 * this.devicePixelRatio;
-        this.canvas.height = 500 * this.devicePixelRatio;
+        // Enforce exact 500×500 pixel canvas size
+        this.canvas.width = 500;
+        this.canvas.height = 500;
         this.canvas.style.width = '500px';
         this.canvas.style.height = '500px';
         
         this.ctx = this.canvas.getContext('2d');
-        this.ctx.scale(this.devicePixelRatio, this.devicePixelRatio);
         this.ctx.lineCap = 'round';
         this.ctx.lineJoin = 'round';
+        
+        // Set transparent background
+        this.ctx.clearRect(0, 0, 500, 500);
+        
+        // Prevent canvas resizing
+        this.preventCanvasResize();
     }
 
     setupEventListeners() {
@@ -740,6 +788,20 @@ class PaintApplication {
             this.exportCanvas();
         });
 
+        // Layer selection buttons
+        this.layerButtons = document.querySelectorAll('.paint-layer-btn');
+        this.layerButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                this.selectLayer(btn.dataset.layer);
+            });
+        });
+
+        // Send to Builder button
+        this.sendToBuilderBtn = document.getElementById('paint-send-to-builder-btn');
+        this.sendToBuilderBtn.addEventListener('click', () => {
+            this.sendToBuilder();
+        });
+
         // Canvas drawing events
         this.canvas.addEventListener('pointerdown', (e) => this.startDrawing(e));
         this.canvas.addEventListener('pointermove', (e) => this.draw(e));
@@ -767,6 +829,9 @@ class PaintApplication {
     }
 
     startDrawing(e) {
+        // Enforce canvas size before drawing
+        this.enforceCanvasSize();
+        
         this.isDrawing = true;
         this.canvas.setPointerCapture(e.pointerId);
         
@@ -828,14 +893,142 @@ class PaintApplication {
     }
 
     clearCanvas() {
+        // Enforce canvas size before clearing
+        this.enforceCanvasSize();
         this.ctx.clearRect(0, 0, 500, 500);
     }
 
+    preventCanvasResize() {
+        // Monitor canvas size changes and enforce 500×500
+        const observer = new MutationObserver(() => {
+            this.enforceCanvasSize();
+        });
+        
+        observer.observe(this.canvas, {
+            attributes: true,
+            attributeFilter: ['width', 'height', 'style']
+        });
+        
+        // Also check on any canvas property changes
+        const originalSetAttribute = this.canvas.setAttribute;
+        this.canvas.setAttribute = (name, value) => {
+            if (name === 'width' || name === 'height') {
+                this.showToast('Canvas size is fixed at 500×500 pixels', 'info');
+                return;
+            }
+            return originalSetAttribute.call(this.canvas, name, value);
+        };
+    }
+
+    enforceCanvasSize() {
+        // Check and enforce 500×500 size
+        if (this.canvas.width !== 500 || this.canvas.height !== 500) {
+            this.canvas.width = 500;
+            this.canvas.height = 500;
+            this.canvas.style.width = '500px';
+            this.canvas.style.height = '500px';
+            this.showToast('Canvas size enforced to 500×500 pixels', 'info');
+        }
+    }
+
     exportCanvas() {
+        // Enforce canvas size before export
+        this.enforceCanvasSize();
+        
+        // Export as PNG with transparent background
         const link = document.createElement('a');
         link.download = 'paint-drawing.png';
         link.href = this.canvas.toDataURL('image/png');
         link.click();
+        
+        this.showToast('Canvas exported as 500×500 PNG', 'success');
+    }
+
+    selectLayer(layer) {
+        this.selectedLayer = layer;
+        
+        // Update button states
+        this.layerButtons.forEach(btn => {
+            if (btn.dataset.layer === layer) {
+                btn.style.background = '#4CAF50';
+                btn.style.color = 'white';
+                btn.style.borderColor = '#45a049';
+            } else {
+                btn.style.background = '#e0e0e0';
+                btn.style.color = 'black';
+                btn.style.borderColor = '#999';
+            }
+        });
+    }
+
+    sendToBuilder() {
+        // Enforce canvas size before sending
+        this.enforceCanvasSize();
+
+        // Validate layer selection
+        if (!this.selectedLayer) {
+            this.showToast('Error: Please select a target layer first', 'error');
+            return;
+        }
+
+        // Validate layer name
+        const validLayers = ['Background', 'Shirt', 'Accessory', 'Skin', 'Eyes', 'Mask', 'Xx'];
+        if (!validLayers.includes(this.selectedLayer)) {
+            this.showToast('Error: Invalid layer selected', 'error');
+            return;
+        }
+
+        // Export canvas as PNG with transparent background
+        const dataURL = this.canvas.toDataURL('image/png');
+        
+        // Send to NFT Builder via desktop
+        if (window.desktop) {
+            window.desktop.sendToNFTBuilder(this.selectedLayer, dataURL);
+            this.showToast(`Sent to Builder: ${this.selectedLayer}`, 'success');
+        } else {
+            this.showToast('Error: Desktop not available', 'error');
+        }
+    }
+
+    showToast(message, type = 'info') {
+        // Create toast element
+        const toast = document.createElement('div');
+        toast.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 12px 16px;
+            border-radius: 4px;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+            z-index: 10000;
+            max-width: 300px;
+            word-wrap: break-word;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        `;
+        
+        // Set background color based on type
+        switch (type) {
+            case 'success':
+                toast.style.background = '#4CAF50';
+                break;
+            case 'error':
+                toast.style.background = '#f44336';
+                break;
+            default:
+                toast.style.background = '#2196F3';
+        }
+        
+        toast.textContent = message;
+        document.body.appendChild(toast);
+        
+        // Remove toast after 3 seconds
+        setTimeout(() => {
+            if (toast.parentNode) {
+                toast.parentNode.removeChild(toast);
+            }
+        }, 3000);
     }
 }
 
@@ -950,6 +1143,17 @@ class NFTBuilderApplication {
             'Xx': null
         };
         
+        // Custom user art for each category
+        this.customArt = {
+            'Background': null,
+            'Shirt': null,
+            'Accessory': null,
+            'Skin': null,
+            'Eyes': null,
+            'Mask': null,
+            'Xx': null
+        };
+        
         // Available traits for each category
         this.availableTraits = {
             'Background': ['3am.png', 'asylum.png', 'beach.png', 'calm.png', 'fire.png', 'genesis.png', 'mempool.png', 'moonlight.png', 'mountain.png', 'nature.png', 'prestigious.png', 'road.png', 'room.png', 'rose.png', 'silk-road.png', 'sky\'s-the-limit.png', 'vandalism.png'],
@@ -1011,14 +1215,20 @@ class NFTBuilderApplication {
         
         this.layerOrder.forEach(category => {
             const button = document.createElement('button');
-            const selectedCount = this.selectedTraits[category] ? 1 : 0;
+            const hasCustom = this.customArt[category] !== null;
+            const selectedCount = (this.selectedTraits[category] || hasCustom) ? 1 : 0;
             const totalCount = this.availableTraits[category].length;
             
-            button.innerHTML = `${category}<br><small>${selectedCount}/${totalCount}</small>`;
+            let buttonText = `${category}<br><small>${selectedCount}/${totalCount}</small>`;
+            if (hasCustom) {
+                buttonText += '<br><small style="color: #4CAF50; font-weight: bold;">Custom</small>';
+            }
+            
+            button.innerHTML = buttonText;
             button.style.cssText = `
                 padding: 8px;
                 border: 1px solid #999;
-                background: #e0e0e0;
+                background: ${hasCustom ? '#e8f5e8' : '#e0e0e0'};
                 cursor: pointer;
                 font-size: 11px;
                 text-align: center;
@@ -1027,11 +1237,20 @@ class NFTBuilderApplication {
                 flex-direction: column;
                 justify-content: center;
                 align-items: center;
+                position: relative;
             `;
             
             button.addEventListener('click', () => {
                 this.openTraitSelector(category);
             });
+            
+            // Add right-click context menu for custom art
+            if (hasCustom) {
+                button.addEventListener('contextmenu', (e) => {
+                    e.preventDefault();
+                    this.showCustomArtMenu(e, category);
+                });
+            }
             
             this.categoryButtons.appendChild(button);
         });
@@ -1139,9 +1358,14 @@ class NFTBuilderApplication {
         
         // Render layers in order
         for (const category of this.layerOrder) {
-            const selectedTrait = this.selectedTraits[category];
-            if (selectedTrait) {
-                await this.drawLayer(category, selectedTrait);
+            // Check for custom art first
+            if (this.customArt[category]) {
+                await this.drawCustomLayer(category);
+            } else {
+                const selectedTrait = this.selectedTraits[category];
+                if (selectedTrait) {
+                    await this.drawLayer(category, selectedTrait);
+                }
             }
         }
     }
@@ -1158,6 +1382,21 @@ class NFTBuilderApplication {
                 resolve(); // Continue even if one image fails
             };
             img.src = `./Assets/generator/${category}/${trait}`;
+        });
+    }
+
+    async drawCustomLayer(category) {
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+            img.onload = () => {
+                this.ctx.drawImage(img, 0, 0, 500, 500);
+                resolve();
+            };
+            img.onerror = () => {
+                console.warn(`Failed to load custom image for ${category}`);
+                resolve(); // Continue even if one image fails
+            };
+            img.src = this.customArt[category];
         });
     }
 
@@ -1279,10 +1518,140 @@ class NFTBuilderApplication {
             }
         }, 2000);
     }
+
+    replaceLayerWithUserArt(layer, dataURL) {
+        // Validate layer
+        const validLayers = ['Background', 'Shirt', 'Accessory', 'Skin', 'Eyes', 'Mask', 'Xx'];
+        if (!validLayers.includes(layer)) {
+            this.showToast('Error: Invalid layer', 'error');
+            return;
+        }
+
+        // Store custom art
+        this.customArt[layer] = dataURL;
+        
+        // Clear any existing trait selection for this layer
+        this.selectedTraits[layer] = null;
+        
+        // Update UI
+        this.generateCategoryButtons();
+        this.updateProgress();
+        this.renderCanvas();
+        
+        // Show success message
+        this.showToast(`Replaced ${layer} with your art`, 'success');
+        
+        // Check for completion
+        this.checkForCompleteNFT();
+    }
+
+    showCustomArtMenu(e, category) {
+        // Remove any existing custom art menu
+        const existingMenu = document.getElementById('custom-art-menu');
+        if (existingMenu) {
+            existingMenu.remove();
+        }
+
+        // Create context menu
+        const menu = document.createElement('div');
+        menu.id = 'custom-art-menu';
+        menu.style.cssText = `
+            position: fixed;
+            left: ${e.clientX}px;
+            top: ${e.clientY}px;
+            background: #ece9d8;
+            border: 2px solid #999;
+            border-top: 2px solid #fff;
+            border-left: 2px solid #fff;
+            border-right: 2px solid #666;
+            border-bottom: 2px solid #666;
+            z-index: 1000;
+            min-width: 120px;
+        `;
+
+        const resetItem = document.createElement('div');
+        resetItem.style.cssText = `
+            padding: 4px 8px;
+            cursor: pointer;
+            font-size: 11px;
+            border-bottom: 1px solid #ccc;
+        `;
+        resetItem.textContent = 'Reset to Default';
+        resetItem.addEventListener('click', () => {
+            this.resetCustomArt(category);
+            menu.remove();
+        });
+
+        menu.appendChild(resetItem);
+        document.body.appendChild(menu);
+
+        // Remove menu when clicking elsewhere
+        const removeMenu = (e) => {
+            if (!menu.contains(e.target)) {
+                menu.remove();
+                document.removeEventListener('click', removeMenu);
+            }
+        };
+        setTimeout(() => document.addEventListener('click', removeMenu), 0);
+    }
+
+    resetCustomArt(category) {
+        // Clear custom art
+        this.customArt[category] = null;
+        
+        // Update UI
+        this.generateCategoryButtons();
+        this.updateProgress();
+        this.renderCanvas();
+        
+        // Show message
+        this.showToast(`Reset ${category} to default`, 'info');
+    }
+
+    showToast(message, type = 'info') {
+        // Create toast element
+        const toast = document.createElement('div');
+        toast.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 12px 16px;
+            border-radius: 4px;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+            z-index: 10000;
+            max-width: 300px;
+            word-wrap: break-word;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        `;
+        
+        // Set background color based on type
+        switch (type) {
+            case 'success':
+                toast.style.background = '#4CAF50';
+                break;
+            case 'error':
+                toast.style.background = '#f44336';
+                break;
+            default:
+                toast.style.background = '#2196F3';
+        }
+        
+        toast.textContent = message;
+        document.body.appendChild(toast);
+        
+        // Remove toast after 3 seconds
+        setTimeout(() => {
+            if (toast.parentNode) {
+                toast.parentNode.removeChild(toast);
+            }
+        }, 3000);
+    }
 }
 
 // Initialize the desktop when the page loads
 document.addEventListener('DOMContentLoaded', () => {
-    new WindowsXPDesktop();
+    window.desktop = new WindowsXPDesktop();
 });
 
