@@ -94,8 +94,19 @@ class WindowsXPDesktop {
     }
 
     openWindow(type) {
+        // Check if a window of this type already exists
+        const existingWindow = this.windows.find(w => w.dataset.windowType === type);
+        
+        if (existingWindow) {
+            // Window already exists, just bring it to front
+            this.bringToFront(existingWindow);
+            return;
+        }
+        
+        // Create new window if none exists
         const windowId = `window-${++this.windowCounter}`;
         const window = this.createWindow(type, windowId);
+        window.dataset.windowType = type; // Store the window type for future reference
         this.windows.push(window);
         this.activeWindow = window;
         this.addToTaskbar(window);
@@ -429,6 +440,10 @@ Enjoy your nostalgic Windows XP experience!</textarea>
         taskbarItem.dataset.windowId = window.id;
         
         taskbarItem.addEventListener('click', () => {
+            // If window is minimized, restore it first
+            if (window.style.display === 'none') {
+                this.restoreWindow(window);
+            }
             this.bringToFront(window);
         });
 
@@ -462,6 +477,12 @@ Enjoy your nostalgic Windows XP experience!</textarea>
         window.style.display = 'none';
         const taskbarItem = document.querySelector(`[data-window-id="${window.id}"]`);
         if (taskbarItem) taskbarItem.classList.remove('active');
+    }
+
+    restoreWindow(window) {
+        window.style.display = 'block';
+        const taskbarItem = document.querySelector(`[data-window-id="${window.id}"]`);
+        if (taskbarItem) taskbarItem.classList.add('active');
     }
 
     toggleMaximize(window) {
