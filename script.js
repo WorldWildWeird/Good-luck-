@@ -407,9 +407,9 @@ Enjoy your nostalgic Windows XP experience!</textarea>
                     'nft-builder': {
                         title: 'NFT Builder',
                         content: `
-                            <div class="nft-builder-container" style="padding: 8px; display: flex; gap: 12px;">
+                            <div class="nft-builder-container" style="padding: 8px; display: flex; gap: 12px; min-height: 100%; box-sizing: border-box;">
                                 <!-- Left Column - Canvas + Controls -->
-                                <div style="flex: 0 0 auto; display: flex; flex-direction: column; gap: 8px;">
+                                <div style="flex: 0 0 auto; display: flex; flex-direction: column; gap: 8px; padding-right: 0;">
                                     <!-- Canvas -->
                                     <div style="display: flex; flex-direction: column;">
                                         <div style="text-align: center; margin-bottom: 6px; font-size: 11px; font-weight: bold; color: #333;">NFT Preview</div>
@@ -419,7 +419,7 @@ Enjoy your nostalgic Windows XP experience!</textarea>
                                     </div>
                                     
                                     <!-- Controls under canvas -->
-                                    <div class="nft-controls" style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                                    <div class="nft-controls" style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; padding: 0 8px;">
                                         <button id="nft-clear-btn" style="padding: 6px 12px; border: 1px solid #999; background: #e0e0e0; cursor: pointer; font-size: 11px; flex-shrink: 0;">🗑️ Clear All</button>
                                         <button id="nft-randomize-btn" style="padding: 6px 12px; border: 1px solid #999; background: #e0e0e0; cursor: pointer; font-size: 11px; flex-shrink: 0;">🎲 Randomize</button>
                                         
@@ -434,14 +434,14 @@ Enjoy your nostalgic Windows XP experience!</textarea>
                                 </div>
                                 
                                 <!-- Right Column - Categories + Export -->
-                                <div style="flex: 0 0 220px; display: flex; flex-direction: column; gap: 8px;">
+                                <div style="flex: 0 0 220px; display: flex; flex-direction: column; gap: 8px; padding-left: 0;">
                                     <div style="text-align: center; font-size: 11px; font-weight: bold; color: #333;">Categories</div>
-                                    <div id="category-buttons" style="display: flex; flex-direction: column; gap: 6px; flex: 1; overflow-y: auto; padding-right: 4px;">
+                                    <div id="category-buttons" style="display: flex; flex-direction: column; gap: 6px; flex: 1; overflow-y: auto; padding: 0 8px;">
                                         <!-- Category buttons will be generated here -->
                                     </div>
                                     
                                     <!-- Export Button -->
-                                    <div style="flex: 0 0 auto;">
+                                    <div style="flex: 0 0 auto; padding: 0 8px;">
                                         <button id="nft-export-btn" style="width: 100%; padding: 8px 12px; border: 1px solid #999; background: #e0e0e0; cursor: pointer; font-size: 11px; text-align: left;">💾 Export NFT</button>
                                     </div>
                                 </div>
