@@ -75,6 +75,9 @@ class WindowsXPDesktop {
         document.addEventListener('mousedown', (e) => this.handleMouseDown(e));
         document.addEventListener('mousemove', (e) => this.handleMouseMove(e));
         document.addEventListener('mouseup', (e) => this.handleMouseUp(e));
+        
+        // Window resize handling
+        window.addEventListener('resize', () => this.handleWindowResize());
     }
 
     setupDesktopIcons() {
@@ -165,7 +168,7 @@ class WindowsXPDesktop {
         } else if (type === 'nft-builder') {
             // Center the NFT Builder window with optimized size: canvas (500) + padding + categories (220) + gap
             const windowWidth = 760; // 500 + 8*2 + 220 + 12 + 8*2 = 760px
-            const windowHeight = 600; // Content-driven height
+            const windowHeight = this.calculateNFTBuilderHeight();
             const centerX = (globalThis.innerWidth - windowWidth) / 2;
             const centerY = (globalThis.innerHeight - windowHeight) / 2;
             win.style.left = Math.max(0, centerX) + 'px';
@@ -634,6 +637,32 @@ Enjoy your nostalgic Windows XP experience!</textarea>
                 alert('Properties dialog would open here');
                 break;
         }
+    }
+
+    calculateNFTBuilderHeight() {
+        // Calculate height to reach near bottom of screen
+        const taskbarHeight = 30; // Taskbar height
+        const margin = 20; // Small margin from taskbar
+        const availableHeight = globalThis.innerHeight - taskbarHeight - margin;
+        return Math.max(600, availableHeight); // Minimum 600px height
+    }
+
+    handleWindowResize() {
+        // Update NFT Builder windows on resize
+        this.windows.forEach(window => {
+            if (window.dataset.windowType === 'nft-builder') {
+                const newHeight = this.calculateNFTBuilderHeight();
+                const currentWidth = parseInt(window.style.width);
+                
+                // Re-center the window
+                const centerX = (globalThis.innerWidth - currentWidth) / 2;
+                const centerY = (globalThis.innerHeight - newHeight) / 2;
+                
+                window.style.left = Math.max(0, centerX) + 'px';
+                window.style.top = Math.max(0, centerY) + 'px';
+                window.style.height = newHeight + 'px';
+            }
+        });
     }
 
     updateTime() {
