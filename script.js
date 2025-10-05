@@ -160,11 +160,11 @@ class WindowsXPDesktop {
         if (type === 'paint') {
             // Center the Paint window with proper size for canvas and tools
             const centerX = (globalThis.innerWidth - 600) / 2;
-            const centerY = (globalThis.innerHeight - 636) / 2;
+            const centerY = (globalThis.innerHeight - 700) / 2;
             win.style.left = Math.max(0, centerX) + 'px';
             win.style.top = Math.max(0, centerY) + 'px';
             win.style.width = '600px';
-            win.style.height = '636px';
+            win.style.height = '700px';
         } else if (type === 'nft-builder') {
             // Center the NFT Builder window with optimized size: canvas (500) + padding + categories (220) + gap
             const windowWidth = 760; // 500 + 8*2 + 220 + 12 + 8*2 = 760px
@@ -384,10 +384,22 @@ Enjoy your nostalgic Windows XP experience!</textarea>
                                      <button id="paint-export-btn" style="padding: 4px 8px; border: 1px solid #999; background: #e0e0e0; cursor: pointer; font-size: 11px;">Export PNG</button>
                                  </div>
                                  
+                                 <!-- Canvas Container -->
+                                 <div style="flex: 1; display: flex; justify-content: center; align-items: center; background: #f5f5f5; border: 1px solid #ccc; min-height: 0; margin-bottom: 16px;">
+                                     <!-- Canvas Wrapper -->
+                                     <div id="paint-canvas-wrapper" style="position: relative; width: 500px; height: 500px;">
+                                         <canvas id="paint-canvas" width="500" height="500" style="border: 1px solid #999; cursor: crosshair; background: transparent; width: 100%; height: 100%;"></canvas>
+                                         <!-- Guide Overlay -->
+                                         <div id="paint-guide-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 10; display: none;">
+                                             <img id="paint-guide-image" style="width: 100%; height: 100%; opacity: 0.27; object-fit: none;" />
+                                         </div>
+                                     </div>
+                                 </div>
+                                 
                                  <!-- Layer Selection Toolbar -->
-                                 <div style="display: flex; align-items: center; gap: 4px; margin-bottom: 8px; padding: 4px; background: #e8f4fd; border: 1px solid #b3d9ff; flex-shrink: 0;">
+                                 <div style="display: flex; align-items: center; gap: 4px; padding: 4px; background: #e8f4fd; border: 1px solid #b3d9ff; flex-shrink: 0; margin-bottom: 20px;">
                                      <span style="font-size: 11px; font-weight: bold; color: #333; margin-right: 4px;">Target Layer:</span>
-                                     <div id="paint-layer-buttons" style="display: flex; gap: 2px; flex-wrap: wrap;">
+                                     <div id="paint-layer-buttons" style="display: flex; gap: 2px; flex-wrap: wrap; flex: 1;">
                                          <button class="paint-layer-btn" data-layer="Background" style="padding: 2px 6px; border: 1px solid #999; background: #e0e0e0; cursor: pointer; font-size: 10px;">Background</button>
                                          <button class="paint-layer-btn" data-layer="Shirt" style="padding: 2px 6px; border: 1px solid #999; background: #e0e0e0; cursor: pointer; font-size: 10px;">Shirt</button>
                                          <button class="paint-layer-btn" data-layer="Accessory" style="padding: 2px 6px; border: 1px solid #999; background: #e0e0e0; cursor: pointer; font-size: 10px;">Accessory</button>
@@ -398,19 +410,7 @@ Enjoy your nostalgic Windows XP experience!</textarea>
                                          <button class="paint-layer-btn" data-layer="Higher" style="padding: 2px 6px; border: 1px solid #999; background: #e0e0e0; cursor: pointer; font-size: 10px; color: #4CAF50; font-weight: bold;">Higher</button>
                                      </div>
                                      <div style="width: 1px; height: 20px; background: #999; margin: 0 4px;"></div>
-                                     <button id="paint-send-to-builder-btn" style="padding: 4px 8px; border: 1px solid #999; background: #4CAF50; color: white; cursor: pointer; font-size: 11px; font-weight: bold;">📤 Send to Builder</button>
-                                 </div>
-                                 
-                                 <!-- Canvas Container -->
-                                 <div style="flex: 1; display: flex; justify-content: center; align-items: center; background: #f5f5f5; border: 1px solid #ccc; min-height: 0; margin-bottom: 36px;">
-                                     <!-- Canvas Wrapper -->
-                                     <div id="paint-canvas-wrapper" style="position: relative; width: 500px; height: 500px;">
-                                         <canvas id="paint-canvas" width="500" height="500" style="border: 1px solid #999; cursor: crosshair; background: transparent; width: 100%; height: 100%;"></canvas>
-                                         <!-- Guide Overlay -->
-                                         <div id="paint-guide-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 10; display: none;">
-                                             <img id="paint-guide-image" style="width: 100%; height: 100%; opacity: 0.27; object-fit: none;" />
-                                         </div>
-                                     </div>
+                                     <button id="paint-send-to-builder-btn" style="padding: 4px 8px; border: 1px solid #999; background: #4CAF50; color: white; cursor: pointer; font-size: 11px; font-weight: bold; flex-shrink: 0;">📤 Send to Builder</button>
                                  </div>
                              </div>
                          `
