@@ -316,20 +316,54 @@ class WindowsXPDesktop {
                         <div style="margin-top: 20px;">
                             <div style="padding: 5px; border-bottom: 1px solid #ccc;">📄 My File.txt</div>
                             <div style="padding: 5px; border-bottom: 1px solid #ccc;">📄 Document.doc</div>
+                            <div style="padding: 5px; border-bottom: 1px solid #ccc; cursor: pointer;" onclick="window.desktop.openManifesto()">📄 a weirdo's manifesto</div>
                             <div style="padding: 5px; border-bottom: 1px solid #ccc;">📁 My Pictures</div>
                         </div>
                     </div>
                 `
             },
             'internet-explorer': {
-                title: 'Internet Explorer',
+                title: 'Explorer',
                 content: `
                     <div style="padding: 20px;">
-                        <h3>Internet Explorer</h3>
-                        <p>Welcome to Internet Explorer!</p>
-                        <div style="margin-top: 20px; padding: 10px; border: 1px solid #ccc; background: white;">
-                            <p>This is a simulated web browser window.</p>
-                            <p>In a real implementation, this would load web pages.</p>
+                        <h3>Explorer</h3>
+                        <p>Welcome to Explorer!</p>
+                        <div style="margin-top: 20px; padding: 15px; border: 1px solid #ccc; background: white;">
+                            <p style="margin-bottom: 15px; font-weight: bold; color: #333;">Featured Links:</p>
+                            
+                            <div style="margin-bottom: 12px;">
+                                <a href="https://www.f-t-w.xyz/" target="_blank" style="display: block; padding: 8px 12px; margin-bottom: 8px; background: #f0f0f0; border: 1px solid #999; border-top: 1px solid #fff; border-left: 1px solid #fff; text-decoration: none; color: #000; font-size: 12px; transition: background-color 0.2s;" onmouseover="this.style.background='#e0e0e0'" onmouseout="this.style.background='#f0f0f0'">
+                                    🌐 <strong>F-T-W.xyz</strong> - Main Website
+                                </a>
+                            </div>
+                            
+                            <div style="margin-bottom: 12px;">
+                                <a href="https://memes.f-t-w.xyz/" target="_blank" style="display: block; padding: 8px 12px; margin-bottom: 8px; background: #f0f0f0; border: 1px solid #999; border-top: 1px solid #fff; border-left: 1px solid #fff; text-decoration: none; color: #000; font-size: 12px; transition: background-color 0.2s;" onmouseover="this.style.background='#e0e0e0'" onmouseout="this.style.background='#f0f0f0'">
+                                    😂 <strong>Memes</strong> - Meme Collection
+                                </a>
+                            </div>
+                            
+                            <div style="margin-bottom: 12px;">
+                                <a href="https://memedepot.com/d/ftw" target="_blank" style="display: block; padding: 8px 12px; margin-bottom: 8px; background: #f0f0f0; border: 1px solid #999; border-top: 1px solid #fff; border-left: 1px solid #fff; text-decoration: none; color: #000; font-size: 12px; transition: background-color 0.2s;" onmouseover="this.style.background='#e0e0e0'" onmouseout="this.style.background='#f0f0f0'">
+                                    🎭 <strong>Meme Depot</strong> - FTW Collection
+                                </a>
+                            </div>
+                            
+                            <div style="margin-bottom: 12px;">
+                                <a href="https://www.exhibitcoin.art/" target="_blank" style="display: block; padding: 8px 12px; margin-bottom: 8px; background: #f0f0f0; border: 1px solid #999; border-top: 1px solid #fff; border-left: 1px solid #fff; text-decoration: none; color: #000; font-size: 12px; transition: background-color 0.2s;" onmouseover="this.style.background='#e0e0e0'" onmouseout="this.style.background='#f0f0f0'">
+                                    🎨 <strong>Exhibit Coin</strong> - Art Gallery
+                                </a>
+                            </div>
+                            
+                            <div style="margin-bottom: 12px;">
+                                <a href="https://artonbitcoin.art/" target="_blank" style="display: block; padding: 8px 12px; margin-bottom: 8px; background: #f0f0f0; border: 1px solid #999; border-top: 1px solid #fff; border-left: 1px solid #fff; text-decoration: none; color: #000; font-size: 12px; transition: background-color 0.2s;" onmouseover="this.style.background='#e0e0e0'" onmouseout="this.style.background='#f0f0f0'">
+                                    ₿ <strong>Art on Bitcoin</strong> - Bitcoin Art Platform
+                                </a>
+                            </div>
+                            
+                            <div style="margin-top: 15px; padding-top: 10px; border-top: 1px solid #ccc; font-size: 11px; color: #666;">
+                                <p>Click any link above to open in a new tab.</p>
+                            </div>
                         </div>
                     </div>
                 `
@@ -338,18 +372,22 @@ class WindowsXPDesktop {
                 title: 'Untitled - Notepad',
                 content: `
                     <div style="padding: 0; height: 100%;">
-                        <textarea style="width: 100%; height: 100%; border: none; padding: 8px; font-family: 'Courier New', monospace; font-size: 12px; resize: none;" placeholder="Type your text here...">Welcome to Notepad!
-
-This is a simple text editor simulation.
-
-You can type anything you want here.
-
-Features:
-- Text editing
-- Save functionality (simulated)
-- Classic Windows XP look and feel
-
-Enjoy your nostalgic Windows XP experience!</textarea>
+                        <textarea spellcheck="false" style="width: 100%; height: 100%; border: none; padding: 8px; font-family: 'Courier New', monospace; font-size: 12px; resize: none;" placeholder="Type your text here...">1 package of lasagna
+3 yellow onions
+butter
+flour
+pepper
+salt
+cheese
+thyme
+tomato puree
+carrot
+basilic
+water
+parmesan
+beef
+garlic
+milk</textarea>
                     </div>
                 `
             },
@@ -485,6 +523,74 @@ Enjoy your nostalgic Windows XP experience!</textarea>
                                         <!-- Trait thumbnails will be generated here -->
                                     </div>
                                 </div>
+                            </div>
+                        `
+                    },
+                    'manifesto': {
+                        title: 'a weirdo\'s manifesto - Notepad',
+                        content: `
+                            <div style="padding: 0; height: 100%;">
+                                <textarea style="width: 100%; height: 100%; border: none; padding: 8px; font-family: 'Courier New', monospace; font-size: 12px; resize: none; background: white; color: black;" readonly>fuck the world - a weirdo's manifesto
+
+i believe one thing everybody has in common in crypto is that at some
+point in our lives, we've said, "fuck the world."
+
+fuck the world that wants us to work our whole lives at a depressing job
+just to survive,
+
+fuck the world that wants us to fight each other instead of living in peace,
+fuck the world that wants to control us.
+
+ftw is a feeling,
+a state of mind, for the weirdos who came from nothing,
+for
+the weirdos who believe in something.
+
+this project is a tribute to degeneracy,a tribute to culture,
+a tribute to weirdos who have been inscribing files on-chain,
+a tribute to weirdos that are almost ruining their lives
+trying to save them.
+
+they call us crazy, maybe we are,
+but we chose to be crazy together.
+in a market highly manipulated by influencers, institutions,
+and politics,
+some weirdos just want to be different, have fun
+and be part of history.
+
+we are living extraordinary times and we don't even realize it.
+we must take a moment to reflect on these moments.
+
+i guarantee you that in a few years, you will think
+about those nights with your internet frens,
+you will think about the times you made money
+buying a cartoon jpg
+or an illiquid cat token
+and the times you lost money and laughed about it.
+
+you will remember a life
+where everything was simple and yet complicated,
+a life where we didn't care about anything else
+but watching charts and having fun on discord,
+a life where we just wanted to be free.
+
+what we are doing could be seen as an act of rebellion
+against a broken world.
+
+while everything is going crazy,
+while everyone is fighting, us weirdos,
+we chose to believe in something.
+
+we must say "fuck the world" to change the world,
+we must say "fuck the world" to free the world,
+and this can't be manipulated
+by any influencers or marketing strategies.
+
+it needs to come from the heart,
+it needs to be genuine,
+it needs to be organic.
+
+for the weirdos, for the world.</textarea>
                             </div>
                         `
                     }
@@ -722,6 +828,17 @@ Enjoy your nostalgic Windows XP experience!</textarea>
                 this.nftBuilder.replaceLayerWithUserArt(layer, dataURL);
             }
         }
+    }
+
+    // Method to open the weirdo's manifesto
+    openManifesto() {
+        const windowId = `window-manifesto-${++this.windowCounter}`;
+        const window = this.createWindow('manifesto', windowId);
+        window.dataset.windowType = 'manifesto';
+        this.windows.push(window);
+        this.activeWindow = window;
+        this.addToTaskbar(window);
+        this.bringToFront(window);
     }
 }
 
@@ -1541,8 +1658,14 @@ class NFTBuilderApplication {
         exportCanvas.height = 500;
         const exportCtx = exportCanvas.getContext('2d');
         
-        // Copy the current canvas content
-        exportCtx.drawImage(this.canvas, 0, 0);
+        // Copy the current canvas content with proper HiDPI handling
+        // The source canvas is HiDPI-scaled, so we need to draw the full source rectangle
+        // to the 500x500 destination canvas
+        exportCtx.drawImage(
+            this.canvas, 
+            0, 0, this.canvas.width, this.canvas.height,  // Source rectangle (full HiDPI canvas)
+            0, 0, 500, 500                                // Destination rectangle (500x500)
+        );
         
         // Create download link
         const link = document.createElement('a');

@@ -24,8 +24,8 @@ body {
 /* Desktop Icons */
 .desktop-icon {
     position: absolute;
-    width: 60px;
-    height: 80px;
+    width: 90px;
+    height: 120px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -44,8 +44,8 @@ body {
 }
 
 .desktop-icon img {
-    width: 32px;
-    height: 32px;
+    width: 48px;
+    height: 48px;
     margin-bottom: 4px;
 }
 
@@ -55,7 +55,7 @@ body {
     text-align: center;
     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.8);
     word-wrap: break-word;
-    max-width: 60px;
+    max-width: 90px;
 }
 
 /* Taskbar */
@@ -315,14 +315,14 @@ body {
 }
 
 /* Icon styles */
-.icon-my-computer { top: 20px; left: 20px; }
-.icon-recycle-bin { top: 20px; left: 100px; }
-.icon-my-documents { top: 20px; left: 180px; }
-.icon-internet-explorer { top: 120px; left: 20px; }
-.icon-notepad { top: 120px; left: 100px; }
-.icon-paint { top: 120px; left: 180px; }
-.icon-chat { top: 120px; left: 260px; }
-.icon-nft-builder { top: 220px; left: 20px; }
+.icon-internet-explorer { top: 20px; left: 20px; }
+.icon-my-documents { top: 20px; left: 120px; }
+.icon-nft-builder { top: 50%; left: 20px; transform: translateY(-50%); }
+.icon-paint { top: 50%; left: 120px; transform: translateY(-50%); }
+.icon-notepad { bottom: 50px; left: 20px; }
+.icon-my-computer { top: 20px; right: 120px; }
+.icon-recycle-bin { top: 20px; right: 20px; }
+
 
 /* Paint tool styles */
 .paint-tool-btn {
