@@ -260,18 +260,8 @@ class WindowsXPDesktop {
                     }, 100); // Small delay to ensure DOM is ready
                 }
                 
-                // Initialize Chat application if this is a Chat window
-                if (type === 'chat') {
-                    setTimeout(() => {
-                        const chatWindow = win;
-                        if (chatWindow) {
-                            if (!globalChatApp) {
-                                globalChatApp = new ChatApplication();
-                            }
-                            globalChatApp.init(chatWindow);
-                        }
-                    }, 100); // Small delay to ensure DOM is ready
-                }
+                // Chat application is only initialized for the always-open chat window
+                // No additional chat initialization needed here
                 
                  // Initialize NFT Builder application if this is an NFT Builder window
                  if (type === 'nft-builder') {
@@ -1272,8 +1262,9 @@ class PaintApplication {
     }
 }
 
-// Global chat instance
+// Global chat instance and initialization guard
 let globalChatApp = null;
+window.chatAppInitialized = false;
 
 // Chat Application Class
 class ChatApplication {
@@ -1283,7 +1274,7 @@ class ChatApplication {
         this.sendButton = null;
         this.clearButton = null;
         this.storageKey = 'windowsxp_chat_history';
-        this.usernameKey = 'xpw_chat_username';
+        this.usernameKey = 'chatUsername';
         this.userName = null;
         this.overlay = null;
         this.chatWindow = null;
@@ -1292,8 +1283,8 @@ class ChatApplication {
     }
 
     init(chatWindow) {
-        // Skip if already initialized
-        if (this.isInitialized) {
+        // Skip if already initialized (both instance and window level guards)
+        if (this.isInitialized || window.chatAppInitialized) {
             return;
         }
         
@@ -1314,6 +1305,7 @@ class ChatApplication {
         }
         
         this.isInitialized = true;
+        window.chatAppInitialized = true;
     }
 
     showLoginOverlay() {
