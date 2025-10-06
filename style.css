@@ -320,8 +320,7 @@ body {
 .icon-nft-builder { top: 50%; left: 20px; transform: translateY(-50%); }
 .icon-paint { top: 50%; left: 120px; transform: translateY(-50%); }
 .icon-notepad { bottom: 50px; left: 20px; }
-.icon-my-computer { top: 20px; right: 120px; }
-.icon-recycle-bin { top: 20px; right: 20px; }
+.icon-my-computer { bottom: 50px; right: 20px; }
 
 
 /* Paint tool styles */

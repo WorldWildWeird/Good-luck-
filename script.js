@@ -175,6 +175,16 @@ class WindowsXPDesktop {
             win.style.top = Math.max(0, centerY) + 'px';
             win.style.width = windowWidth + 'px';
             win.style.height = windowHeight + 'px';
+        } else if (type === 'internet-explorer') {
+            // Center the Explorer window with larger size for better readability
+            const windowWidth = 520; // 400px * 1.3 = 520px (30% larger)
+            const windowHeight = 390; // 300px * 1.3 = 390px (30% larger)
+            const centerX = (globalThis.innerWidth - windowWidth) / 2;
+            const centerY = (globalThis.innerHeight - windowHeight) / 2;
+            win.style.left = Math.max(0, centerX) + 'px';
+            win.style.top = Math.max(0, centerY) + 'px';
+            win.style.width = windowWidth + 'px';
+            win.style.height = windowHeight + 'px';
         } else {
             win.style.left = '100px';
             win.style.top = '100px';
@@ -185,7 +195,7 @@ class WindowsXPDesktop {
         const windowData = this.getWindowData(type);
         
         // Determine if this window needs special content handling
-        const needsNoPadding = type === 'paint' || type === 'nft-builder';
+        const needsNoPadding = type === 'paint' || type === 'nft-builder' || type === 'internet-explorer';
         const contentClass = needsNoPadding ? 'window-content no-padding' : 'window-content';
         
         win.innerHTML = `
@@ -297,16 +307,6 @@ class WindowsXPDesktop {
                     </div>
                 `
             },
-            'recycle-bin': {
-                title: 'Recycle Bin',
-                content: `
-                    <div style="padding: 20px; text-align: center;">
-                        <h3>Recycle Bin</h3>
-                        <p>The Recycle Bin is empty.</p>
-                        <p>Items you delete from your computer are moved to the Recycle Bin.</p>
-                    </div>
-                `
-            },
             'my-documents': {
                 title: 'My Documents',
                 content: `
@@ -325,44 +325,62 @@ class WindowsXPDesktop {
             'internet-explorer': {
                 title: 'Explorer',
                 content: `
-                    <div style="padding: 20px;">
-                        <h3>Explorer</h3>
-                        <p>Welcome to Explorer!</p>
-                        <div style="margin-top: 20px; padding: 15px; border: 1px solid #ccc; background: white;">
-                            <p style="margin-bottom: 15px; font-weight: bold; color: #333;">Featured Links:</p>
-                            
-                            <div style="margin-bottom: 12px;">
-                                <a href="https://www.f-t-w.xyz/" target="_blank" style="display: block; padding: 8px 12px; margin-bottom: 8px; background: #f0f0f0; border: 1px solid #999; border-top: 1px solid #fff; border-left: 1px solid #fff; text-decoration: none; color: #000; font-size: 12px; transition: background-color 0.2s;" onmouseover="this.style.background='#e0e0e0'" onmouseout="this.style.background='#f0f0f0'">
-                                    🌐 <strong>F-T-W.xyz</strong> - Main Website
-                                </a>
-                            </div>
-                            
-                            <div style="margin-bottom: 12px;">
-                                <a href="https://memes.f-t-w.xyz/" target="_blank" style="display: block; padding: 8px 12px; margin-bottom: 8px; background: #f0f0f0; border: 1px solid #999; border-top: 1px solid #fff; border-left: 1px solid #fff; text-decoration: none; color: #000; font-size: 12px; transition: background-color 0.2s;" onmouseover="this.style.background='#e0e0e0'" onmouseout="this.style.background='#f0f0f0'">
-                                    😂 <strong>Memes</strong> - Meme Collection
-                                </a>
-                            </div>
-                            
-                            <div style="margin-bottom: 12px;">
-                                <a href="https://memedepot.com/d/ftw" target="_blank" style="display: block; padding: 8px 12px; margin-bottom: 8px; background: #f0f0f0; border: 1px solid #999; border-top: 1px solid #fff; border-left: 1px solid #fff; text-decoration: none; color: #000; font-size: 12px; transition: background-color 0.2s;" onmouseover="this.style.background='#e0e0e0'" onmouseout="this.style.background='#f0f0f0'">
-                                    🎭 <strong>Meme Depot</strong> - FTW Collection
-                                </a>
-                            </div>
-                            
-                            <div style="margin-bottom: 12px;">
-                                <a href="https://www.exhibitcoin.art/" target="_blank" style="display: block; padding: 8px 12px; margin-bottom: 8px; background: #f0f0f0; border: 1px solid #999; border-top: 1px solid #fff; border-left: 1px solid #fff; text-decoration: none; color: #000; font-size: 12px; transition: background-color 0.2s;" onmouseover="this.style.background='#e0e0e0'" onmouseout="this.style.background='#f0f0f0'">
-                                    🎨 <strong>Exhibit Coin</strong> - Art Gallery
-                                </a>
-                            </div>
-                            
-                            <div style="margin-bottom: 12px;">
-                                <a href="https://artonbitcoin.art/" target="_blank" style="display: block; padding: 8px 12px; margin-bottom: 8px; background: #f0f0f0; border: 1px solid #999; border-top: 1px solid #fff; border-left: 1px solid #fff; text-decoration: none; color: #000; font-size: 12px; transition: background-color 0.2s;" onmouseover="this.style.background='#e0e0e0'" onmouseout="this.style.background='#f0f0f0'">
-                                    ₿ <strong>Art on Bitcoin</strong> - Bitcoin Art Platform
-                                </a>
-                            </div>
-                            
-                            <div style="margin-top: 15px; padding-top: 10px; border-top: 1px solid #ccc; font-size: 11px; color: #666;">
-                                <p>Click any link above to open in a new tab.</p>
+                    <div style="height: 100%; display: flex; flex-direction: column; background: #ece9d8;">
+                        <!-- Toolbar -->
+                        <div style="background: linear-gradient(to bottom, #f0f0f0, #d4d0c8); border-bottom: 1px solid #999; padding: 4px; display: flex; align-items: center; gap: 4px;">
+                            <button style="width: 24px; height: 24px; border: 1px solid #999; border-top: 1px solid #fff; border-left: 1px solid #fff; background: #f0f0f0; cursor: pointer; font-size: 10px;" title="Back">◀</button>
+                            <button style="width: 24px; height: 24px; border: 1px solid #999; border-top: 1px solid #fff; border-left: 1px solid #fff; background: #f0f0f0; cursor: pointer; font-size: 10px;" title="Forward">▶</button>
+                            <button style="width: 24px; height: 24px; border: 1px solid #999; border-top: 1px solid #fff; border-left: 1px solid #fff; background: #f0f0f0; cursor: pointer; font-size: 10px;" title="Up">▲</button>
+                            <div style="width: 1px; height: 20px; background: #999; margin: 0 4px;"></div>
+                            <button style="width: 24px; height: 24px; border: 1px solid #999; border-top: 1px solid #fff; border-left: 1px solid #fff; background: #f0f0f0; cursor: pointer; font-size: 10px;" title="Home">🏠</button>
+                            <button style="width: 24px; height: 24px; border: 1px solid #999; border-top: 1px solid #fff; border-left: 1px solid #fff; background: #f0f0f0; cursor: pointer; font-size: 10px;" title="Search">🔍</button>
+                            <button style="width: 24px; height: 24px; border: 1px solid #999; border-top: 1px solid #fff; border-left: 1px solid #fff; background: #f0f0f0; cursor: pointer; font-size: 10px;" title="Folders">📁</button>
+                        </div>
+                        
+                        <!-- Address Bar -->
+                        <div style="background: #f0f0f0; border-bottom: 1px solid #999; padding: 4px 8px; display: flex; align-items: center; gap: 8px;">
+                            <span style="font-size: 11px; color: #333; font-weight: bold;">Address:</span>
+                            <div style="flex: 1; background: white; border: 1px solid #999; border-top: 1px solid #666; border-left: 1px solid #666; padding: 2px 6px; font-size: 11px; color: #333;">C:\\Weirdos\\Explorer</div>
+                        </div>
+                        
+                        <!-- Main Content Area -->
+                        <div style="flex: 1; background: #ece9d8; padding: 12px; overflow-y: auto;">
+                            <div style="background: white; border: 1px solid #999; border-top: 1px solid #fff; border-left: 1px solid #fff; padding: 16px; box-shadow: inset 1px 1px 0 #666;">
+                                <h3 style="margin: 0 0 12px 0; font-size: 14px; color: #333; font-weight: bold;">Featured Links</h3>
+                                
+                                <div style="margin-bottom: 10px;">
+                                    <a href="https://www.f-t-w.xyz/" target="_blank" style="display: block; padding: 6px 10px; margin-bottom: 6px; background: #f0f0f0; border: 1px solid #999; border-top: 1px solid #fff; border-left: 1px solid #fff; text-decoration: none; color: #000; font-size: 11px; transition: background-color 0.2s;" onmouseover="this.style.background='#e0e0e0'" onmouseout="this.style.background='#f0f0f0'">
+                                        🌐 <strong>F-T-W.xyz</strong>
+                                    </a>
+                                </div>
+                                
+                                <div style="margin-bottom: 10px;">
+                                    <a href="https://memes.f-t-w.xyz/" target="_blank" style="display: block; padding: 6px 10px; margin-bottom: 6px; background: #f0f0f0; border: 1px solid #999; border-top: 1px solid #fff; border-left: 1px solid #fff; text-decoration: none; color: #000; font-size: 11px; transition: background-color 0.2s;" onmouseover="this.style.background='#e0e0e0'" onmouseout="this.style.background='#f0f0f0'">
+                                        😂 <strong>Meme Generator.xyz</strong>
+                                    </a>
+                                </div>
+                                
+                                <div style="margin-bottom: 10px;">
+                                    <a href="https://memedepot.com/d/ftw" target="_blank" style="display: block; padding: 6px 10px; margin-bottom: 6px; background: #f0f0f0; border: 1px solid #999; border-top: 1px solid #fff; border-left: 1px solid #fff; text-decoration: none; color: #000; font-size: 11px; transition: background-color 0.2s;" onmouseover="this.style.background='#e0e0e0'" onmouseout="this.style.background='#f0f0f0'">
+                                        🎭 <strong>Memedepot.com</strong>
+                                    </a>
+                                </div>
+                                
+                                <div style="margin-bottom: 10px;">
+                                    <a href="https://www.exhibitcoin.art/" target="_blank" style="display: block; padding: 6px 10px; margin-bottom: 6px; background: #f0f0f0; border: 1px solid #999; border-top: 1px solid #fff; border-left: 1px solid #fff; text-decoration: none; color: #000; font-size: 11px; transition: background-color 0.2s;" onmouseover="this.style.background='#e0e0e0'" onmouseout="this.style.background='#f0f0f0'">
+                                        🎨 <strong>Exhibitcoin.art</strong>
+                                    </a>
+                                </div>
+                                
+                                <div style="margin-bottom: 10px;">
+                                    <a href="https://artonbitcoin.art/" target="_blank" style="display: block; padding: 6px 10px; margin-bottom: 6px; background: #f0f0f0; border: 1px solid #999; border-top: 1px solid #fff; border-left: 1px solid #fff; text-decoration: none; color: #000; font-size: 11px; transition: background-color 0.2s;" onmouseover="this.style.background='#e0e0e0'" onmouseout="this.style.background='#f0f0f0'">
+                                        ₿ <strong>Artonbitcoin.art</strong>
+                                    </a>
+                                </div>
+                                
+                                <div style="margin-top: 12px; padding-top: 8px; border-top: 1px solid #ccc; font-size: 10px; color: #666;">
+                                    <p style="margin: 0;">Click any link above to open in a new tab.</p>
+                                </div>
                             </div>
                         </div>
                     </div>
