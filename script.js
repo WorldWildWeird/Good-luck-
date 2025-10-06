@@ -47,8 +47,10 @@ class WindowsXPDesktop {
         
         // Initialize the Chat application
         setTimeout(() => {
-            const chatApp = new ChatApplication();
-            chatApp.init(chatWindow);
+            if (!globalChatApp) {
+                globalChatApp = new ChatApplication();
+            }
+            globalChatApp.init(chatWindow);
         }, 100);
     }
 
@@ -263,8 +265,10 @@ class WindowsXPDesktop {
                     setTimeout(() => {
                         const chatWindow = win;
                         if (chatWindow) {
-                            const chatApp = new ChatApplication();
-                            chatApp.init(chatWindow);
+                            if (!globalChatApp) {
+                                globalChatApp = new ChatApplication();
+                            }
+                            globalChatApp.init(chatWindow);
                         }
                     }, 100); // Small delay to ensure DOM is ready
                 }
@@ -1268,6 +1272,9 @@ class PaintApplication {
     }
 }
 
+// Global chat instance
+let globalChatApp = null;
+
 // Chat Application Class
 class ChatApplication {
     constructor() {
@@ -1276,14 +1283,221 @@ class ChatApplication {
         this.sendButton = null;
         this.clearButton = null;
         this.storageKey = 'windowsxp_chat_history';
+        this.usernameKey = 'xpw_chat_username';
+        this.userName = null;
+        this.overlay = null;
+        this.chatWindow = null;
+        this.hasLoggedIn = false;
+        this.isInitialized = false;
     }
 
     init(chatWindow) {
+        // Skip if already initialized
+        if (this.isInitialized) {
+            return;
+        }
+        
+        this.chatWindow = chatWindow;
         this.messagesContainer = chatWindow.querySelector('#chat-messages');
         this.inputField = chatWindow.querySelector('#chat-input');
         this.sendButton = chatWindow.querySelector('#chat-send-btn');
         this.clearButton = chatWindow.querySelector('#chat-clear-btn');
         
+        // Check for existing username
+        this.userName = localStorage.getItem(this.usernameKey);
+        
+        if (!this.userName) {
+            this.showLoginOverlay();
+        } else {
+            this.hasLoggedIn = true;
+            this.initializeChat();
+        }
+        
+        this.isInitialized = true;
+    }
+
+    showLoginOverlay() {
+        // Create overlay container positioned inside chat window
+        this.overlay = document.createElement('div');
+        this.overlay.style.cssText = `
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        `;
+
+        // Create overlay content
+        const overlayContent = document.createElement('div');
+        overlayContent.style.cssText = `
+            background: #f0f0f0;
+            border: 2px solid #999;
+            border-top: 2px solid #fff;
+            border-left: 2px solid #fff;
+            padding: 20px;
+            min-width: 300px;
+            box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        `;
+
+        // Title
+        const title = document.createElement('div');
+        title.textContent = 'Join Chat';
+        title.style.cssText = `
+            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 15px;
+            color: #333;
+            text-align: center;
+        `;
+
+        // Input container
+        const inputContainer = document.createElement('div');
+        inputContainer.style.cssText = `
+            margin-bottom: 15px;
+        `;
+
+        const usernameInput = document.createElement('input');
+        usernameInput.type = 'text';
+        usernameInput.placeholder = 'Enter your username';
+        usernameInput.maxLength = 24;
+        usernameInput.style.cssText = `
+            width: 100%;
+            padding: 6px 8px;
+            border: 1px solid #999;
+            border-top: 1px solid #666;
+            border-left: 1px solid #666;
+            font-size: 12px;
+            background: white;
+            box-sizing: border-box;
+        `;
+
+        // Error message
+        const errorDiv = document.createElement('div');
+        errorDiv.style.cssText = `
+            color: #ff0000;
+            font-size: 11px;
+            margin-top: 5px;
+            min-height: 14px;
+            display: none;
+        `;
+
+        // Button container
+        const buttonContainer = document.createElement('div');
+        buttonContainer.style.cssText = `
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        `;
+
+        const joinButton = document.createElement('button');
+        joinButton.textContent = 'Join Chat';
+        joinButton.style.cssText = `
+            padding: 6px 16px;
+            border: 1px solid #999;
+            border-top: 1px solid #fff;
+            border-left: 1px solid #fff;
+            background: #f0f0f0;
+            font-size: 12px;
+            cursor: pointer;
+            color: #333;
+        `;
+
+        // Add hover effects
+        joinButton.addEventListener('mouseover', () => {
+            joinButton.style.background = '#e0e0e0';
+        });
+        joinButton.addEventListener('mouseout', () => {
+            joinButton.style.background = '#f0f0f0';
+        });
+
+        // Assemble overlay
+        inputContainer.appendChild(usernameInput);
+        inputContainer.appendChild(errorDiv);
+        buttonContainer.appendChild(joinButton);
+        overlayContent.appendChild(title);
+        overlayContent.appendChild(inputContainer);
+        overlayContent.appendChild(buttonContainer);
+        this.overlay.appendChild(overlayContent);
+
+        // Add to chat window content area (not the entire window)
+        const chatContent = this.chatWindow.querySelector('.window-content');
+        if (chatContent) {
+            chatContent.style.position = 'relative';
+            chatContent.appendChild(this.overlay);
+        }
+
+        // Blur only the messages area and disable controls
+        this.messagesContainer.style.filter = 'blur(3px)';
+        this.messagesContainer.style.pointerEvents = 'none';
+        this.inputField.disabled = true;
+        this.sendButton.disabled = true;
+        this.clearButton.disabled = true;
+
+        // Event handlers
+        const handleSubmit = (e) => {
+            if (e) {
+                e.preventDefault();
+            }
+            const username = usernameInput.value.trim();
+            if (this.validateUsername(username)) {
+                this.loginUser(username);
+            } else {
+                errorDiv.textContent = 'Please enter a valid username (max 24 characters)';
+                errorDiv.style.display = 'block';
+            }
+        };
+
+        joinButton.addEventListener('click', handleSubmit);
+        usernameInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                handleSubmit(e);
+            }
+        });
+
+        // Focus input
+        setTimeout(() => usernameInput.focus(), 100);
+    }
+
+    validateUsername(username) {
+        if (!username || username.length === 0) return false;
+        if (username.length > 24) return false;
+        // Reject only whitespace
+        if (username.trim().length === 0) return false;
+        return true;
+    }
+
+    loginUser(username) {
+        this.userName = username.trim();
+        localStorage.setItem(this.usernameKey, this.userName);
+        this.hasLoggedIn = true;
+        this.hideLoginOverlay();
+        this.initializeChat();
+        this.addSystemMessage(`${this.userName} has appeared`);
+    }
+
+    hideLoginOverlay() {
+        if (this.overlay) {
+            this.overlay.remove();
+            this.overlay = null;
+        }
+        
+        // Unblur messages and re-enable controls
+        this.messagesContainer.style.filter = '';
+        this.messagesContainer.style.pointerEvents = '';
+        this.inputField.disabled = false;
+        this.sendButton.disabled = false;
+        this.clearButton.disabled = false;
+        
+        // Focus message input
+        setTimeout(() => this.inputField.focus(), 100);
+    }
+
+    initializeChat() {
         this.setupEventListeners();
         this.loadChatHistory();
     }
@@ -1329,6 +1543,10 @@ class ChatApplication {
         messageDiv.style.marginBottom = '4px';
         this.messagesContainer.appendChild(messageDiv);
         this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
+    }
+
+    addSystemMessage(text) {
+        this.addMessage(text, 'system');
     }
 
     clearChat() {
