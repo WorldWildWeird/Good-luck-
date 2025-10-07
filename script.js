@@ -312,6 +312,7 @@ class WindowsXPDesktop {
                             <div style="padding: 5px; border-bottom: 1px solid #ccc;">📄 Document.doc</div>
                             <div style="padding: 5px; border-bottom: 1px solid #ccc; cursor: pointer;" onclick="window.desktop.openManifesto()">📄 a weirdo's manifesto</div>
                             <div style="padding: 5px; border-bottom: 1px solid #ccc;">📁 My Pictures</div>
+                            <div style="padding: 5px; border-bottom: 1px solid #ccc; cursor: pointer;" onclick="window.desktop.openVideosFolder()">📁 Videos</div>
                         </div>
                     </div>
                 `
@@ -605,6 +606,36 @@ it needs to be organic.
 for the weirdos, for the world.</textarea>
                             </div>
                         `
+                    },
+                    'videos': {
+                        title: 'Videos',
+                        content: `
+                            <div style="padding: 20px;">
+                                <h3>Videos</h3>
+                                <p>This folder contains video files.</p>
+                                <div style="margin-top: 20px;">
+                                    <div style="padding: 5px; border-bottom: 1px solid #ccc;">🎬 100k first time.mp4</div>
+                                    <div style="padding: 5px; border-bottom: 1px solid #ccc;">🎬 10K Weirdos Mint.mp4</div>
+                                    <div style="padding: 5px; border-bottom: 1px solid #ccc;">🎬 9.btc.mp4</div>
+                                    <div style="padding: 5px; border-bottom: 1px solid #ccc;">🎬 a weirdo's manifesto.mp4</div>
+                                    <div style="padding: 5px; border-bottom: 1px solid #ccc;">🎬 Bitcoin's going to zero.mp4</div>
+                                    <div style="padding: 5px; border-bottom: 1px solid #ccc;">🎬 FTW.mp4</div>
+                                    <div style="padding: 5px; border-bottom: 1px solid #ccc;">🎬 FUCK-THE-WORLD.mp4</div>
+                                    <div style="padding: 5px; border-bottom: 1px solid #ccc;">🎬 it was not luck.mp4</div>
+                                    <div style="padding: 5px; border-bottom: 1px solid #ccc;">🎬 its over wereback.mp4</div>
+                                    <div style="padding: 5px; border-bottom: 1px solid #ccc;">🎬 music.mp4</div>
+                                    <div style="padding: 5px; border-bottom: 1px solid #ccc;">🎬 never kill urself.mp4</div>
+                                    <div style="padding: 5px; border-bottom: 1px solid #ccc;">🎬 remember why.mp4</div>
+                                    <div style="padding: 5px; border-bottom: 1px solid #ccc;">🎬 runes are dead.mp4</div>
+                                    <div style="padding: 5px; border-bottom: 1px solid #ccc;">🎬 secret stuff.mp4</div>
+                                    <div style="padding: 5px; border-bottom: 1px solid #ccc;">🎬 theyre not like us.mp4</div>
+                                    <div style="padding: 5px; border-bottom: 1px solid #ccc;">🎬 timelaps art.mp4</div>
+                                    <div style="padding: 5px; border-bottom: 1px solid #ccc;">🎬 weridos show.mp4</div>
+                                    <div style="padding: 5px; border-bottom: 1px solid #ccc;">🎬 Woooooo.mp4</div>
+                                    <div style="padding: 5px; border-bottom: 1px solid #ccc;">🎬 WPZN.mp4</div>
+                                </div>
+                            </div>
+                        `
                     }
         };
 
@@ -847,6 +878,17 @@ for the weirdos, for the world.</textarea>
         const windowId = `window-manifesto-${++this.windowCounter}`;
         const window = this.createWindow('manifesto', windowId);
         window.dataset.windowType = 'manifesto';
+        this.windows.push(window);
+        this.activeWindow = window;
+        this.addToTaskbar(window);
+        this.bringToFront(window);
+    }
+
+    // Method to open the videos folder
+    openVideosFolder() {
+        const windowId = `window-videos-${++this.windowCounter}`;
+        const window = this.createWindow('videos', windowId);
+        window.dataset.windowType = 'videos';
         this.windows.push(window);
         this.activeWindow = window;
         this.addToTaskbar(window);
