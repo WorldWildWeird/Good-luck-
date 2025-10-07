@@ -291,11 +291,11 @@ class WindowsXPDesktop {
                         <div style="margin-top: 20px;">
                             <div style="display: inline-block; margin: 10px; padding: 10px; border: 1px solid #ccc; cursor: pointer;">
                                 <div style="width: 32px; height: 32px; background: #007AFF; margin: 0 auto 5px;"></div>
-                                <span>Local Disk (C:)</span>
+                                <span>Local Disk</span>
                             </div>
                             <div style="display: inline-block; margin: 10px; padding: 10px; border: 1px solid #ccc; cursor: pointer;">
                                 <div style="width: 32px; height: 32px; background: #007AFF; margin: 0 auto 5px;"></div>
-                                <span>CD Drive (D:)</span>
+                                <span>CD Drive</span>
                             </div>
                         </div>
                     </div>
@@ -334,7 +334,7 @@ class WindowsXPDesktop {
                         <!-- Address Bar -->
                         <div style="background: #f0f0f0; border-bottom: 1px solid #999; padding: 4px 8px; display: flex; align-items: center; gap: 8px;">
                             <span style="font-size: 11px; color: #333; font-weight: bold;">Address:</span>
-                            <div style="flex: 1; background: white; border: 1px solid #999; border-top: 1px solid #666; border-left: 1px solid #666; padding: 2px 6px; font-size: 11px; color: #333;">C:\\Weirdos\\Explorer</div>
+                            <div style="flex: 1; background: white; border: 1px solid #999; border-top: 1px solid #666; border-left: 1px solid #666; padding: 2px 6px; font-size: 11px; color: #333;">\\Weirdos\\Explorer</div>
                         </div>
                         
                         <!-- Main Content Area -->
@@ -1280,6 +1280,7 @@ class ChatApplication {
         this.chatWindow = null;
         this.hasLoggedIn = false;
         this.isInitialized = false;
+        this.firebaseEnabled = false;
     }
 
     init(chatWindow) {
@@ -1301,7 +1302,9 @@ class ChatApplication {
             this.showLoginOverlay();
         } else {
             this.hasLoggedIn = true;
-            this.initializeChat();
+            this.initializeChat().catch(error => {
+                console.error('Failed to initialize chat:', error);
+            });
         }
         
         this.isInitialized = true;
@@ -1431,13 +1434,13 @@ class ChatApplication {
         this.clearButton.disabled = true;
 
         // Event handlers
-        const handleSubmit = (e) => {
+        const handleSubmit = async (e) => {
             if (e) {
                 e.preventDefault();
             }
             const username = usernameInput.value.trim();
             if (this.validateUsername(username)) {
-                this.loginUser(username);
+                await this.loginUser(username);
             } else {
                 errorDiv.textContent = 'Please enter a valid username (max 24 characters)';
                 errorDiv.style.display = 'block';
@@ -1463,12 +1466,12 @@ class ChatApplication {
         return true;
     }
 
-    loginUser(username) {
+    async loginUser(username) {
         this.userName = username.trim();
         localStorage.setItem(this.usernameKey, this.userName);
         this.hasLoggedIn = true;
         this.hideLoginOverlay();
-        this.initializeChat();
+        await this.initializeChat();
         this.addSystemMessage(`${this.userName} has appeared`);
     }
 
@@ -1489,9 +1492,24 @@ class ChatApplication {
         setTimeout(() => this.inputField.focus(), 100);
     }
 
-    initializeChat() {
+    async initializeChat() {
         this.setupEventListeners();
         this.loadChatHistory();
+        
+        // Initialize Firebase chat integration
+        try {
+            if (window.FirebaseChat) {
+                this.firebaseEnabled = await window.FirebaseChat.initialize();
+                if (this.firebaseEnabled) {
+                    // Start listening to real-time messages
+                    window.FirebaseChat.listenToMessages(this.messagesContainer);
+                    console.log('Firebase chat integration enabled');
+                }
+            }
+        } catch (error) {
+            console.error('Failed to initialize Firebase chat:', error);
+            this.firebaseEnabled = false;
+        }
     }
 
     setupEventListeners() {
@@ -1513,12 +1531,23 @@ class ChatApplication {
         });
     }
 
-    sendMessage() {
+    async sendMessage() {
         const message = this.inputField.value.trim();
         if (message) {
+            // Add message to local UI immediately
             this.addMessage(message, 'user');
             this.inputField.value = '';
             this.saveChatHistory();
+            
+            // Send to Firebase if available
+            if (this.firebaseEnabled && window.FirebaseChat) {
+                try {
+                    await window.FirebaseChat.sendMessage(this.userName, message);
+                } catch (error) {
+                    console.error('Failed to send message to Firebase:', error);
+                    // Message is already in local UI, so we don't need to show error to user
+                }
+            }
         }
     }
 
