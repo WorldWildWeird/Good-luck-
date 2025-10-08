@@ -612,27 +612,27 @@ for the weirdos, for the world.</textarea>
                         content: `
                             <div style="padding: 20px;">
                                 <h3>Videos</h3>
-                                <p>This folder contains video files.</p>
+                                <p>This folder contains video files. Double-click to play.</p>
                                 <div style="margin-top: 20px;">
-                                    <div style="padding: 5px; border-bottom: 1px solid #ccc;">🎬 100k first time.mp4</div>
-                                    <div style="padding: 5px; border-bottom: 1px solid #ccc;">🎬 10K Weirdos Mint.mp4</div>
-                                    <div style="padding: 5px; border-bottom: 1px solid #ccc;">🎬 9.btc.mp4</div>
-                                    <div style="padding: 5px; border-bottom: 1px solid #ccc;">🎬 a weirdo's manifesto.mp4</div>
-                                    <div style="padding: 5px; border-bottom: 1px solid #ccc;">🎬 Bitcoin's going to zero.mp4</div>
-                                    <div style="padding: 5px; border-bottom: 1px solid #ccc;">🎬 FTW.mp4</div>
-                                    <div style="padding: 5px; border-bottom: 1px solid #ccc;">🎬 FUCK-THE-WORLD.mp4</div>
-                                    <div style="padding: 5px; border-bottom: 1px solid #ccc;">🎬 it was not luck.mp4</div>
-                                    <div style="padding: 5px; border-bottom: 1px solid #ccc;">🎬 its over wereback.mp4</div>
-                                    <div style="padding: 5px; border-bottom: 1px solid #ccc;">🎬 music.mp4</div>
-                                    <div style="padding: 5px; border-bottom: 1px solid #ccc;">🎬 never kill urself.mp4</div>
-                                    <div style="padding: 5px; border-bottom: 1px solid #ccc;">🎬 remember why.mp4</div>
-                                    <div style="padding: 5px; border-bottom: 1px solid #ccc;">🎬 runes are dead.mp4</div>
-                                    <div style="padding: 5px; border-bottom: 1px solid #ccc;">🎬 secret stuff.mp4</div>
-                                    <div style="padding: 5px; border-bottom: 1px solid #ccc;">🎬 theyre not like us.mp4</div>
-                                    <div style="padding: 5px; border-bottom: 1px solid #ccc;">🎬 timelaps art.mp4</div>
-                                    <div style="padding: 5px; border-bottom: 1px solid #ccc;">🎬 weridos show.mp4</div>
-                                    <div style="padding: 5px; border-bottom: 1px solid #ccc;">🎬 Woooooo.mp4</div>
-                                    <div style="padding: 5px; border-bottom: 1px solid #ccc;">🎬 WPZN.mp4</div>
+                                    <div style="padding: 5px; border-bottom: 1px solid #ccc; cursor: pointer;" onclick="window.desktop.openVideoPlayer('100k-first-time.mp4', '100k First Time')">🎬 100k First Time</div>
+                                    <div style="padding: 5px; border-bottom: 1px solid #ccc; cursor: pointer;" onclick="window.desktop.openVideoPlayer('10k-weirdos-mint.mp4', '10K Weirdos Mint')">🎬 10K Weirdos Mint</div>
+                                    <div style="padding: 5px; border-bottom: 1px solid #ccc; cursor: pointer;" onclick="window.desktop.openVideoPlayer('9-btc.mp4', '9.btc')">🎬 9.btc</div>
+                                    <div style="padding: 5px; border-bottom: 1px solid #ccc; cursor: pointer;" onclick="window.desktop.openVideoPlayer('a-weirdos-manifesto.mp4', 'A Weirdo\'s Manifesto')">🎬 A Weirdo's Manifesto</div>
+                                    <div style="padding: 5px; border-bottom: 1px solid #ccc; cursor: pointer;" onclick="window.desktop.openVideoPlayer('bitcoins-going-to-zero.mp4', 'Bitcoin\'s Going to Zero')">🎬 Bitcoin's Going to Zero</div>
+                                    <div style="padding: 5px; border-bottom: 1px solid #ccc; cursor: pointer;" onclick="window.desktop.openVideoPlayer('ftw.mp4', 'FTW')">🎬 FTW</div>
+                                    <div style="padding: 5px; border-bottom: 1px solid #ccc; cursor: pointer;" onclick="window.desktop.openVideoPlayer('fuck-the-world.mp4', 'FUCK THE WORLD')">🎬 FUCK THE WORLD</div>
+                                    <div style="padding: 5px; border-bottom: 1px solid #ccc; cursor: pointer;" onclick="window.desktop.openVideoPlayer('it-was-not-luck.mp4', 'It Was Not Luck')">🎬 It Was Not Luck</div>
+                                    <div style="padding: 5px; border-bottom: 1px solid #ccc; cursor: pointer;" onclick="window.desktop.openVideoPlayer('its-over-wereback.mp4', 'It\'s Over We\'re Back')">🎬 It's Over We're Back</div>
+                                    <div style="padding: 5px; border-bottom: 1px solid #ccc; cursor: pointer;" onclick="window.desktop.openVideoPlayer('music.mp4', 'Music')">🎬 Music</div>
+                                    <div style="padding: 5px; border-bottom: 1px solid #ccc; cursor: pointer;" onclick="window.desktop.openVideoPlayer('never-kill-yourself.mp4', 'Never Kill Yourself')">🎬 Never Kill Yourself</div>
+                                    <div style="padding: 5px; border-bottom: 1px solid #ccc; cursor: pointer;" onclick="window.desktop.openVideoPlayer('remember-why.mp4', 'Remember Why')">🎬 Remember Why</div>
+                                    <div style="padding: 5px; border-bottom: 1px solid #ccc; cursor: pointer;" onclick="window.desktop.openVideoPlayer('runes-are-dead.mp4', 'Runes Are Dead')">🎬 Runes Are Dead</div>
+                                    <div style="padding: 5px; border-bottom: 1px solid #ccc; cursor: pointer;" onclick="window.desktop.openVideoPlayer('secret-stuff.mp4', 'Secret Stuff')">🎬 Secret Stuff</div>
+                                    <div style="padding: 5px; border-bottom: 1px solid #ccc; cursor: pointer;" onclick="window.desktop.openVideoPlayer('theyre-not-like-us.mp4', 'They\'re Not Like Us')">🎬 They're Not Like Us</div>
+                                    <div style="padding: 5px; border-bottom: 1px solid #ccc; cursor: pointer;" onclick="window.desktop.openVideoPlayer('timelaps-art.mp4', 'Timelapse Art')">🎬 Timelapse Art</div>
+                                    <div style="padding: 5px; border-bottom: 1px solid #ccc; cursor: pointer;" onclick="window.desktop.openVideoPlayer('weirdos-show.mp4', 'Weirdos Show')">🎬 Weirdos Show</div>
+                                    <div style="padding: 5px; border-bottom: 1px solid #ccc; cursor: pointer;" onclick="window.desktop.openVideoPlayer('woooooo.mp4', 'Woooooo')">🎬 Woooooo</div>
+                                    <div style="padding: 5px; border-bottom: 1px solid #ccc; cursor: pointer;" onclick="window.desktop.openVideoPlayer('wpzn.mp4', 'WPZN')">🎬 WPZN</div>
                                 </div>
                             </div>
                         `
@@ -646,18 +646,50 @@ for the weirdos, for the world.</textarea>
         const taskbarCenter = document.getElementById('taskbar-center');
         const taskbarItem = document.createElement('div');
         taskbarItem.className = 'taskbar-item';
-        taskbarItem.textContent = window.querySelector('.window-title').textContent;
+        
+        // Get title text based on window type
+        let titleText;
+        if (window.dataset.windowType === 'video-player') {
+            titleText = window.querySelector('.window-title-bar span').textContent;
+        } else {
+            titleText = window.querySelector('.window-title').textContent;
+        }
+        
+        taskbarItem.textContent = titleText;
         taskbarItem.dataset.windowId = window.id;
         
         taskbarItem.addEventListener('click', () => {
             // If window is minimized, restore it first
             if (window.style.display === 'none') {
-                this.restoreWindow(window);
+                if (window.dataset.windowType === 'video-player') {
+                    // Find the VideoPlayerWindow instance and restore it
+                    const playerInstance = this.windows.find(w => w.window && w.window.id === window.id);
+                    if (playerInstance && playerInstance.restore) {
+                        playerInstance.restore();
+                    } else {
+                        this.restoreWindow(window);
+                    }
+                } else {
+                    this.restoreWindow(window);
+                }
             }
             this.bringToFront(window);
         });
 
         taskbarCenter.appendChild(taskbarItem);
+        
+        // Store reference to taskbar item for video player windows
+        if (window.dataset.windowType === 'video-player') {
+            const videoPlayer = this.windows.find(w => w === window);
+            if (videoPlayer && videoPlayer.taskbarItem === undefined) {
+                // Find the VideoPlayerWindow instance
+                const playerInstance = this.windows.find(w => w.dataset.videoFilename);
+                if (playerInstance) {
+                    // We need to store the taskbar item reference in the VideoPlayerWindow instance
+                    // This will be handled in the VideoPlayerWindow constructor
+                }
+            }
+        }
     }
 
     removeFromTaskbar(window) {
@@ -670,8 +702,9 @@ for the weirdos, for the world.</textarea>
     bringToFront(window) {
         // Remove active class from all windows
         this.windows.forEach(w => {
-            w.style.zIndex = '100';
-            const taskbarItem = document.querySelector(`[data-window-id="${w.id}"]`);
+            const windowElement = w.window || w; // Handle both VideoPlayerWindow instances and regular windows
+            windowElement.style.zIndex = '100';
+            const taskbarItem = document.querySelector(`[data-window-id="${windowElement.id}"]`);
             if (taskbarItem) taskbarItem.classList.remove('active');
         });
 
@@ -893,6 +926,298 @@ for the weirdos, for the world.</textarea>
         this.activeWindow = window;
         this.addToTaskbar(window);
         this.bringToFront(window);
+    }
+
+    // Method to open video player popup
+    openVideoPlayer(filename, title) {
+        // Check if video player already exists for this file
+        const existingPlayer = document.querySelector(`[data-video-filename="${filename}"]`);
+        if (existingPlayer) {
+            this.bringToFront(existingPlayer);
+            return;
+        }
+
+        const player = new VideoPlayerWindow(filename, title, this);
+        // Store the player instance instead of just the window
+        this.windows.push(player);
+        this.activeWindow = player.window;
+        this.addToTaskbar(player.window);
+        
+        // Set the taskbar item reference in the player instance
+        const taskbarItem = document.querySelector(`[data-window-id="${player.window.id}"]`);
+        if (taskbarItem) {
+            player.taskbarItem = taskbarItem;
+        }
+        
+        this.bringToFront(player.window);
+    }
+}
+
+// Video Player Window Class
+class VideoPlayerWindow {
+    constructor(filename, title, desktop) {
+        this.filename = filename;
+        this.title = title;
+        this.desktop = desktop;
+        this.isMinimized = false;
+        this.videoElement = null;
+        this.window = null;
+        this.taskbarItem = null;
+        
+        this.createWindow();
+        this.setupEventListeners();
+    }
+
+    createWindow() {
+        const windowId = `video-player-${this.filename.replace(/[^a-zA-Z0-9]/g, '-')}-${++this.desktop.windowCounter}`;
+        
+        this.window = document.createElement('div');
+        this.window.className = 'window video-player-window';
+        this.window.id = windowId;
+        this.window.dataset.windowType = 'video-player';
+        this.window.dataset.videoFilename = this.filename;
+        this.window.style.cssText = `
+            position: absolute;
+            top: 100px;
+            left: 200px;
+            width: 850px;
+            height: 550px;
+            background: #ece9d8;
+            border: 2px outset #ece9d8;
+            box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+        `;
+
+        // Title bar
+        const titleBar = document.createElement('div');
+        titleBar.className = 'window-title-bar';
+        titleBar.style.cssText = `
+            background: linear-gradient(to bottom, #0a246a, #a6caf0);
+            color: white;
+            padding: 4px 8px;
+            font-size: 11px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: move;
+            user-select: none;
+        `;
+        
+        const titleText = document.createElement('span');
+        titleText.textContent = `${this.title} - Windows Media Player`;
+        titleText.style.flex = '1';
+        
+        const titleBarButtons = document.createElement('div');
+        titleBarButtons.style.display = 'flex';
+        titleBarButtons.style.gap = '2px';
+        
+        // Minimize button
+        const minimizeBtn = document.createElement('button');
+        minimizeBtn.innerHTML = '−';
+        minimizeBtn.style.cssText = `
+            width: 16px;
+            height: 14px;
+            border: 1px solid #666;
+            background: #ece9d8;
+            color: black;
+            font-size: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        `;
+        minimizeBtn.onclick = (e) => {
+            e.stopPropagation();
+            this.minimize();
+        };
+        
+        // Close button
+        const closeBtn = document.createElement('button');
+        closeBtn.innerHTML = '×';
+        closeBtn.style.cssText = `
+            width: 16px;
+            height: 14px;
+            border: 1px solid #666;
+            background: #ece9d8;
+            color: black;
+            font-size: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        `;
+        closeBtn.onclick = (e) => {
+            e.stopPropagation();
+            this.close();
+        };
+        
+        titleBarButtons.appendChild(minimizeBtn);
+        titleBarButtons.appendChild(closeBtn);
+        titleBar.appendChild(titleText);
+        titleBar.appendChild(titleBarButtons);
+        
+        // Content area
+        const content = document.createElement('div');
+        content.className = 'window-content';
+        content.style.cssText = `
+            flex: 1;
+            padding: 8px;
+            background: #ece9d8;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        `;
+        
+        // Video element
+        this.videoElement = document.createElement('video');
+        this.videoElement.style.cssText = `
+            max-width: 100%;
+            max-height: 100%;
+            width: 800px;
+            height: 450px;
+            background: black;
+            border: 1px solid #999;
+        `;
+        this.videoElement.controls = true;
+        this.videoElement.preload = 'metadata';
+        this.videoElement.src = `./videos/${this.filename}`;
+        
+        // Error handling
+        this.videoElement.onerror = () => {
+            this.showError();
+        };
+        
+        content.appendChild(this.videoElement);
+        
+        this.window.appendChild(titleBar);
+        this.window.appendChild(content);
+        
+        document.body.appendChild(this.window);
+    }
+
+    setupEventListeners() {
+        // Make window draggable
+        const titleBar = this.window.querySelector('.window-title-bar');
+        let isDragging = false;
+        let startX, startY, startLeft, startTop;
+
+        titleBar.addEventListener('mousedown', (e) => {
+            if (e.target.tagName === 'BUTTON') return;
+            isDragging = true;
+            startX = e.clientX;
+            startY = e.clientY;
+            startLeft = parseInt(this.window.style.left);
+            startTop = parseInt(this.window.style.top);
+            this.desktop.bringToFront(this.window);
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            const deltaX = e.clientX - startX;
+            const deltaY = e.clientY - startY;
+            this.window.style.left = (startLeft + deltaX) + 'px';
+            this.window.style.top = (startTop + deltaY) + 'px';
+        });
+
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
+
+        // Keyboard controls
+        this.window.addEventListener('keydown', (e) => {
+            if (!this.videoElement) return;
+            
+            switch(e.code) {
+                case 'Space':
+                    e.preventDefault();
+                    if (this.videoElement.paused) {
+                        this.videoElement.play();
+                    } else {
+                        this.videoElement.pause();
+                    }
+                    break;
+                case 'ArrowLeft':
+                    e.preventDefault();
+                    this.videoElement.currentTime = Math.max(0, this.videoElement.currentTime - 5);
+                    break;
+                case 'ArrowRight':
+                    e.preventDefault();
+                    this.videoElement.currentTime = Math.min(this.videoElement.duration, this.videoElement.currentTime + 5);
+                    break;
+                case 'Escape':
+                    e.preventDefault();
+                    this.close();
+                    break;
+            }
+        });
+
+        // Focus management
+        this.window.addEventListener('click', () => {
+            this.desktop.bringToFront(this.window);
+        });
+    }
+
+    minimize() {
+        this.isMinimized = true;
+        this.window.style.display = 'none';
+        if (this.taskbarItem) {
+            this.taskbarItem.classList.add('minimized');
+        }
+    }
+
+    restore() {
+        this.isMinimized = false;
+        this.window.style.display = 'flex';
+        if (this.taskbarItem) {
+            this.taskbarItem.classList.remove('minimized');
+        }
+        this.desktop.bringToFront(this.window);
+    }
+
+    close() {
+        if (this.videoElement) {
+            this.videoElement.pause();
+            this.videoElement.src = '';
+        }
+        
+        // Remove from desktop windows array (remove the player instance, not the window)
+        const index = this.desktop.windows.indexOf(this);
+        if (index > -1) {
+            this.desktop.windows.splice(index, 1);
+        }
+        
+        // Remove taskbar item
+        if (this.taskbarItem) {
+            this.taskbarItem.remove();
+        }
+        
+        // Remove window
+        this.window.remove();
+        
+        // Update active window if this was active
+        if (this.desktop.activeWindow === this.window) {
+            this.desktop.activeWindow = this.desktop.windows[this.desktop.windows.length - 1]?.window || this.desktop.windows[this.desktop.windows.length - 1] || null;
+        }
+    }
+
+    showError() {
+        const content = this.window.querySelector('.window-content');
+        content.innerHTML = `
+            <div style="text-align: center; color: #d00; font-family: 'MS Sans Serif', sans-serif;">
+                <div style="font-size: 16px; margin-bottom: 10px;">⚠️</div>
+                <div style="font-size: 14px; font-weight: bold; margin-bottom: 5px;">Windows Media Player</div>
+                <div style="font-size: 12px;">Cannot play this file. The file may be corrupted or in an unsupported format.</div>
+                <div style="font-size: 11px; margin-top: 10px; color: #666;">File: ${this.filename}</div>
+                <button onclick="this.parentElement.parentElement.parentElement.querySelector('.close-btn').click()" 
+                        style="margin-top: 15px; padding: 4px 12px; border: 1px solid #999; background: #ece9d8; cursor: pointer;">
+                    OK
+                </button>
+            </div>
+        `;
     }
 }
 
@@ -1687,6 +2012,7 @@ class NFTBuilderApplication {
     }
 
     init(nftWindow) {
+        this.nftWindow = nftWindow; // Store reference to the NFT window
         this.canvas = nftWindow.querySelector('#nft-canvas');
         this.ctx = this.canvas.getContext('2d');
         this.categoryButtons = nftWindow.querySelector('#category-buttons');
@@ -2025,7 +2351,7 @@ class NFTBuilderApplication {
         // Create a simple visual celebration effect
         const celebration = document.createElement('div');
         celebration.style.cssText = `
-            position: fixed;
+            position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
@@ -2067,14 +2393,24 @@ class NFTBuilderApplication {
             document.head.appendChild(style);
         }
         
-        document.body.appendChild(celebration);
-        
-        // Remove the celebration element after animation
-        setTimeout(() => {
-            if (celebration.parentNode) {
-                celebration.parentNode.removeChild(celebration);
+        // Find the NFT builder container and ensure it has position relative
+        const nftContainer = this.nftWindow.querySelector('.nft-builder-container');
+        if (nftContainer) {
+            // Ensure the container is positioned relatively for absolute positioning to work
+            const originalPosition = nftContainer.style.position;
+            if (!originalPosition || originalPosition === 'static') {
+                nftContainer.style.position = 'relative';
             }
-        }, 2000);
+            
+            nftContainer.appendChild(celebration);
+            
+            // Remove the celebration element after animation
+            setTimeout(() => {
+                if (celebration.parentNode) {
+                    celebration.parentNode.removeChild(celebration);
+                }
+            }, 2000);
+        }
     }
 
     replaceLayerWithUserArt(layer, dataURL) {

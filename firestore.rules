@@ -1,0 +1,29 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Autoriser uniquement la collection `messages`
+    match /messages/{messageId} {
+      // Tout le monde (même sans authentification) peut lire les messages
+      allow read: if true;
+      // Autoriser la création d'un message uniquement si la structure est correcte
+      allow create: if
+        // Uniquement les trois champs attendus
+        request.resource.data.keys().hasOnly(['message', 'username', 'timestamp']) &&
+        // Message de type chaîne et longueur ≤ 500 caractères
+        request.resource.data.message is string &&
+        request.resource.data.message.size() <= 500 &&
+        // Pseudo de type chaîne et longueur ≤ 50 caractères
+        request.resource.data.username is string &&
+        request.resource.data.username.size() <= 50 &&
+        // Timestamp fourni par le serveur
+        request.resource.data.timestamp is timestamp;
+      // Interdire toute modification ou suppression de messages existants
+      allow update, delete: if false;
+    }
+    // Refuser tout accès aux autres collections/documents
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
+
