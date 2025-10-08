@@ -411,6 +411,7 @@ milk</textarea>
                                  <!-- Toolbar -->
                                  <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px; padding: 4px; background: #f0f0f0; border: 1px solid #ccc; flex-shrink: 0;">
                                      <button id="paint-brush-tool" class="paint-tool-btn active" data-tool="brush" style="padding: 4px 8px; border: 1px solid #999; background: #e0e0e0; cursor: pointer;">🖌️ Brush</button>
+                                     <button id="paint-spray-tool" class="paint-tool-btn" data-tool="spray" style="padding: 4px 8px; border: 1px solid #999; background: #e0e0e0; cursor: pointer;">💨 Spray</button>
                                      <button id="paint-eraser-tool" class="paint-tool-btn" data-tool="eraser" style="padding: 4px 8px; border: 1px solid #999; background: #e0e0e0; cursor: pointer;">🧽 Eraser</button>
                                      
                                      <div style="width: 1px; height: 20px; background: #999; margin: 0 4px;"></div>
@@ -421,13 +422,15 @@ milk</textarea>
                                      </label>
                                      
                                      <label style="display: flex; align-items: center; gap: 4px; font-size: 11px;">
-                                         Size:
-                                         <select id="paint-brush-size" style="padding: 2px; border: 1px solid #999; font-size: 11px;">
-                                             <option value="2">Thin</option>
-                                             <option value="4" selected>Medium</option>
-                                             <option value="8">Thick</option>
-                                         </select>
-                                     </label>
+                                        Size:
+                                        <select id="paint-brush-size" style="padding: 2px; border: 1px solid #999; font-size: 11px;">
+                                            <option value="2">Thin</option>
+                                            <option value="4" selected>Medium</option>
+                                            <option value="8">Thick</option>
+                                            <option value="16">Extra Thick</option>
+                                            <option value="32">Huge</option>
+                                        </select>
+                                    </label>
                                      
                                      <div style="width: 1px; height: 20px; background: #999; margin: 0 4px;"></div>
                                      
@@ -1272,6 +1275,10 @@ class PaintApplication {
             this.selectTool('brush');
         });
 
+        document.getElementById('paint-spray-tool').addEventListener('click', () => {
+            this.selectTool('spray');
+        });
+
         document.getElementById('paint-eraser-tool').addEventListener('click', () => {
             this.selectTool('eraser');
         });
@@ -1355,7 +1362,13 @@ class PaintApplication {
         if (!this.isDrawing) return;
         
         const pos = this.getPointerPos(e);
-        this.drawLine(this.lastX, this.lastY, pos.x, pos.y);
+        
+        if (this.currentTool === 'spray') {
+            this.drawSpray(pos.x, pos.y);
+        } else {
+            this.drawLine(this.lastX, this.lastY, pos.x, pos.y);
+        }
+        
         this.lastX = pos.x;
         this.lastY = pos.y;
     }
@@ -1386,6 +1399,11 @@ class PaintApplication {
     }
 
     drawDot(x, y) {
+        if (this.currentTool === 'spray') {
+            this.drawSpray(x, y);
+            return;
+        }
+        
         this.ctx.beginPath();
         this.ctx.arc(x, y, this.currentSize / 2, 0, Math.PI * 2);
         
@@ -1398,6 +1416,29 @@ class PaintApplication {
         
         this.ctx.fill();
         this.ctx.globalCompositeOperation = 'source-over'; // Reset for next operation
+    }
+
+    drawSpray(x, y) {
+        // Spray paint creates scattered dots in a radius around the cursor
+        const density = 20; // Number of dots per spray
+        const radius = this.currentSize * 3; // Spray radius based on brush size
+        
+        this.ctx.globalCompositeOperation = 'source-over';
+        this.ctx.fillStyle = this.currentColor;
+        
+        for (let i = 0; i < density; i++) {
+            // Random angle and distance for natural spray effect
+            const angle = Math.random() * Math.PI * 2;
+            const distance = Math.random() * radius;
+            
+            const sprayX = x + Math.cos(angle) * distance;
+            const sprayY = y + Math.sin(angle) * distance;
+            
+            // Draw small dots for spray effect
+            this.ctx.beginPath();
+            this.ctx.arc(sprayX, sprayY, 0.5, 0, Math.PI * 2);
+            this.ctx.fill();
+        }
     }
 
     clearCanvas() {
