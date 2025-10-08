@@ -18,6 +18,7 @@ class WindowsXPDesktop {
         this.setupDesktopIcons();
         this.setupStartMenu();
         this.setupContextMenu();
+        this.setupWiFiPopup();
         
         // Update time every minute
         setInterval(() => this.updateTime(), 60000);
@@ -410,8 +411,13 @@ milk</textarea>
                              <div style="padding: 8px; height: calc(100% - 24px); display: flex; flex-direction: column; overflow: hidden;">
                                  <!-- Toolbar -->
                                  <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px; padding: 4px; background: #f0f0f0; border: 1px solid #ccc; flex-shrink: 0;">
-                                     <button id="paint-brush-tool" class="paint-tool-btn active" data-tool="brush" style="padding: 4px 8px; border: 1px solid #999; background: #e0e0e0; cursor: pointer;">🖌️ Brush</button>
-                                     <button id="paint-spray-tool" class="paint-tool-btn" data-tool="spray" style="padding: 4px 8px; border: 1px solid #999; background: #e0e0e0; cursor: pointer;">💨 Spray</button>
+                                     <label style="display: flex; align-items: center; gap: 4px; font-size: 11px;">
+                                         Tool:
+                                         <select id="paint-brush-type" style="padding: 2px 6px; border: 1px solid #999; font-size: 11px;">
+                                             <option value="brush">🖌️ Brush</option>
+                                             <option value="spray">💨 Spray</option>
+                                         </select>
+                                     </label>
                                      <button id="paint-eraser-tool" class="paint-tool-btn" data-tool="eraser" style="padding: 4px 8px; border: 1px solid #999; background: #e0e0e0; cursor: pointer;">🧽 Eraser</button>
                                      
                                      <div style="width: 1px; height: 20px; background: #999; margin: 0 4px;"></div>
@@ -617,25 +623,25 @@ for the weirdos, for the world.</textarea>
                                 <h3>Videos</h3>
                                 <p>This folder contains video files. Double-click to play.</p>
                                 <div style="margin-top: 20px;">
-                                    <div style="padding: 5px; border-bottom: 1px solid #ccc; cursor: pointer;" onclick="window.desktop.openVideoPlayer('100k-first-time.mp4', '100k First Time')">🎬 100k First Time</div>
-                                    <div style="padding: 5px; border-bottom: 1px solid #ccc; cursor: pointer;" onclick="window.desktop.openVideoPlayer('10k-weirdos-mint.mp4', '10K Weirdos Mint')">🎬 10K Weirdos Mint</div>
-                                    <div style="padding: 5px; border-bottom: 1px solid #ccc; cursor: pointer;" onclick="window.desktop.openVideoPlayer('9-btc.mp4', '9.btc')">🎬 9.btc</div>
-                                    <div style="padding: 5px; border-bottom: 1px solid #ccc; cursor: pointer;" onclick="window.desktop.openVideoPlayer('a-weirdos-manifesto.mp4', 'A Weirdo\'s Manifesto')">🎬 A Weirdo's Manifesto</div>
-                                    <div style="padding: 5px; border-bottom: 1px solid #ccc; cursor: pointer;" onclick="window.desktop.openVideoPlayer('bitcoins-going-to-zero.mp4', 'Bitcoin\'s Going to Zero')">🎬 Bitcoin's Going to Zero</div>
-                                    <div style="padding: 5px; border-bottom: 1px solid #ccc; cursor: pointer;" onclick="window.desktop.openVideoPlayer('ftw.mp4', 'FTW')">🎬 FTW</div>
-                                    <div style="padding: 5px; border-bottom: 1px solid #ccc; cursor: pointer;" onclick="window.desktop.openVideoPlayer('fuck-the-world.mp4', 'FUCK THE WORLD')">🎬 FUCK THE WORLD</div>
-                                    <div style="padding: 5px; border-bottom: 1px solid #ccc; cursor: pointer;" onclick="window.desktop.openVideoPlayer('it-was-not-luck.mp4', 'It Was Not Luck')">🎬 It Was Not Luck</div>
-                                    <div style="padding: 5px; border-bottom: 1px solid #ccc; cursor: pointer;" onclick="window.desktop.openVideoPlayer('its-over-wereback.mp4', 'It\'s Over We\'re Back')">🎬 It's Over We're Back</div>
-                                    <div style="padding: 5px; border-bottom: 1px solid #ccc; cursor: pointer;" onclick="window.desktop.openVideoPlayer('music.mp4', 'Music')">🎬 Music</div>
-                                    <div style="padding: 5px; border-bottom: 1px solid #ccc; cursor: pointer;" onclick="window.desktop.openVideoPlayer('never-kill-yourself.mp4', 'Never Kill Yourself')">🎬 Never Kill Yourself</div>
-                                    <div style="padding: 5px; border-bottom: 1px solid #ccc; cursor: pointer;" onclick="window.desktop.openVideoPlayer('remember-why.mp4', 'Remember Why')">🎬 Remember Why</div>
-                                    <div style="padding: 5px; border-bottom: 1px solid #ccc; cursor: pointer;" onclick="window.desktop.openVideoPlayer('runes-are-dead.mp4', 'Runes Are Dead')">🎬 Runes Are Dead</div>
-                                    <div style="padding: 5px; border-bottom: 1px solid #ccc; cursor: pointer;" onclick="window.desktop.openVideoPlayer('secret-stuff.mp4', 'Secret Stuff')">🎬 Secret Stuff</div>
-                                    <div style="padding: 5px; border-bottom: 1px solid #ccc; cursor: pointer;" onclick="window.desktop.openVideoPlayer('theyre-not-like-us.mp4', 'They\'re Not Like Us')">🎬 They're Not Like Us</div>
-                                    <div style="padding: 5px; border-bottom: 1px solid #ccc; cursor: pointer;" onclick="window.desktop.openVideoPlayer('timelaps-art.mp4', 'Timelapse Art')">🎬 Timelapse Art</div>
-                                    <div style="padding: 5px; border-bottom: 1px solid #ccc; cursor: pointer;" onclick="window.desktop.openVideoPlayer('weirdos-show.mp4', 'Weirdos Show')">🎬 Weirdos Show</div>
-                                    <div style="padding: 5px; border-bottom: 1px solid #ccc; cursor: pointer;" onclick="window.desktop.openVideoPlayer('woooooo.mp4', 'Woooooo')">🎬 Woooooo</div>
-                                    <div style="padding: 5px; border-bottom: 1px solid #ccc; cursor: pointer;" onclick="window.desktop.openVideoPlayer('wpzn.mp4', 'WPZN')">🎬 WPZN</div>
+                                    <div style="padding: 5px; border-bottom: 1px solid #ccc; cursor: pointer;" onclick="window.desktop.openVideoPlayer('100k-first-time.mp4.mp4', '100k First Time')">🎬 100k First Time</div>
+                                    <div style="padding: 5px; border-bottom: 1px solid #ccc; cursor: pointer;" onclick="window.desktop.openVideoPlayer('10k-weirdos-mint.mp4.mp4', '10K Weirdos Mint')">🎬 10K Weirdos Mint</div>
+                                    <div style="padding: 5px; border-bottom: 1px solid #ccc; cursor: pointer;" onclick="window.desktop.openVideoPlayer('9-btc.mp4.mp4', '9.btc')">🎬 9.btc</div>
+                                    <div style="padding: 5px; border-bottom: 1px solid #ccc; cursor: pointer;" onclick="window.desktop.openVideoPlayer('aweirdos-manifesto.mp4.mp4', 'A Weirdos Manifesto')">🎬 A Weirdos Manifesto</div>
+                                    <div style="padding: 5px; border-bottom: 1px solid #ccc; cursor: pointer;" onclick="window.desktop.openVideoPlayer('bitcoin-goingto-zero.mp4.mp4', 'Bitcoin Going to Zero')">🎬 Bitcoin Going to Zero</div>
+                                    <div style="padding: 5px; border-bottom: 1px solid #ccc; cursor: pointer;" onclick="window.desktop.openVideoPlayer('ftw.mp4.mp4', 'FTW')">🎬 FTW</div>
+                                    <div style="padding: 5px; border-bottom: 1px solid #ccc; cursor: pointer;" onclick="window.desktop.openVideoPlayer('fuck-the-world.mp4.mp4', 'FUCK THE WORLD')">🎬 FUCK THE WORLD</div>
+                                    <div style="padding: 5px; border-bottom: 1px solid #ccc; cursor: pointer;" onclick="window.desktop.openVideoPlayer('it-was-not-luck.mp4.mp4', 'It Was Not Luck')">🎬 It Was Not Luck</div>
+                                    <div style="padding: 5px; border-bottom: 1px solid #ccc; cursor: pointer;" onclick="window.desktop.openVideoPlayer('itsover wereback.mp4.mp4', 'Its Over Were Back')">🎬 Its Over Were Back</div>
+                                    <div style="padding: 5px; border-bottom: 1px solid #ccc; cursor: pointer;" onclick="window.desktop.openVideoPlayer('music.mp4.mp4', 'Music')">🎬 Music</div>
+                                    <div style="padding: 5px; border-bottom: 1px solid #ccc; cursor: pointer;" onclick="window.desktop.openVideoPlayer('never-kill-yourself.mp4.mp4', 'Never Kill Yourself')">🎬 Never Kill Yourself</div>
+                                    <div style="padding: 5px; border-bottom: 1px solid #ccc; cursor: pointer;" onclick="window.desktop.openVideoPlayer('remember-why.mp4.mp4', 'Remember Why')">🎬 Remember Why</div>
+                                    <div style="padding: 5px; border-bottom: 1px solid #ccc; cursor: pointer;" onclick="window.desktop.openVideoPlayer('runes-are-dead.mp4.mp4', 'Runes Are Dead')">🎬 Runes Are Dead</div>
+                                    <div style="padding: 5px; border-bottom: 1px solid #ccc; cursor: pointer;" onclick="window.desktop.openVideoPlayer('secret-stuff.mp4.mp4', 'Secret Stuff')">🎬 Secret Stuff</div>
+                                    <div style="padding: 5px; border-bottom: 1px solid #ccc; cursor: pointer;" onclick="window.desktop.openVideoPlayer('theyrenot-likeus.mp4.mp4', 'Theyre Not Like Us')">🎬 Theyre Not Like Us</div>
+                                    <div style="padding: 5px; border-bottom: 1px solid #ccc; cursor: pointer;" onclick="window.desktop.openVideoPlayer('timelaps-art.mp4.mp4', 'Timelapse Art')">🎬 Timelapse Art</div>
+                                    <div style="padding: 5px; border-bottom: 1px solid #ccc; cursor: pointer;" onclick="window.desktop.openVideoPlayer('weirdos-show.mp4.mp4', 'Weirdos Show')">🎬 Weirdos Show</div>
+                                    <div style="padding: 5px; border-bottom: 1px solid #ccc; cursor: pointer;" onclick="window.desktop.openVideoPlayer('woooooo.mp4.mp4', 'Woooooo')">🎬 Woooooo</div>
+                                    <div style="padding: 5px; border-bottom: 1px solid #ccc; cursor: pointer;" onclick="window.desktop.openVideoPlayer('wpzn.mp4.mp4', 'WPZN')">🎬 WPZN</div>
                                 </div>
                             </div>
                         `
@@ -884,6 +890,71 @@ for the weirdos, for the world.</textarea>
             hour12: true 
         });
         document.getElementById('time-display').textContent = timeString;
+    }
+
+    setupWiFiPopup() {
+        // Create WiFi popup element
+        const wifiPopup = document.createElement('div');
+        wifiPopup.id = 'wifi-popup';
+        wifiPopup.style.cssText = `
+            position: fixed;
+            bottom: 35px;
+            right: 10px;
+            width: 250px;
+            background: #ece9d8;
+            border: 1px solid #999;
+            border-top: 2px solid #fff;
+            border-left: 2px solid #fff;
+            border-right: 2px solid #666;
+            border-bottom: 2px solid #666;
+            display: none;
+            z-index: 2000;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+        `;
+        
+        wifiPopup.innerHTML = `
+            <div style="background: linear-gradient(to bottom, #0a2463 0%, #1e3a8a 50%, #0a2463 100%); padding: 4px 8px; color: white; font-size: 11px; font-weight: bold;">
+                Wireless Network Connection
+            </div>
+            <div style="padding: 12px;">
+                <div style="font-size: 11px; margin-bottom: 8px; color: #000;">Available Networks:</div>
+                <div style="background: white; border: 1px solid #999; padding: 8px;">
+                    <div style="display: flex; align-items: center; padding: 6px; background: #316ac5; color: white; cursor: pointer;">
+                        <span style="margin-right: 8px;">📶</span>
+                        <div style="flex: 1;">
+                            <div style="font-weight: bold; font-size: 11px;">Fuck the wifi</div>
+                            <div style="font-size: 9px; opacity: 0.9;">Security-enabled network</div>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: 8px; text-align: right;">
+                    <button style="padding: 4px 12px; border: 1px solid #999; background: #e0e0e0; cursor: pointer; font-size: 11px;" onclick="document.getElementById('wifi-popup').style.display='none'">Close</button>
+                </div>
+            </div>
+        `;
+        
+        document.body.appendChild(wifiPopup);
+        
+        // Add click event to WiFi icon
+        setTimeout(() => {
+            const wifiIcon = document.querySelector('.wifi-icon');
+            if (wifiIcon) {
+                wifiIcon.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const popup = document.getElementById('wifi-popup');
+                    popup.style.display = popup.style.display === 'none' ? 'block' : 'none';
+                });
+            }
+        }, 100);
+        
+        // Close popup when clicking outside
+        document.addEventListener('click', (e) => {
+            const popup = document.getElementById('wifi-popup');
+            const wifiIcon = document.querySelector('.wifi-icon');
+            if (popup && !popup.contains(e.target) && e.target !== wifiIcon) {
+                popup.style.display = 'none';
+            }
+        });
     }
 
     // Method to handle Paint-to-NFT Builder communication
@@ -1270,15 +1341,12 @@ class PaintApplication {
     }
 
     setupEventListeners() {
-        // Tool selection
-        document.getElementById('paint-brush-tool').addEventListener('click', () => {
-            this.selectTool('brush');
+        // Tool selection - Brush type dropdown
+        document.getElementById('paint-brush-type').addEventListener('change', (e) => {
+            this.selectTool(e.target.value);
         });
 
-        document.getElementById('paint-spray-tool').addEventListener('click', () => {
-            this.selectTool('spray');
-        });
-
+        // Eraser button
         document.getElementById('paint-eraser-tool').addEventListener('click', () => {
             this.selectTool('eraser');
         });
@@ -1328,11 +1396,18 @@ class PaintApplication {
     selectTool(tool) {
         this.currentTool = tool;
         
-        // Update button states
-        document.querySelectorAll('.paint-tool-btn').forEach(btn => {
-            btn.classList.remove('active');
-        });
-        document.getElementById(`paint-${tool}-tool`).classList.add('active');
+        // Update UI states
+        const brushTypeDropdown = document.getElementById('paint-brush-type');
+        const eraserBtn = document.getElementById('paint-eraser-tool');
+        
+        if (tool === 'eraser') {
+            // Eraser is selected - highlight eraser button
+            eraserBtn.classList.add('active');
+        } else {
+            // Brush or Spray is selected - update dropdown and remove eraser highlight
+            eraserBtn.classList.remove('active');
+            brushTypeDropdown.value = tool;
+        }
     }
 
     getPointerPos(e) {
