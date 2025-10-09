@@ -188,6 +188,16 @@ class WindowsXPDesktop {
             win.style.top = Math.max(0, centerY) + 'px';
             win.style.width = windowWidth + 'px';
             win.style.height = windowHeight + 'px';
+        } else if (type === 'image-174') {
+            // Size window to fit the image with padding
+            const windowWidth = 850; // 791 + padding
+            const windowHeight = 600; // Fit to screen while showing image
+            const centerX = (globalThis.innerWidth - windowWidth) / 2;
+            const centerY = (globalThis.innerHeight - windowHeight) / 2;
+            win.style.left = Math.max(0, centerX) + 'px';
+            win.style.top = Math.max(0, centerY) + 'px';
+            win.style.width = windowWidth + 'px';
+            win.style.height = windowHeight + 'px';
         } else {
             win.style.left = '100px';
             win.style.top = '100px';
@@ -290,7 +300,10 @@ class WindowsXPDesktop {
                         <p>This folder contains your personal documents.</p>
                         <div style="margin-top: 20px;">
                             <div style="padding: 5px; border-bottom: 1px solid #ccc; cursor: pointer;" onclick="window.desktop.openManifesto()">📄 a weirdo's manifesto</div>
-                            <div style="padding: 5px; border-bottom: 1px solid #ccc; cursor: pointer;" onclick="window.desktop.openVideosFolder()">📁 Videos</div>
+                            <div style="padding: 5px; border-bottom: 1px solid #ccc; cursor: pointer;" onclick="window.desktop.openVideosFolder()">📁 videos</div>
+                            <div style="padding: 5px; border-bottom: 1px solid #ccc; cursor: pointer;">
+                                <a href="https://artonbitcoin.art/" target="_blank" style="text-decoration: none; color: #000; display: block;">🎨 artonbitcoin</a>
+                            </div>
                         </div>
                     </div>
                 `
@@ -346,8 +359,14 @@ class WindowsXPDesktop {
                                 </div>
                                 
                                 <div style="margin-bottom: 10px;">
-                                    <a href="https://artonbitcoin.art/" target="_blank" style="display: block; padding: 6px 10px; margin-bottom: 6px; background: #f0f0f0; border: 1px solid #999; border-top: 1px solid #fff; border-left: 1px solid #fff; text-decoration: none; color: #000; font-size: 11px; transition: background-color 0.2s;" onmouseover="this.style.background='#e0e0e0'" onmouseout="this.style.background='#f0f0f0'">
-                                        ₿ <strong>Artonbitcoin.art</strong>
+                                    <a href="https://discord.gg/kAjuKVff3J" target="_blank" style="display: block; padding: 6px 10px; margin-bottom: 6px; background: #f0f0f0; border: 1px solid #999; border-top: 1px solid #fff; border-left: 1px solid #fff; text-decoration: none; color: #000; font-size: 11px; transition: background-color 0.2s;" onmouseover="this.style.background='#e0e0e0'" onmouseout="this.style.background='#f0f0f0'">
+                                        💬 <strong>FTW discord</strong>
+                                    </a>
+                                </div>
+                                
+                                <div style="margin-bottom: 10px;">
+                                    <a href="https://x.com/ftw_collective" target="_blank" style="display: block; padding: 6px 10px; margin-bottom: 6px; background: #f0f0f0; border: 1px solid #999; border-top: 1px solid #fff; border-left: 1px solid #fff; text-decoration: none; color: #000; font-size: 11px; transition: background-color 0.2s;" onmouseover="this.style.background='#e0e0e0'" onmouseout="this.style.background='#f0f0f0'">
+                                        𝕏 <strong>@ftw_collective</strong>
                                     </a>
                                 </div>
                                 
@@ -467,6 +486,14 @@ milk</textarea>
                                     <button id="chat-send-btn" style="padding: 4px 12px; border: 1px solid #999; background: #e0e0e0; cursor: pointer; font-size: 11px;">Send</button>
                                     <button id="chat-clear-btn" style="padding: 4px 8px; border: 1px solid #999; background: #e0e0e0; cursor: pointer; font-size: 11px;">Clear</button>
                                 </div>
+                            </div>
+                        `
+                    },
+                    'image-174': {
+                        title: '174.png',
+                        content: `
+                            <div style="padding: 20px; text-align: center; background: #000;">
+                                <img src="./Assets/174.png" alt="174" style="max-width: 100%; height: auto;">
                             </div>
                         `
                     },
