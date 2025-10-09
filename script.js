@@ -174,7 +174,7 @@ class WindowsXPDesktop {
             win.style.width = paintWidth + 'px';
             win.style.height = paintHeight + 'px';
         } else if (type === 'nft-builder') {
-            // Center the NFT Builder window with optimized size: canvas (500) + padding + categories (220) + gap
+            // Center the Weirdos Builder window with optimized size: canvas (500) + padding + categories (220) + gap
             const windowWidth = 760; // 500 + 8*2 + 220 + 12 + 8*2 = 760px
             const windowHeight = this.calculateNFTBuilderHeight();
             const centerX = (globalThis.innerWidth - windowWidth) / 2;
@@ -279,7 +279,7 @@ class WindowsXPDesktop {
                 // Chat application is only initialized for the always-open chat window
                 // No additional chat initialization needed here
                 
-                 // Initialize NFT Builder application if this is an NFT Builder window
+                 // Initialize Weirdos Builder application if this is a Weirdos Builder window
                  if (type === 'nft-builder') {
                      setTimeout(() => {
                          const nftWindow = win;
@@ -407,7 +407,7 @@ milk</textarea>
                 `
             },
                      'paint': {
-                         title: 'Untitled - Paint',
+                         title: 'Paint',
                          content: `
                              <div style="padding: 8px; height: calc(100% - 24px); display: flex; flex-direction: column; overflow: hidden;">
                                  <!-- Toolbar -->
@@ -503,14 +503,14 @@ milk</textarea>
                         `
                     },
                     'nft-builder': {
-                        title: 'NFT Builder',
+                        title: 'Weirdos Builder',
                         content: `
                             <div class="nft-builder-container" style="padding: 8px; display: flex; gap: 12px; min-height: 100%; box-sizing: border-box;">
                                 <!-- Left Column - Canvas + Controls -->
                                 <div style="flex: 0 0 auto; display: flex; flex-direction: column; gap: 8px; padding-right: 0;">
                                     <!-- Canvas -->
                                     <div style="display: flex; flex-direction: column;">
-                                        <div style="text-align: center; margin-bottom: 6px; font-size: 11px; font-weight: bold; color: #333;">NFT Preview</div>
+                                        <div style="text-align: center; margin-bottom: 6px; font-size: 11px; font-weight: bold; color: #333;">Preview</div>
                                         <div style="border: 2px solid #999; border-top: 2px solid #fff; border-left: 2px solid #fff; border-right: 2px solid #666; border-bottom: 2px solid #666; background: #f0f0f0; padding: 8px; display: flex; justify-content: center; align-items: center;">
                                             <canvas id="nft-canvas" width="500" height="500" style="border: 1px solid #ccc; background: white;"></canvas>
                                         </div>
@@ -531,9 +531,9 @@ milk</textarea>
                                     </div>
                                 </div>
                                 
-                                <!-- Right Column - Categories + Export -->
+                                <!-- Right Column - Traits + Export -->
                                 <div style="flex: 0 0 220px; display: flex; flex-direction: column; gap: 8px; padding-left: 0;">
-                                    <div style="text-align: center; font-size: 11px; font-weight: bold; color: #333;">Categories</div>
+                                    <div style="text-align: center; font-size: 11px; font-weight: bold; color: #333;">Traits</div>
                                     <div id="category-buttons" style="display: flex; flex-direction: column; gap: 6px; flex: 1; overflow-y: auto; padding: 0 8px;">
                                         <!-- Category buttons will be generated here -->
                                     </div>
@@ -874,7 +874,7 @@ for the weirdos, for the world.</textarea>
     }
 
     handleWindowResize() {
-        // Update NFT Builder windows on resize
+        // Update Weirdos Builder windows on resize
         this.windows.forEach(window => {
             if (window.dataset.windowType === 'nft-builder') {
                 const newHeight = this.calculateNFTBuilderHeight();
@@ -966,13 +966,13 @@ for the weirdos, for the world.</textarea>
         });
     }
 
-    // Method to handle Paint-to-NFT Builder communication
+    // Method to handle Paint-to-Weirdos Builder communication
     sendToNFTBuilder(layer, dataURL) {
-        // Check if NFT Builder window exists
+        // Check if Weirdos Builder window exists
         const nftBuilderWindow = this.windows.find(w => w.dataset.windowType === 'nft-builder');
         
         if (!nftBuilderWindow) {
-            // Auto-open NFT Builder window
+            // Auto-open Weirdos Builder window
             this.openWindow('nft-builder');
             // Wait a moment for the window to initialize
             setTimeout(() => {
@@ -1703,7 +1703,7 @@ class PaintApplication {
             this.guideOverlay.style.display = 'block';
         }
         
-        // Send to NFT Builder via desktop
+        // Send to Weirdos Builder via desktop
         if (window.desktop) {
             window.desktop.sendToNFTBuilder(this.selectedLayer, dataURL);
             this.showToast(`Sent to Builder: ${this.selectedLayer}`, 'success');
@@ -2083,7 +2083,7 @@ class ChatApplication {
     }
 }
 
-// NFT Builder Application Class
+// Weirdos Builder Application Class
 class NFTBuilderApplication {
     constructor() {
         this.canvas = null;
