@@ -482,7 +482,7 @@ milk</textarea>
                             <div style="padding: 8px; height: 100%; display: flex; flex-direction: column;">
                                 <!-- Chat Messages Area -->
                                 <div id="chat-messages" style="flex: 1; border: 1px solid #999; background: white; padding: 8px; overflow-y: auto; margin-bottom: 8px; font-family: 'Courier New', monospace; font-size: 12px;">
-                                    <div style="color: #666; font-style: italic;">Welcome to Chat! Type a message below and press Enter or click Send.</div>
+                                    <div style="color: #666; font-style: italic;">Welcome weirdo! Type a message below & eat cream.</div>
                                 </div>
                                 
                                 <!-- Chat Input Area -->
@@ -2026,19 +2026,23 @@ class ChatApplication {
     async sendMessage() {
         const message = this.inputField.value.trim();
         if (message) {
-            // Add message to local UI immediately
-            this.addMessage(message, 'user');
             this.inputField.value = '';
-            this.saveChatHistory();
             
-            // Send to Firebase if available
+            // If Firebase is enabled, let onSnapshot handle display
             if (this.firebaseEnabled && window.FirebaseChat) {
                 try {
                     await window.FirebaseChat.sendMessage(this.userName, message);
+                    // Don't add locally - onSnapshot listener will display it
                 } catch (error) {
                     console.error('Failed to send message to Firebase:', error);
-                    // Message is already in local UI, so we don't need to show error to user
+                    // Fallback: if Firebase send fails, add to local UI
+                    this.addMessage(message, 'user');
+                    this.saveChatHistory();
                 }
+            } else {
+                // Firebase disabled - use local-only mode
+                this.addMessage(message, 'user');
+                this.saveChatHistory();
             }
         }
     }
@@ -2050,7 +2054,7 @@ class ChatApplication {
         if (sender === 'user') {
             messageDiv.innerHTML = `<span style="color: #0000FF;">[${timestamp}] You:</span> ${text}`;
         } else {
-            messageDiv.innerHTML = `<span style="color: #008000;">[${timestamp}] System:</span> ${text}`;
+            messageDiv.innerHTML = `<span style="color: #FF0000;">[${timestamp}] Satoshi:</span> ${text}`;
         }
         
         messageDiv.style.marginBottom = '4px';
@@ -2064,7 +2068,7 @@ class ChatApplication {
 
     clearChat() {
         if (confirm('Are you sure you want to clear all chat messages?')) {
-            this.messagesContainer.innerHTML = '<div style="color: #666; font-style: italic;">Chat cleared. Welcome to Chat!</div>';
+            this.messagesContainer.innerHTML = '<div style="color: #666; font-style: italic;">Welcome weirdo! Type a message below & eat cream.</div>';
             this.saveChatHistory();
         }
     }
