@@ -282,26 +282,6 @@ class WindowsXPDesktop {
 
     getWindowData(type) {
         const windowData = {
-            'my-computer': {
-                title: 'My Computer',
-                content: `
-                    <div style="padding: 20px; text-align: center;">
-                        <h3>My Computer</h3>
-                        <p>Welcome to Windows XP Desktop Emulator!</p>
-                        <p>This is a JavaScript recreation of the classic Windows XP interface.</p>
-                        <div style="margin-top: 20px;">
-                            <div style="display: inline-block; margin: 10px; padding: 10px; border: 1px solid #ccc; cursor: pointer;">
-                                <div style="width: 32px; height: 32px; background: #007AFF; margin: 0 auto 5px;"></div>
-                                <span>Local Disk</span>
-                            </div>
-                            <div style="display: inline-block; margin: 10px; padding: 10px; border: 1px solid #ccc; cursor: pointer;">
-                                <div style="width: 32px; height: 32px; background: #007AFF; margin: 0 auto 5px;"></div>
-                                <span>CD Drive</span>
-                            </div>
-                        </div>
-                    </div>
-                `
-            },
             'my-documents': {
                 title: 'My Documents',
                 content: `
@@ -309,10 +289,7 @@ class WindowsXPDesktop {
                         <h3>My Documents</h3>
                         <p>This folder contains your personal documents.</p>
                         <div style="margin-top: 20px;">
-                            <div style="padding: 5px; border-bottom: 1px solid #ccc;">📄 My File.txt</div>
-                            <div style="padding: 5px; border-bottom: 1px solid #ccc;">📄 Document.doc</div>
                             <div style="padding: 5px; border-bottom: 1px solid #ccc; cursor: pointer;" onclick="window.desktop.openManifesto()">📄 a weirdo's manifesto</div>
-                            <div style="padding: 5px; border-bottom: 1px solid #ccc;">📁 My Pictures</div>
                             <div style="padding: 5px; border-bottom: 1px solid #ccc; cursor: pointer;" onclick="window.desktop.openVideosFolder()">📁 Videos</div>
                         </div>
                     </div>
