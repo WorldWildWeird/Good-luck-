@@ -161,13 +161,18 @@ class WindowsXPDesktop {
         
         // Set initial size and position based on window type
         if (type === 'paint') {
-            // Center the Paint window with proper size for canvas and tools
-            const centerX = (globalThis.innerWidth - 600) / 2;
-            const centerY = (globalThis.innerHeight - 700) / 2;
-            win.style.left = Math.max(0, centerX) + 'px';
-            win.style.top = Math.max(0, centerY) + 'px';
-            win.style.width = '600px';
-            win.style.height = '700px';
+            // Paint window with proper size for canvas and tools and randomized position
+            const paintWidth = 600;
+            const paintHeight = 640;
+            const taskbarHeight = 30;
+            const maxLeft = Math.max(0, globalThis.innerWidth - paintWidth);
+            const maxTop = Math.max(0, globalThis.innerHeight - paintHeight - taskbarHeight);
+            const randomLeft = Math.floor(Math.random() * maxLeft);
+            const randomTop = Math.floor(Math.random() * maxTop);
+            win.style.left = randomLeft + 'px';
+            win.style.top = randomTop + 'px';
+            win.style.width = paintWidth + 'px';
+            win.style.height = paintHeight + 'px';
         } else if (type === 'nft-builder') {
             // Center the NFT Builder window with optimized size: canvas (500) + padding + categories (220) + gap
             const windowWidth = 760; // 500 + 8*2 + 220 + 12 + 8*2 = 760px
