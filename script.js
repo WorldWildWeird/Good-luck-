@@ -88,6 +88,11 @@ class WindowsXPDesktop {
         icons.forEach(icon => {
             icon.addEventListener('dblclick', () => {
                 const windowType = icon.dataset.window;
+                // Special handling for 174.png - open external link
+                if (windowType === 'image-174') {
+                    window.open('https://ordinals.com/children/4967dd42d34696a4f41143ed05ad52805624ef3fb478d72666fba9c7c5d268a9i0', '_blank');
+                    return;
+                }
                 this.openWindow(windowType);
             });
 
@@ -842,10 +847,20 @@ for the weirdos, for the world.</textarea>
         
         switch (action) {
             case 'open':
-                this.openWindow(targetIcon);
+                // Special handling for 174.png - open external link
+                if (targetIcon === 'image-174') {
+                    window.open('https://ordinals.com/children/4967dd42d34696a4f41143ed05ad52805624ef3fb478d72666fba9c7c5d268a9i0', '_blank');
+                } else {
+                    this.openWindow(targetIcon);
+                }
                 break;
             case 'explore':
-                this.openWindow(targetIcon);
+                // Special handling for 174.png - open external link
+                if (targetIcon === 'image-174') {
+                    window.open('https://ordinals.com/children/4967dd42d34696a4f41143ed05ad52805624ef3fb478d72666fba9c7c5d268a9i0', '_blank');
+                } else {
+                    this.openWindow(targetIcon);
+                }
                 break;
             case 'delete':
                 // Simulate delete action
@@ -2682,6 +2697,191 @@ class NFTBuilderApplication {
 // Initialize the desktop when the page loads
 document.addEventListener('DOMContentLoaded', () => {
     window.desktop = new WindowsXPDesktop();
+    
+    // Initialize simple music player
+    initSimpleMusicPlayer();
+    
+    // Initialize notification
+    initNotification();
 });
+
+// Notification System
+function initNotification() {
+    const notificationIcon = document.querySelector('.notification-icon');
+    if (!notificationIcon) return;
+    
+    let notificationWindow = null;
+    const badge = document.querySelector('.notification-badge');
+    
+    notificationIcon.addEventListener('click', () => {
+        // Hide the badge when user clicks
+        if (badge) {
+            badge.style.display = 'none';
+        }
+        
+        // If notification already exists, remove it
+        if (notificationWindow && document.body.contains(notificationWindow)) {
+            notificationWindow.remove();
+            notificationWindow = null;
+            return;
+        }
+        
+        // Create notification popup
+        notificationWindow = document.createElement('div');
+        notificationWindow.className = 'notification-popup';
+        notificationWindow.style.cssText = `
+            position: fixed;
+            bottom: 40px;
+            right: 10px;
+            width: 300px;
+            background: #ECE9D8;
+            border: 2px solid #0054E3;
+            box-shadow: 4px 4px 8px rgba(0,0,0,0.4);
+            z-index: 10000;
+            font-family: Tahoma, sans-serif;
+            animation: slideIn 0.3s ease-out;
+        `;
+        
+        notificationWindow.innerHTML = `
+            <div style="background: linear-gradient(to right, #0054E3, #0A5FE3); padding: 3px 5px; display: flex; justify-content: space-between; align-items: center;">
+                <span style="color: white; font-size: 11px; font-weight: bold;">Notification</span>
+                <button class="close-notification-btn" style="background: #D93441; color: white; border: 1px solid #8E2831; width: 18px; height: 18px; cursor: pointer; font-size: 11px; line-height: 1;">×</button>
+            </div>
+            <div style="padding: 10px; text-align: center;">
+                <img src="./Assets/mad.jpg" alt="Notification" style="max-width: 100%; height: auto; border: 1px solid #ccc;">
+            </div>
+        `;
+        
+        document.body.appendChild(notificationWindow);
+        
+        // Close button handler
+        const closeBtn = notificationWindow.querySelector('.close-notification-btn');
+        closeBtn.addEventListener('click', () => {
+            notificationWindow.remove();
+            notificationWindow = null;
+        });
+        
+        // Auto close after 10 seconds
+        setTimeout(() => {
+            if (notificationWindow && document.body.contains(notificationWindow)) {
+                notificationWindow.remove();
+                notificationWindow = null;
+            }
+        }, 10000);
+    });
+}
+
+// Simple Music Player
+function initSimpleMusicPlayer() {
+    const songIcon = document.querySelector('.song-icon');
+    if (!songIcon) return;
+    
+    let musicPlayerWindow = null;
+    let currentAudio = null;
+    
+    songIcon.addEventListener('click', () => {
+        // If window already exists, just show it
+        if (musicPlayerWindow && document.body.contains(musicPlayerWindow)) {
+            if (musicPlayerWindow.style.display === 'none') {
+                musicPlayerWindow.style.display = 'block';
+            }
+            musicPlayerWindow.style.zIndex = 9999;
+            return;
+        }
+        
+        // Create music player window
+        musicPlayerWindow = document.createElement('div');
+        musicPlayerWindow.className = 'music-player-popup';
+        musicPlayerWindow.style.cssText = `
+            position: fixed;
+            bottom: 40px;
+            right: 10px;
+            width: 300px;
+            background: #ECE9D8;
+            border: 2px solid #0054E3;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+            z-index: 9999;
+            font-family: Tahoma, sans-serif;
+        `;
+        
+        musicPlayerWindow.innerHTML = `
+            <div style="background: linear-gradient(to right, #0054E3, #0A5FE3); padding: 3px 5px; display: flex; justify-content: space-between; align-items: center;">
+                <span style="color: white; font-size: 11px; font-weight: bold;">Music Player</span>
+                <div style="display: flex; gap: 2px;">
+                    <button class="minimize-music-btn" style="background: #D1D1D1; color: #000; border: 1px solid #8E8E8E; width: 18px; height: 18px; cursor: pointer; font-size: 11px; line-height: 1;">_</button>
+                    <button class="close-music-btn" style="background: #D93441; color: white; border: 1px solid #8E2831; width: 18px; height: 18px; cursor: pointer; font-size: 11px; line-height: 1;">×</button>
+                </div>
+            </div>
+            <div style="padding: 10px;">
+                <div class="song-list-simple">
+                    <div class="song-item-simple" data-song="song/music.mp3" style="padding: 6px 8px; margin-bottom: 4px; cursor: pointer; background: white; border: 1px solid #ccc; font-size: 11px;">
+                        🎵 music.mp3
+                    </div>
+                    <div class="song-item-simple" data-song="song/woooooo.mp3" style="padding: 6px 8px; margin-bottom: 4px; cursor: pointer; background: white; border: 1px solid #ccc; font-size: 11px;">
+                        🎵 woooooo.mp3
+                    </div>
+                </div>
+                <div class="player-area" style="display: none; margin-top: 10px; padding: 8px; background: #f5f5f5; border: 1px solid #ccc;">
+                    <div class="now-playing-text" style="font-size: 10px; margin-bottom: 6px; font-weight: bold;">Now Playing:</div>
+                    <audio controls style="width: 100%;" class="audio-element">
+                        <source src="" type="audio/mpeg">
+                    </audio>
+                </div>
+            </div>
+        `;
+        
+        document.body.appendChild(musicPlayerWindow);
+        
+        // Close button handler
+        const closeBtn = musicPlayerWindow.querySelector('.close-music-btn');
+        closeBtn.addEventListener('click', () => {
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio = null;
+            }
+            musicPlayerWindow.remove();
+            musicPlayerWindow = null;
+        });
+        
+        // Minimize button handler
+        const minimizeBtn = musicPlayerWindow.querySelector('.minimize-music-btn');
+        minimizeBtn.addEventListener('click', () => {
+            musicPlayerWindow.style.display = 'none';
+        });
+        
+        // Song selection
+        const songItems = musicPlayerWindow.querySelectorAll('.song-item-simple');
+        const playerArea = musicPlayerWindow.querySelector('.player-area');
+        const audioElement = musicPlayerWindow.querySelector('.audio-element');
+        const nowPlayingText = musicPlayerWindow.querySelector('.now-playing-text');
+        
+        songItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const songPath = item.getAttribute('data-song');
+                const songName = item.textContent.trim();
+                
+                // Stop current audio if playing
+                if (currentAudio) {
+                    currentAudio.pause();
+                }
+                
+                // Set new audio source
+                audioElement.src = songPath;
+                currentAudio = audioElement;
+                nowPlayingText.textContent = `Now Playing: ${songName}`;
+                
+                // Show player area
+                playerArea.style.display = 'block';
+                
+                // Auto play
+                audioElement.play();
+                
+                // Highlight selected song
+                songItems.forEach(s => s.style.background = 'white');
+                item.style.background = '#D1E7FF';
+            });
+        });
+    });
+}
 
 

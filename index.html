@@ -66,8 +66,11 @@
             <div class="tray-icon" title="Volume"></div>
             <div class="tray-icon" title="Network"></div>
             <div class="tray-icon wifi-icon" title="Wi-Fi" style="font-size: 12px; display: flex; align-items: center; justify-content: center;">📶</div>
-            <div class="tray-icon song-icon" title="Music" style="font-size: 12px; display: flex; align-items: center; justify-content: center;">🎵</div>
-            <div class="tray-icon notification-icon" title="Notifications" style="font-size: 12px; display: flex; align-items: center; justify-content: center;">🔔</div>
+            <div class="tray-icon song-icon" title="Music" style="font-size: 12px; display: flex; align-items: center; justify-content: center; cursor: pointer;">🎵</div>
+            <div class="tray-icon notification-icon" title="Notifications" style="font-size: 12px; display: flex; align-items: center; justify-content: center; cursor: pointer; position: relative;">
+                🔔
+                <span class="notification-badge" style="position: absolute; top: -2px; right: -2px; background: red; color: white; font-size: 8px; font-weight: bold; padding: 1px 3px; border-radius: 8px; line-height: 1;">+1</span>
+            </div>
             <div class="time" id="time-display">12:34 PM</div>
         </div>
     </div>
