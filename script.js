@@ -327,10 +327,6 @@ class WindowsXPDesktop {
                             <button style="width: 24px; height: 24px; border: 1px solid #999; border-top: 1px solid #fff; border-left: 1px solid #fff; background: #f0f0f0; cursor: pointer; font-size: 10px;" title="Back">◀</button>
                             <button style="width: 24px; height: 24px; border: 1px solid #999; border-top: 1px solid #fff; border-left: 1px solid #fff; background: #f0f0f0; cursor: pointer; font-size: 10px;" title="Forward">▶</button>
                             <button style="width: 24px; height: 24px; border: 1px solid #999; border-top: 1px solid #fff; border-left: 1px solid #fff; background: #f0f0f0; cursor: pointer; font-size: 10px;" title="Up">▲</button>
-                            <div style="width: 1px; height: 20px; background: #999; margin: 0 4px;"></div>
-                            <button style="width: 24px; height: 24px; border: 1px solid #999; border-top: 1px solid #fff; border-left: 1px solid #fff; background: #f0f0f0; cursor: pointer; font-size: 10px;" title="Home">🏠</button>
-                            <button style="width: 24px; height: 24px; border: 1px solid #999; border-top: 1px solid #fff; border-left: 1px solid #fff; background: #f0f0f0; cursor: pointer; font-size: 10px;" title="Search">🔍</button>
-                            <button style="width: 24px; height: 24px; border: 1px solid #999; border-top: 1px solid #fff; border-left: 1px solid #fff; background: #f0f0f0; cursor: pointer; font-size: 10px;" title="Folders">📁</button>
                         </div>
                         
                         <!-- Address Bar -->
@@ -378,10 +374,6 @@ class WindowsXPDesktop {
                                     <a href="https://x.com/ftw_collective" target="_blank" style="display: block; padding: 6px 10px; margin-bottom: 6px; background: #f0f0f0; border: 1px solid #999; border-top: 1px solid #fff; border-left: 1px solid #fff; text-decoration: none; color: #000; font-size: 11px; transition: background-color 0.2s;" onmouseover="this.style.background='#e0e0e0'" onmouseout="this.style.background='#f0f0f0'">
                                         𝕏 <strong>@ftw_collective</strong>
                                     </a>
-                                </div>
-                                
-                                <div style="margin-top: 12px; padding-top: 8px; border-top: 1px solid #ccc; font-size: 10px; color: #666;">
-                                    <p style="margin: 0;">Click any link above to open in a new tab.</p>
                                 </div>
                             </div>
                         </div>
@@ -851,7 +843,7 @@ for the weirdos, for the world.</textarea>
                 if (targetIcon === 'image-174') {
                     window.open('https://ordinals.com/children/4967dd42d34696a4f41143ed05ad52805624ef3fb478d72666fba9c7c5d268a9i0', '_blank');
                 } else {
-                    this.openWindow(targetIcon);
+                this.openWindow(targetIcon);
                 }
                 break;
             case 'explore':
@@ -859,7 +851,7 @@ for the weirdos, for the world.</textarea>
                 if (targetIcon === 'image-174') {
                     window.open('https://ordinals.com/children/4967dd42d34696a4f41143ed05ad52805624ef3fb478d72666fba9c7c5d268a9i0', '_blank');
                 } else {
-                    this.openWindow(targetIcon);
+                this.openWindow(targetIcon);
                 }
                 break;
             case 'delete':
