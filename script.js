@@ -209,7 +209,7 @@ class WindowsXPDesktop {
             win.style.width = windowWidth + 'px';
             win.style.height = windowHeight + 'px';
         } else {
-            win.style.left = '100px';
+            win.style.left = '150px';
             win.style.top = '100px';
             win.style.width = '400px';
             win.style.height = '300px';
@@ -403,6 +403,18 @@ milk</textarea>
                     </div>
                 `
             },
+            'desktop-note': {
+                title: 'Welcome to WeirdOS XP',
+                content: `
+                    <div style="padding: 0; height: 100%;">
+                        <textarea spellcheck="false" style="width: 100%; height: 100%; border: none; padding: 8px; font-family: 'Courier New', monospace; font-size: 12px; resize: none;" readonly>Do whatever you want here
+watch FTW films, explore the museum, customize your weirdo with or without Paint, listen to some tunes... you can even connect to the Wi-Fi 
+
+Oh, and one last thing 
+don't forget to eat some ice cream 🍦</textarea>
+                    </div>
+                `
+            },
                      'paint': {
                          title: 'Paint',
                          content: `
@@ -537,7 +549,7 @@ milk</textarea>
                                     
                                     <!-- Export Button -->
                                     <div style="flex: 0 0 auto; padding: 0 8px;">
-                                        <button id="nft-export-btn" style="width: 100%; padding: 8px 12px; border: 1px solid #999; background: #e0e0e0; cursor: pointer; font-size: 11px; text-align: left;">💾 Export NFT</button>
+                                        <button id="nft-export-btn" style="width: 100%; padding: 8px 12px; border: 1px solid #999; background: #e0e0e0; cursor: pointer; font-size: 11px; text-align: left;">💾 Export</button>
                                     </div>
                                 </div>
                                 
@@ -2719,6 +2731,11 @@ class NFTBuilderApplication {
 // Initialize the desktop when the page loads
 document.addEventListener('DOMContentLoaded', () => {
     window.desktop = new WindowsXPDesktop();
+    
+    // Auto-open desktop note on startup
+    setTimeout(() => {
+        window.desktop.openWindow('desktop-note');
+    }, 500);
     
     // Initialize simple music player
     initSimpleMusicPlayer();
