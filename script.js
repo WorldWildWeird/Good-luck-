@@ -1511,8 +1511,8 @@ class PaintApplication {
 
     drawSpray(x, y) {
         // Spray paint creates scattered dots in a radius around the cursor
-        const density = 20; // Number of dots per spray
-        const radius = this.currentSize * 3; // Spray radius based on brush size
+        const density = 25; // Number of dots per spray
+        const radius = this.currentSize * 1.5; // Spray radius based on brush size (more concentrated)
         
         this.ctx.globalCompositeOperation = 'source-over';
         this.ctx.fillStyle = this.currentColor;
