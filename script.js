@@ -2732,11 +2732,6 @@ class NFTBuilderApplication {
 document.addEventListener('DOMContentLoaded', () => {
     window.desktop = new WindowsXPDesktop();
     
-    // Auto-open desktop note on startup
-    setTimeout(() => {
-        window.desktop.openWindow('desktop-note');
-    }, 500);
-    
     // Initialize simple music player
     initSimpleMusicPlayer();
     
