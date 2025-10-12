@@ -4,6 +4,19 @@
  */
 
 import { app, db } from './firebase-config.js';
+
+// Utility function to escape HTML and prevent XSS attacks
+function escapeHtml(unsafe) {
+    if (typeof unsafe !== 'string') {
+        return '';
+    }
+    return unsafe
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
 import { 
     collection, 
     addDoc, 
@@ -183,10 +196,14 @@ function displayFirebaseMessage(messagesContainer, data) {
     // Get current username from localStorage
     const currentUsername = localStorage.getItem('chatUsername');
     
+    // Escape username and message to prevent XSS attacks
+    const escapedUsername = escapeHtml(data.username);
+    const escapedMessage = escapeHtml(data.message);
+    
     if (data.username === currentUsername) {
-        messageDiv.innerHTML = `<span style="color: #0000FF;">[${timestamp}] You:</span> ${data.message}`;
+        messageDiv.innerHTML = `<span style="color: #0000FF;">[${timestamp}] You:</span> ${escapedMessage}`;
     } else {
-        messageDiv.innerHTML = `<span style="color: #008000;">[${timestamp}] ${data.username}:</span> ${data.message}`;
+        messageDiv.innerHTML = `<span style="color: #008000;">[${timestamp}] ${escapedUsername}:</span> ${escapedMessage}`;
     }
     
     messageDiv.style.marginBottom = '4px';

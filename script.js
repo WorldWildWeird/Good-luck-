@@ -1765,6 +1765,19 @@ class PaintApplication {
 let globalChatApp = null;
 window.chatAppInitialized = false;
 
+// Utility function to escape HTML and prevent XSS attacks
+function escapeHtml(unsafe) {
+    if (typeof unsafe !== 'string') {
+        return '';
+    }
+    return unsafe
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
 // Chat Application Class
 class ChatApplication {
     constructor() {
@@ -1773,6 +1786,8 @@ class ChatApplication {
         this.sendButton = null;
         this.clearButton = null;
         this.storageKey = 'windowsxp_chat_history';
+        this.storageVersionKey = 'windowsxp_chat_version';
+        this.currentVersion = '2.0'; // Version 2.0 includes XSS protection
         this.usernameKey = 'chatUsername';
         this.userName = null;
         this.overlay = null;
@@ -2058,10 +2073,13 @@ class ChatApplication {
         const messageDiv = document.createElement('div');
         const timestamp = new Date().toLocaleTimeString();
         
+        // Escape the text to prevent XSS attacks
+        const escapedText = escapeHtml(text);
+        
         if (sender === 'user') {
-            messageDiv.innerHTML = `<span style="color: #0000FF;">[${timestamp}] You:</span> ${text}`;
+            messageDiv.innerHTML = `<span style="color: #0000FF;">[${timestamp}] You:</span> ${escapedText}`;
         } else {
-            messageDiv.innerHTML = `<span style="color: #FF0000;">[${timestamp}] Satoshi:</span> ${text}`;
+            messageDiv.innerHTML = `<span style="color: #FF0000;">[${timestamp}] Satoshi:</span> ${escapedText}`;
         }
         
         messageDiv.style.marginBottom = '4px';
@@ -2083,9 +2101,21 @@ class ChatApplication {
     saveChatHistory() {
         const messages = this.messagesContainer.innerHTML;
         localStorage.setItem(this.storageKey, messages);
+        localStorage.setItem(this.storageVersionKey, this.currentVersion);
     }
 
     loadChatHistory() {
+        // Check version - clear old chat history if from before XSS protection was added
+        const savedVersion = localStorage.getItem(this.storageVersionKey);
+        
+        if (savedVersion !== this.currentVersion) {
+            // Clear old potentially vulnerable chat history
+            localStorage.removeItem(this.storageKey);
+            localStorage.setItem(this.storageVersionKey, this.currentVersion);
+            console.log('Chat history cleared due to security update');
+            return;
+        }
+        
         const savedMessages = localStorage.getItem(this.storageKey);
         if (savedMessages) {
             this.messagesContainer.innerHTML = savedMessages;
