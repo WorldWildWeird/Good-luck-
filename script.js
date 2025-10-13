@@ -166,22 +166,19 @@ class WindowsXPDesktop {
         
         // Set initial size and position based on window type
         if (type === 'paint') {
-            // Paint window with proper size for canvas and tools and randomized position
-            const paintWidth = 600;
-            const paintHeight = 640;
-            const taskbarHeight = 30;
-            const maxLeft = Math.max(0, globalThis.innerWidth - paintWidth);
-            const maxTop = Math.max(0, globalThis.innerHeight - paintHeight - taskbarHeight);
-            const randomLeft = Math.floor(Math.random() * maxLeft);
-            const randomTop = Math.floor(Math.random() * maxTop);
-            win.style.left = randomLeft + 'px';
-            win.style.top = randomTop + 'px';
-            win.style.width = paintWidth + 'px';
-            win.style.height = paintHeight + 'px';
+            // Paint window with fixed size and centered position
+            const windowWidth = 760;
+            const windowHeight = 640;
+            const centerX = (globalThis.innerWidth - windowWidth) / 2;
+            const centerY = (globalThis.innerHeight - windowHeight) / 2;
+            win.style.left = Math.max(0, centerX) + 'px';
+            win.style.top = Math.max(0, centerY) + 'px';
+            win.style.width = windowWidth + 'px';
+            win.style.height = windowHeight + 'px';
         } else if (type === 'nft-builder') {
-            // Center the Weirdos Builder window with optimized size: canvas (500) + padding + categories (220) + gap
-            const windowWidth = 760; // 500 + 8*2 + 220 + 12 + 8*2 = 760px
-            const windowHeight = this.calculateNFTBuilderHeight();
+            // Weirdos Builder window with fixed size and centered position
+            const windowWidth = 760;
+            const windowHeight = 640;
             const centerX = (globalThis.innerWidth - windowWidth) / 2;
             const centerY = (globalThis.innerHeight - windowHeight) / 2;
             win.style.left = Math.max(0, centerX) + 'px';
@@ -893,21 +890,8 @@ for the weirdos, for the world.</textarea>
     }
 
     handleWindowResize() {
-        // Update Weirdos Builder windows on resize
-        this.windows.forEach(window => {
-            if (window.dataset.windowType === 'nft-builder') {
-                const newHeight = this.calculateNFTBuilderHeight();
-                const currentWidth = parseInt(window.style.width);
-                
-                // Re-center the window
-                const centerX = (globalThis.innerWidth - currentWidth) / 2;
-                const centerY = (globalThis.innerHeight - newHeight) / 2;
-                
-                window.style.left = Math.max(0, centerX) + 'px';
-                window.style.top = Math.max(0, centerY) + 'px';
-                window.style.height = newHeight + 'px';
-            }
-        });
+        // Windows now use fixed sizing, no dynamic resizing on browser resize
+        // (Maximized mode is still handled separately)
     }
 
     updateTime() {
