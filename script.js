@@ -447,6 +447,7 @@ don't forget to eat some ice cream 🍦</textarea>
                                      
                                      <div style="width: 1px; height: 20px; background: #999; margin: 0 4px;"></div>
                                      
+                                     <button id="paint-back-btn" style="padding: 4px 8px; border: 1px solid #999; background: #e0e0e0; cursor: pointer; font-size: 11px;">⬅️ Back</button>
                                      <button id="paint-clear-btn" style="padding: 4px 8px; border: 1px solid #999; background: #e0e0e0; cursor: pointer; font-size: 11px;">Clear</button>
                                      <button id="paint-export-btn" style="padding: 4px 8px; border: 1px solid #999; background: #e0e0e0; cursor: pointer; font-size: 11px;">Export PNG</button>
                                  </div>
@@ -1325,6 +1326,9 @@ class PaintApplication {
         this.guideOverlay = null;
         this.guideImage = null;
         this.canvasWrapper = null;
+        this.history = []; // Array to store canvas states for undo functionality
+        this.historyIndex = -1; // Current position in history
+        this.maxHistorySize = 20; // Maximum number of undo states to keep
     }
 
     init(canvas) {
@@ -1332,6 +1336,8 @@ class PaintApplication {
         this.setupCanvas();
         this.setupGuideOverlay();
         this.setupEventListeners();
+        // Initialize back button state
+        this.updateBackButtonState();
     }
 
     setupCanvas() {
@@ -1347,6 +1353,9 @@ class PaintApplication {
         
         // Set transparent background
         this.ctx.clearRect(0, 0, 500, 500);
+        
+        // Save initial empty state
+        this.saveState();
         
         // Prevent canvas resizing
         this.preventCanvasResize();
@@ -1371,6 +1380,11 @@ class PaintApplication {
         // Brush size
         document.getElementById('paint-brush-size').addEventListener('change', (e) => {
             this.currentSize = parseInt(e.target.value);
+        });
+
+        // Back button (undo)
+        document.getElementById('paint-back-btn').addEventListener('click', () => {
+            this.undo();
         });
 
         // Clear button
@@ -1464,6 +1478,8 @@ class PaintApplication {
         if (this.isDrawing) {
             this.isDrawing = false;
             this.canvas.releasePointerCapture(e.pointerId);
+            // Save state after drawing is complete
+            this.saveState();
         }
     }
 
@@ -1532,6 +1548,56 @@ class PaintApplication {
         // Enforce canvas size before clearing
         this.enforceCanvasSize();
         this.ctx.clearRect(0, 0, 500, 500);
+        // Save state after clearing
+        this.saveState();
+    }
+
+    saveState() {
+        // Save current canvas state to history
+        const imageData = this.ctx.getImageData(0, 0, 500, 500);
+        
+        // Remove any states after current index (when user draws after undoing)
+        this.history = this.history.slice(0, this.historyIndex + 1);
+        
+        // Add new state
+        this.history.push(imageData);
+        this.historyIndex++;
+        
+        // Limit history size
+        if (this.history.length > this.maxHistorySize) {
+            this.history.shift();
+            this.historyIndex--;
+        }
+        
+        // Update back button state
+        this.updateBackButtonState();
+    }
+
+    undo() {
+        if (this.historyIndex > 0) {
+            this.historyIndex--;
+            const previousState = this.history[this.historyIndex];
+            this.ctx.putImageData(previousState, 0, 0);
+            this.updateBackButtonState();
+            this.showToast('Undo successful', 'success');
+        } else {
+            this.showToast('Nothing to undo', 'info');
+        }
+    }
+
+    updateBackButtonState() {
+        const backBtn = document.getElementById('paint-back-btn');
+        if (backBtn) {
+            if (this.historyIndex > 0) {
+                backBtn.disabled = false;
+                backBtn.style.opacity = '1';
+                backBtn.style.cursor = 'pointer';
+            } else {
+                backBtn.disabled = true;
+                backBtn.style.opacity = '0.5';
+                backBtn.style.cursor = 'not-allowed';
+            }
+        }
     }
 
     preventCanvasResize() {
@@ -2837,6 +2903,12 @@ function initSimpleMusicPlayer() {
                     </div>
                     <div class="song-item-simple" data-song="song/woooooo.mp3" style="padding: 6px 8px; margin-bottom: 4px; cursor: pointer; background: white; border: 1px solid #ccc; font-size: 11px;">
                         🎵 woooooo.mp3
+                    </div>
+                    <div class="song-item-simple" data-song="song/9-btc.mp3" style="padding: 6px 8px; margin-bottom: 4px; cursor: pointer; background: white; border: 1px solid #ccc; font-size: 11px;">
+                        🎵 9-btc.mp3
+                    </div>
+                    <div class="song-item-simple" data-song="song/itsover wereback.mp3" style="padding: 6px 8px; margin-bottom: 4px; cursor: pointer; background: white; border: 1px solid #ccc; font-size: 11px;">
+                        🎵 itsover wereback.mp3
                     </div>
                 </div>
                 <div class="player-area" style="display: none; margin-top: 10px; padding: 8px; background: #f5f5f5; border: 1px solid #ccc;">
