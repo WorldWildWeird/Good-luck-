@@ -2795,7 +2795,15 @@ function initNotification() {
     if (!notificationIcon) return;
     
     let notificationWindow = null;
+    let currentImageIndex = 0;
     const badge = document.querySelector('.notification-badge');
+    
+    // Array of notification images
+    const notificationImages = [
+        './Assets/mad.jpg',
+        './Assets/interpol.jpg',
+        './Assets/sky.jpg'
+    ];
     
     notificationIcon.addEventListener('click', () => {
         // Hide the badge when user clicks
@@ -2826,13 +2834,42 @@ function initNotification() {
             animation: slideIn 0.3s ease-out;
         `;
         
+        // Function to update the displayed image
+        function updateNotificationImage() {
+            const img = notificationWindow.querySelector('.notification-image');
+            const counter = notificationWindow.querySelector('.image-counter');
+            if (img) {
+                img.src = notificationImages[currentImageIndex];
+            }
+            if (counter) {
+                counter.textContent = `${currentImageIndex + 1} / ${notificationImages.length}`;
+            }
+        }
+        
+        // Function to go to previous image
+        function previousImage() {
+            currentImageIndex = (currentImageIndex - 1 + notificationImages.length) % notificationImages.length;
+            updateNotificationImage();
+        }
+        
+        // Function to go to next image
+        function nextImage() {
+            currentImageIndex = (currentImageIndex + 1) % notificationImages.length;
+            updateNotificationImage();
+        }
+        
         notificationWindow.innerHTML = `
             <div style="background: linear-gradient(to right, #0054E3, #0A5FE3); padding: 3px 5px; display: flex; justify-content: space-between; align-items: center;">
                 <span style="color: white; font-size: 11px; font-weight: bold;">Notification</span>
                 <button class="close-notification-btn" style="background: #D93441; color: white; border: 1px solid #8E2831; width: 18px; height: 18px; cursor: pointer; font-size: 11px; line-height: 1;">×</button>
             </div>
             <div style="padding: 10px; text-align: center;">
-                <img src="./Assets/mad.jpg" alt="Notification" style="max-width: 100%; height: auto; border: 1px solid #ccc;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                    <button class="prev-image-btn" style="background: #D1D1D1; color: #000; border: 1px solid #8E8E8E; width: 24px; height: 20px; cursor: pointer; font-size: 12px; font-weight: bold;">◀</button>
+                    <span class="image-counter" style="font-size: 10px; color: #666; font-weight: bold;">1 / 4</span>
+                    <button class="next-image-btn" style="background: #D1D1D1; color: #000; border: 1px solid #8E8E8E; width: 24px; height: 20px; cursor: pointer; font-size: 12px; font-weight: bold;">▶</button>
+                </div>
+                <img class="notification-image" src="${notificationImages[currentImageIndex]}" alt="Notification" style="max-width: 100%; height: auto; border: 1px solid #ccc;">
             </div>
         `;
         
@@ -2845,13 +2882,17 @@ function initNotification() {
             notificationWindow = null;
         });
         
-        // Auto close after 10 seconds
-        setTimeout(() => {
-            if (notificationWindow && document.body.contains(notificationWindow)) {
-                notificationWindow.remove();
-                notificationWindow = null;
-            }
-        }, 10000);
+        // Navigation button handlers
+        const prevBtn = notificationWindow.querySelector('.prev-image-btn');
+        const nextBtn = notificationWindow.querySelector('.next-image-btn');
+        
+        prevBtn.addEventListener('click', () => {
+            previousImage();
+        });
+        
+        nextBtn.addEventListener('click', () => {
+            nextImage();
+        });
     });
 }
 
