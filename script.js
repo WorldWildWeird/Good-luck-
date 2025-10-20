@@ -658,6 +658,7 @@ for the weirdos, for the world.</textarea>
                                     <div style="padding: 5px; border-bottom: 1px solid #ccc; cursor: pointer;" onclick="window.desktop.openVideoPlayer('weirdos-show.mp4.mp4', 'Weirdos Show')">🎬 Weirdos Show</div>
                                     <div style="padding: 5px; border-bottom: 1px solid #ccc; cursor: pointer;" onclick="window.desktop.openVideoPlayer('woooooo.mp4.mp4', 'Woooooo')">🎬 Woooooo</div>
                                     <div style="padding: 5px; border-bottom: 1px solid #ccc; cursor: pointer;" onclick="window.desktop.openVideoPlayer('wpzn.mp4.mp4', 'WPZN')">🎬 WPZN</div>
+                                    <div style="padding: 5px; border-bottom: 1px solid #ccc; cursor: pointer;" onclick="window.desktop.openVideoPlayer('bitch.mp4', 'Bitch')">🎬 Bitch</div>
                                 </div>
                             </div>
                         `
@@ -2801,6 +2802,7 @@ function initNotification() {
     // Array of notification images
     const notificationImages = [
         './Assets/mad.jpg',
+        './Assets/new mad.jpg',
         './Assets/interpol.jpg',
         './Assets/sky.jpg'
     ];
@@ -2950,6 +2952,9 @@ function initSimpleMusicPlayer() {
                     </div>
                     <div class="song-item-simple" data-song="song/itsover wereback.mp3" style="padding: 6px 8px; margin-bottom: 4px; cursor: pointer; background: white; border: 1px solid #ccc; font-size: 11px;">
                         🎵 itsover wereback.mp3
+                    </div>
+                    <div class="song-item-simple" data-song="song/bitch.mp3" style="padding: 6px 8px; margin-bottom: 4px; cursor: pointer; background: white; border: 1px solid #ccc; font-size: 11px;">
+                        🎵 bitch.mp3
                     </div>
                 </div>
                 <div class="player-area" style="display: none; margin-top: 10px; padding: 8px; background: #f5f5f5; border: 1px solid #ccc;">
